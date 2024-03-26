@@ -1,0 +1,6 @@
+{
+    "workbench.colorTheme": "One Dark Pro Darker",
+    "i18n-ally.localesPaths": [
+        "src/i18n"
+    ]
+}

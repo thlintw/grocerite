@@ -70,7 +70,8 @@ class Container(TimestampMixin, db.Model):
 class GroceryList(TimestampMixin, db.Model):
     __tablename__ = 'grocery_list'
     id = Column(Integer, primary_key=True)
-    name = Column(Unicode(100), nullable=False)
+    starred = Column(Boolean, default=False)
+    name = Column(Unicode(100), nullable=False) # user-defined name
     description = Column(Unicode(255))
     asignee_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True) # can be unassigned
     asignee = relationship('Member', back_populates='grocery_lists')
@@ -78,9 +79,18 @@ class GroceryList(TimestampMixin, db.Model):
     household = relationship('Household', back_populates='grocery_lists')
     items = relationship('GroceryListItem', back_populates='grocery_list')
 
+class GroceryListItemCate(TimestampMixin, db.Model):
+    __tablename__ = 'grocery_list_item_cate'
+    id = Column(Integer, primary_key=True)
+    # non-i18n name: 'produce', 'dairy', 'meat', 'frozen', 'canned', 'baking', 'beverage', 'snack', 'other'
+    name = Column(Unicode(100), nullable=False) 
+    image_path = Column(String(255), nullable=False)
+
 class GroceryListItem(TimestampMixin, db.Model):
     __tablename__ = 'grocery_list_item'
     id = Column(Integer, primary_key=True)
+    cate_idx = Column(Integer, ForeignKey('grocery_list_item_cate.id'), nullable=False)
+    cate = relationship('GroceryListItemCate', back_populates='items')
     name = Column(Unicode(100), nullable=False)
     quantity = Column(Unicode(50))
     ticked = Column(Boolean, default=False)
