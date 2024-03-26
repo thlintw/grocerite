@@ -18,7 +18,8 @@ class User(TimestampMixin, db.Model):
     username = Column(String(100), nullable=False, unique=True)
     email = Column(String(100), nullable=False, unique=True)
     f_uid = Column(String(100), nullable=False, unique=True)
-    
+    nickname = Column(String(100))
+    picture = Column(String(255))    
     households = relationship('Household', secondary='user_household', back_populates='users')    
 
 household_member = Table('household_member', db.metadata,
@@ -35,18 +36,27 @@ class Household(TimestampMixin, db.Model):
     grocery_lists = relationship('GroceryList', back_populates='household')
     stores = relationship('Store', back_populates='household')
 
+class MemberPFP(TimestampMixin, db.Model):
+    __tablename__ = 'member_pfp'
+    id = Column(Integer, primary_key=True)
+    image_path = Column(String(255), nullable=False)
+
 class Member(TimestampMixin, db.Model):
     __tablename__ = 'member'
     id = Column(Integer, primary_key=True)
-    name = Column(Unicode(100), nullable=False)
-    households = relationship('Household', secondary=household_member, back_populates='members')
+    name = Column(Unicode(100), nullable=False) # user-defined name
+    pfp_idx = Column(Integer, ForeignKey('member_pfp.id'), nullable=False)
+    pfp = relationship('MemberPFP', back_populates='members')
+    household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
+    household = relationship('Household', back_populates='members')
     user_idx = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship('User', back_populates='households')
 
 class ContainerType(TimestampMixin, db.Model):
     __tablename__ = 'container_type'
     id = Column(Integer, primary_key=True)
-    name = Column(Unicode(50), nullable=False)
+    name = Column(Unicode(50), nullable=False) # non-i18n name: 'fridge', 'freezer', 'pantry', 'cupboard', 'drawer', 'other'
+    image_path = Column(String(255), nullable=False)
 
 class Container(TimestampMixin, db.Model):
     __tablename__ = 'container'
@@ -55,12 +65,15 @@ class Container(TimestampMixin, db.Model):
     type = relationship('ContainerType', back_populates='containers')
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
     household = relationship('Household', back_populates='containers')
-    name = Column(Unicode(100), nullable=False)
+    name = Column(Unicode(100), nullable=False) # user-defined name
 
 class GroceryList(TimestampMixin, db.Model):
     __tablename__ = 'grocery_list'
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), nullable=False)
+    description = Column(Unicode(255))
+    asignee_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True) # can be unassigned
+    asignee = relationship('Member', back_populates='grocery_lists')
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
     household = relationship('Household', back_populates='grocery_lists')
     items = relationship('GroceryListItem', back_populates='grocery_list')
@@ -72,6 +85,8 @@ class GroceryListItem(TimestampMixin, db.Model):
     quantity = Column(Unicode(50))
     ticked = Column(Boolean, default=False)
     ticked_time = Column(DateTime)
+    ticked_by_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True)
+    ticked_by = relationship('Member', back_populates='grocery_list_items')
     place = Column(Unicode(100))
     grocery_list_idx = Column(Integer, ForeignKey('grocery_list.id'), nullable=False)
     grocery_list = relationship('GroceryList', back_populates='items')
