@@ -8,52 +8,16 @@
 		return waitLocale()
 	}
 </script>
-
-<div class="app">
-	<Header />
-
-	<main>
-		<slot />
-	</main>
-
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
-</div>
-
+  
 <style>
-	.app {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
-
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
-	}
-
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
-	}
+/* You can also write additional styles here */
 </style>
+  
+<div class="min-h-screen bg-gray-100">
+	<header class="bg-blue-500 text-white p-4">Header</header>
+	<nav class="bg-gray-200 p-4">Navigation</nav>
+	<main class="p-8 h-full">
+		<slot></slot> <!-- This is where nested routes will be rendered -->
+	</main>
+	<footer class="bg-gray-800 text-white p-4">Footer</footer>
+</div>

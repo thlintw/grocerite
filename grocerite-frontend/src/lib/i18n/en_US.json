@@ -1,4 +1,6 @@
 {
+    "login_catchPhrase": "Remember before you go",
+    "login_continueWithGoogle": "Continue with Google",
     "common_signIn": "Sign in",
     "common_signUp": "Sign up",
     "household_pageTitle": "Household"

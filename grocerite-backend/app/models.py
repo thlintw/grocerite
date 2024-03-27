@@ -1,5 +1,5 @@
 from .db import db
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean, Table, Unicode
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean, Table, Unicode, Text
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -66,6 +66,46 @@ class Container(TimestampMixin, db.Model):
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
     household = relationship('Household', back_populates='containers')
     name = Column(Unicode(100), nullable=False) # user-defined name
+    comment = Column(Text)
+
+class ItemCategory(TimestampMixin, db.Model):
+    __tablename__ = 'item_category'
+    id = Column(Integer, primary_key=True)
+    # non-i18n name: 'produce', 'dairy', 'meat', 'frozen', 'canned', 'baking', 'beverage', 'snack', 'other'
+    name = Column(Unicode(100), nullable=False)
+    image_path = Column(String(255), nullable=False)
+
+class UserDefinedCategory(TimestampMixin, db.Model):
+    __tablename__ = 'user_defined_category'
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode(100), nullable=False)
+    household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
+    household = relationship('Household', back_populates='user_defined_categories')
+
+class ItemIcon(TimestampMixin, db.Model):
+    __tablename__ = 'item_icon'
+    id = Column(Integer, primary_key=True)
+    image_path = Column(String(255), nullable=False)
+
+class Item(TimestampMixin, db.Model):
+    __tablename__ = 'item'
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode(100), nullable=False)
+    cate_idx = Column(Integer, ForeignKey('item_category.id'), nullable=False)
+    cate = relationship('ItemCategory', back_populates='items')
+    icon_idx = Column(Integer, ForeignKey('item_icon.id'), nullable=False)
+    icon = relationship('ItemIcon', back_populates='items')
+
+class UserDefinedItem(TimestampMixin, db.Model):
+    __tablename__ = 'user_defined_item'
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode(100), nullable=False)
+    cate_idx = Column(Integer, ForeignKey('user_defined_category.id'), nullable=False)
+    cate = relationship('UserDefinedCategory', back_populates='items')
+    user_defined_cate_idx = Column(Integer, ForeignKey('item_category.id'), nullable=False)
+    user_defined_cate = relationship('ItemCategory', back_populates='user_defined_items')
+    icon_idx = Column(Integer, ForeignKey('item_icon.id'), nullable=False)
+    icon = relationship('ItemIcon', back_populates='user_defined_items')
 
 class GroceryList(TimestampMixin, db.Model):
     __tablename__ = 'grocery_list'
@@ -78,28 +118,39 @@ class GroceryList(TimestampMixin, db.Model):
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
     household = relationship('Household', back_populates='grocery_lists')
     items = relationship('GroceryListItem', back_populates='grocery_list')
-
-class GroceryListItemCate(TimestampMixin, db.Model):
-    __tablename__ = 'grocery_list_item_cate'
-    id = Column(Integer, primary_key=True)
-    # non-i18n name: 'produce', 'dairy', 'meat', 'frozen', 'canned', 'baking', 'beverage', 'snack', 'other'
-    name = Column(Unicode(100), nullable=False) 
-    image_path = Column(String(255), nullable=False)
+    
 
 class GroceryListItem(TimestampMixin, db.Model):
     __tablename__ = 'grocery_list_item'
     id = Column(Integer, primary_key=True)
-    cate_idx = Column(Integer, ForeignKey('grocery_list_item_cate.id'), nullable=False)
-    cate = relationship('GroceryListItemCate', back_populates='items')
-    name = Column(Unicode(100), nullable=False)
+    item_idx = Column(Integer, ForeignKey('item.id'), nullable=True)
+    item = relationship('Item', back_populates='grocery_list_items')
+    user_defined_item_idx = Column(Integer, ForeignKey('user_defined_item.id'), nullable=True)
+    user_defined_item = relationship('UserDefinedItem', back_populates='grocery_list_items')
+    grocery_list_idx = Column(Integer, ForeignKey('grocery_list.id'), nullable=False)
+    grocery_list = relationship('GroceryList', back_populates='items')
+    label = Column(Unicode(100), nullable=False)
     quantity = Column(Unicode(50))
     ticked = Column(Boolean, default=False)
     ticked_time = Column(DateTime)
     ticked_by_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True)
     ticked_by = relationship('Member', back_populates='grocery_list_items')
-    place = Column(Unicode(100))
-    grocery_list_idx = Column(Integer, ForeignKey('grocery_list.id'), nullable=False)
-    grocery_list = relationship('GroceryList', back_populates='items')
+    
+
+class ContainerItem(TimestampMixin, db.Model):
+    __tablename__ = 'container_item'
+    id = Column(Integer, primary_key=True)
+    item_idx = Column(Integer, ForeignKey('item.id'), nullable=True)
+    item = relationship('Item', back_populates='container_items')
+    user_defined_item_idx = Column(Integer, ForeignKey('user_defined_item.id'), nullable=True)
+    user_defined_item = relationship('UserDefinedItem', back_populates='container_items')
+    container_idx = Column(Integer, ForeignKey('container.id'), nullable=False)
+    container = relationship('Container', back_populates='items')
+    label = Column(Unicode(100), nullable=False)
+    quantity = Column(Unicode(50))
+    comment = Column(Text)
+    is_removed = Column(Boolean, default=False)
+
 
 class Store(TimestampMixin, db.Model):
     __tablename__ = 'store'
