@@ -27,6 +27,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"svelte-i18n": "^4.0.0"
+		"svelte-i18n": "^4.0.0",
+		"tw-neumorphism": "^0.2.0"
 	}
 }

@@ -2,9 +2,22 @@
 export default {
   purge: ['./src/**/*.svelte', './src/**/*.html'],
   content: [],
+  darkMode: 'class',
+  important: true,
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        inherit: 'inherit',
+      },
+      borderRadius: {
+        '2xl': '2rem',
+        'xl': '1rem',
+      },
+      screens: {
+        '3xl': '1600px',
+      }
+    },
   },
-  plugins: [],
+  plugins: [require('tw-neumorphism')],
 }
 

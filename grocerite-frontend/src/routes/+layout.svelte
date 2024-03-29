@@ -13,11 +13,11 @@
 /* You can also write additional styles here */
 </style>
   
-<div class="min-h-screen bg-gray-100">
-	<header class="bg-blue-500 text-white p-4">Header</header>
-	<nav class="bg-gray-200 p-4">Navigation</nav>
-	<main class="p-8 h-full">
-		<slot></slot> <!-- This is where nested routes will be rendered -->
+<div class="min-h-[calc(100dvh)] bg-orange-50 flex dark:bg-neutral-900">
+	<nav class="p-4 xl:w-52 2xl:w-64">Navigation</nav>
+	<main class="p-5 w-full flex">
+		<div class="bg-orange-100 w-full h-full rounded-2xl">
+			<slot></slot>
+		</div>
 	</main>
-	<footer class="bg-gray-800 text-white p-4">Footer</footer>
 </div>
