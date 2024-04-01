@@ -1,5 +1,5 @@
 from .db import db
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean, Table, Unicode, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean, Table, Unicode, Text, BigInteger
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -118,6 +118,9 @@ class GroceryList(TimestampMixin, db.Model):
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
     household = relationship('Household', back_populates='grocery_lists')
     items = relationship('GroceryListItem', back_populates='grocery_list')
+    is_important = Column(Boolean, default=False)
+    deadline = Column(BigInteger)
+    deadline_dt = Column(DateTime)
     
 
 class GroceryListItem(TimestampMixin, db.Model):
@@ -135,7 +138,30 @@ class GroceryListItem(TimestampMixin, db.Model):
     ticked_time = Column(DateTime)
     ticked_by_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True)
     ticked_by = relationship('Member', back_populates='grocery_list_items')
+    store_idx = Column(Integer, ForeignKey('store.id'), nullable=True)
+    store = relationship('Store', back_populates='grocery_list_items')
+
+
+class GroceryListChangeType(TimestampMixin, db.Model):
+    __tablename__ = 'grocery_list_change_type'
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode(50), nullable=False) # tick, untick, comment, add, remove, edit, star, unstar, store, unstore
+
     
+class GroceryListChangeLog(TimestampMixin, db.Model):
+    __tablename__ = 'grocery_list_change_log'
+    id = Column(Integer, primary_key=True)
+    grocery_list_idx = Column(Integer, ForeignKey('grocery_list.id'), nullable=False)
+    grocery_list = relationship('GroceryList', back_populates='change_logs')
+    member_idx = Column(Integer, ForeignKey('member.id'), nullable=False)
+    member = relationship('Member', back_populates='change_logs')
+    change_type_idx = Column(Integer, ForeignKey('grocery_list_change_type.id'), nullable=False)
+    change_type = relationship('GroceryListChangeType', back_populates='change_logs')
+    grocery_list_item_idx = Column(Integer, ForeignKey('grocery_list_item.id'), nullable=True)
+    grocery_list_item = relationship('GroceryListItem', back_populates='change_logs')
+    value_before = Column(Integer)
+    value_after = Column(Integer)
+
 
 class ContainerItem(TimestampMixin, db.Model):
     __tablename__ = 'container_item'
@@ -146,6 +172,8 @@ class ContainerItem(TimestampMixin, db.Model):
     user_defined_item = relationship('UserDefinedItem', back_populates='container_items')
     container_idx = Column(Integer, ForeignKey('container.id'), nullable=False)
     container = relationship('Container', back_populates='items')
+    store_idx = Column(Integer, ForeignKey('store.id'), nullable=True)
+    store = relationship('Store', back_populates='container_items')
     label = Column(Unicode(100), nullable=False)
     quantity = Column(Unicode(50))
     comment = Column(Text)
@@ -159,3 +187,12 @@ class Store(TimestampMixin, db.Model):
     location = Column(Unicode(255))
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
     household = relationship('Household', back_populates='stores')
+
+
+class household_config(TimestampMixin, db.Model):
+    __tablename__ = 'household_config'
+    id = Column(Integer, primary_key=True)
+    household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
+    household = relationship('Household', back_populates='config')
+    key = Column(Unicode(100), nullable=False)
+    value = Column(Unicode(255), nullable=False) 
