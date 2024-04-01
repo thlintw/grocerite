@@ -1,12 +1,8 @@
 <script>
-	import './styles.css';
+	import '../styles.css';
   	import { waitLocale } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-
-	onMount(() => {
-		goto('/login');
-	});
 
 	export async function preload() {
 		// awaits for the loading of the 'en-US' and 'en' dictionaries
@@ -18,6 +14,9 @@
 /* You can also write additional styles here */
 </style>
   
-<div class="min-h-[calc(100dvh)] bg-orange-50 flex dark:bg-neutral-900">
-    <slot></slot>
-</div>
+<nav class="p-4 xl:w-52 2xl:w-64">Navigation</nav>
+<main class="p-5 w-full flex">
+	<div class="bg-orange-100 w-full h-full rounded-2xl">
+		<slot></slot>
+	</div>
+</main>

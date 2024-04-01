@@ -1,4 +1,6 @@
 {
+    "common_appName": "Grocerite",
+    "login_pageTitle": "Logga in",
     "login_catchPhrase": "Kom ihåg innan du går",
     "login_continueWithGoogle": "Fortsätt med Google",
     "login_lookingAround": "Bara kollar runt",

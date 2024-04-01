@@ -15,6 +15,9 @@ export default {
       },
       screens: {
         '3xl': '1600px',
+      },
+      fontFamily: {
+        berkshire: ['Berkshire Swash', 'cursive'],
       }
     },
   },

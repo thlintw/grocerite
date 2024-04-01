@@ -10,5 +10,5 @@ const defaultLocale = 'en-US';
 
 init({
     fallbackLocale: defaultLocale,
-    initialLocale: browser ? window.navigator.language : defaultLocale,
+    initialLocale: 'en-US',
 });
