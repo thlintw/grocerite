@@ -18,17 +18,17 @@
 
 </script>
 
-<div class="bg-orange-50 w-full min-h-full max-h-full flex overflow-hidden">
-	<div class="w-7/12 h-full flex relative bg-orange-50">
-		<div class="h-full w-[28rem] absolute bottom-0 right-0 z-10">
+<div class="bg-orange-100 lg:bg-orange-50 w-full min-h-full max-h-full flex overflow-hidden">
+	<div class="w-full lg:w-7/12 h-full flex flex-col lg:flex-row absolute lg:relative lg:bg-orange-50 z-10">
+		<div class="h-full w-[28rem] absolute bottom-0 right-0 z-10 hidden lg:block">
 			<img src={swoosh} alt="swoosh" class="h-full w-full"/>
 		</div>
-		<div class="h-full w-full z-20 flex items-center overflow-clip">
-			<img src={login1} alt="login" class="w-[36rem] ml-auto mt-24 mr-20"/>	
+		<div class="h-full w-full z-20 flex items-center overflow-clip relative">
+			<img src={login1} alt="login" class="w-[40rem] lg:w-[36rem] lg:ml-auto lg:mt-24 lg:mr-20 absolute lg:relative -bottom-32 -right-20"/>	
 		</div>
 	</div>
-	<div class="flex justify-start bg-orange-100 h-full w-5/12">
-		<div class="flex flex-col justify-center items-center">
+	<div class="flex justify-start bg-transparent absolute lg:relative lg:bg-orange-100 h-full w-full lg:w-5/12 z-20">
+		<div class="flex flex-col justify-center items-center w-full lg:w-auto">
 			<div class="flex flex-col items-center">
 				<div class="relative">
 					<img src={logoFull} alt="logo" class="w-[22rem]"/>
@@ -39,7 +39,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="flex flex-col gap-5 mt-32">
+			<div class="flex flex-col gap-5 mt-72 lg:mt-32">
 				<div class="bg-white w-72 py-3 rounded-lg flex items-center justify-center shadow-md">
 					<img src={google} alt="google" class="w-6 h-6"/>
 					<span class="text-neutral-500 font-bold ml-4 text-base">{$_('login_continueWithGoogle')}</span>
