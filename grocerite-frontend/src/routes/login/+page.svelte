@@ -72,12 +72,12 @@
 
 		{#if showLocaleDropdown}
 		<div transition:scaleFade 
-			class="absolute right-2 top-2 w-32 bg-orange-50 rounded-xl flex flex-col gap-1 py-2 shadow-grocerite-orange-200-md">
+			class="absolute right-2 top-2 w-32 bg-orange-50 rounded-xl flex flex-col gap-1 py-2 px-1 shadow-grocerite-orange-200-md">
 			{#each $locales as locale}
 			<button class="flex items-center gap-2 hover:bg-orange-100 rounded-md pl-3 pr-2 py-1"
 				on:click={() => setLocale(locale)} type="button">
-				<img src={getLocaleFlag(locale)} alt={locale} class="w-8">
-				<div class="text-neutral-600">{getLocaleName(locale)}</div>
+				<img src={getLocaleFlag(locale)} alt={locale} class="w-6">
+				<div class="text-neutral-600 text-sm">{getLocaleName(locale)}</div>
 			</button>
 			{/each}
 		</div>
@@ -88,7 +88,7 @@
 			<img src={swoosh} alt="swoosh" class="h-full w-full"/>
 		</div>
 		<div class="h-full w-full z-20 flex items-center relative">
-			<img src={login1} alt="login" class="w-[40rem] lg:w-[36rem] lg:ml-auto lg:mt-24 lg:mr-36 absolute lg:relative -bottom-32 -right-20"/>	
+			<img src={login1} alt="login" class="w-[40rem] lg:w-[36rem] lg:ml-auto lg:mt-16 lg:mr-56 absolute lg:relative -bottom-32 -right-20"/>	
 		</div>
 	</div>
 	<div class="flex justify-start bg-transparent absolute lg:relative lg:bg-orange-100 h-full w-full lg:w-5/12 z-20">
@@ -108,7 +108,7 @@
 					<img src={google} alt="google" class="w-6 h-6"/>
 					<span class="text-neutral-500 font-bold ml-4 text-base">{$_('login_continueWithGoogle')}</span>
 				</div>
-				<div class="bg-orange-50/50 lg:bg-transparent border-2 border-orange-500 w-72 py-3 rounded-lg flex items-center justify-center">
+				<div class="bg-orange-100/50 lg:bg-transparent border-2 border-orange-500 w-72 py-3 rounded-lg flex items-center justify-center">
 					<span class="text-orange-500 font-bold text-base">{$_('login_lookingAround')}</span>
 				</div>
 			</div>
