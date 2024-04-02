@@ -24,7 +24,7 @@
 			<img src={swoosh} alt="swoosh" class="h-full w-full"/>
 		</div>
 		<div class="h-full w-full z-20 flex items-center overflow-clip relative">
-			<img src={login1} alt="login" class="w-[40rem] lg:w-[36rem] lg:ml-auto lg:mt-24 lg:mr-20 absolute lg:relative -bottom-32 -right-20"/>	
+			<img src={login1} alt="login" class="w-[40rem] lg:w-[36rem] lg:ml-auto lg:mt-24 lg:mr-36 absolute lg:relative -bottom-32 -right-20"/>	
 		</div>
 	</div>
 	<div class="flex justify-start bg-transparent absolute lg:relative lg:bg-orange-100 h-full w-full lg:w-5/12 z-20">
