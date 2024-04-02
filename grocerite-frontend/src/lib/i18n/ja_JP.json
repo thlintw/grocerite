@@ -1,4 +1,6 @@
 {
+    "common_appName": "Grocerite",
+    "login_pageTitle": "ようこそ",
     "login_catchPhrase": "覚えてから出かける",
     "login_continueWithGoogle": "Googleで続ける",
     "login_lookingAround": "ちょっと見るだけ",

@@ -9,21 +9,85 @@
 	import swoosh from '$lib/images/swoosh.svg';
 	import logoFull from '$lib/images/logo-full.png';
 	import google from '$lib/images/google.png';
-    import { get } from 'svelte/store';
+	import flagEnUs from '$lib/images/flag-en-US.png';
+	import flagJaJp from '$lib/images/flag-ja-JP.png';
+	import flagSvSe from '$lib/images/flag-sv-SE.png';
+	import flagZhTw from '$lib/images/flag-zh-TW.png';
+	import { scaleFade } from '../../transitions';
 	
 	$: l = $locale;
 
 	$: fontFamilyCls = l == 'ja-JP' || l == 'zh-TW' ? 'font-sans' : 'font-berkshire';
 
 
+	const getLocaleFlag = (locale: string) => {
+		switch (locale) {
+			case 'en-US':
+				return flagEnUs;
+			case 'ja-JP':
+				return flagJaJp;
+			case 'sv-SE':
+				return flagSvSe;
+			case 'zh-TW':
+				return flagZhTw;
+			default:
+				return flagEnUs;
+		}
+	};
+
+	const getLocaleName = (locale: string) => {
+		switch (locale) {
+			case 'en-US':
+				return 'English';
+			case 'ja-JP':
+				return '日本語';
+			case 'sv-SE':
+				return 'Svenska';
+			case 'zh-TW':
+				return '正體中文';
+			default:
+				return 'English';
+		}
+	};
+
+	const setLocale = (lString: string) => {
+		locale.set(lString);
+		showLocaleDropdown = false;
+	};
+
+	let showLocaleDropdown = false;
+
 </script>
 
-<div class="bg-orange-100 lg:bg-orange-50 w-full min-h-full max-h-full flex overflow-hidden">
-	<div class="w-full lg:w-7/12 h-full flex flex-col lg:flex-row absolute lg:relative lg:bg-orange-50 z-10">
-		<div class="h-full w-[28rem] absolute bottom-0 right-0 z-10 hidden lg:block">
+<div class="bg-orange-100 lg:bg-orange-50 w-full min-h-full max-h-full flex overflow-hidden relative">
+	<div class="absolute right-3 top-3 lg:top-10 lg:right-10 w-12 h-12 bg-orange-200 rounded-full z-30
+		flex items-center justify-center cursor-pointer">
+
+		<button type="button" on:click={() => showLocaleDropdown = true}>
+			<img src={getLocaleFlag(l ? l : 'en-US')} alt={l} class="w-8 opacity-50"/>
+		</button>
+
+		<button type="button" class="fixed w-screen h-screen left-0 top-0 {showLocaleDropdown ? 'block': 'hidden'}"
+			on:click={() => showLocaleDropdown = false}></button>
+
+		{#if showLocaleDropdown}
+		<div transition:scaleFade 
+			class="absolute right-2 top-2 w-32 bg-orange-50 rounded-xl flex flex-col gap-1 py-2 shadow-grocerite-orange-200-md">
+			{#each $locales as locale}
+			<button class="flex items-center gap-2 hover:bg-orange-100 rounded-md pl-3 pr-2 py-1"
+				on:click={() => setLocale(locale)} type="button">
+				<img src={getLocaleFlag(locale)} alt={locale} class="w-8">
+				<div class="text-neutral-600">{getLocaleName(locale)}</div>
+			</button>
+			{/each}
+		</div>
+		{/if}
+	</div>
+	<div class="w-full lg:w-7/12 h-full max-h-full flex flex-col lg:flex-row absolute lg:relative lg:bg-orange-50 z-10">
+		<div class="max-h-full w-[28rem] absolute bottom-0 right-0 z-10 hidden lg:block">
 			<img src={swoosh} alt="swoosh" class="h-full w-full"/>
 		</div>
-		<div class="h-full w-full z-20 flex items-center overflow-clip relative">
+		<div class="h-full w-full z-20 flex items-center relative">
 			<img src={login1} alt="login" class="w-[40rem] lg:w-[36rem] lg:ml-auto lg:mt-24 lg:mr-36 absolute lg:relative -bottom-32 -right-20"/>	
 		</div>
 	</div>
