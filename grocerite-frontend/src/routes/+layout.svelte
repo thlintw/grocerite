@@ -4,9 +4,6 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 
-	onMount(() => {
-		goto('/login');
-	});
 
 	export async function preload() {
 		// awaits for the loading of the 'en-US' and 'en' dictionaries
