@@ -13,7 +13,30 @@
 	import flagJaJp from '$lib/images/flag-ja-JP.png';
 	import flagSvSe from '$lib/images/flag-sv-SE.png';
 	import flagZhTw from '$lib/images/flag-zh-TW.png';
-	import { scaleFade } from '../../transitions';
+	import { scaleFade } from '$lib/transitions';
+    import { getFirebaseClient } from "$lib/firebaseClient";
+    import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+    let form: HTMLFormElement;
+    async function login(): Promise<void> {
+        try {
+            const auth = getFirebaseClient();
+            if (auth.error) {
+                return alert("Error: " + auth.msg);
+            }
+            const cred = await signInWithPopup(auth.data, new GoogleAuthProvider());
+            const token = await cred.user.getIdToken();
+            await auth.data.signOut();
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "token";
+            input.value = token;
+            form.appendChild(input);
+            form.submit();
+        } catch (err) {
+            console.error(err);
+        }
+    }
 	
 	$: l = $locale;
 
@@ -84,7 +107,7 @@
 		{/if}
 	</div>
 	<div class="w-full lg:w-7/12 h-full max-h-full flex flex-col lg:flex-row absolute lg:relative lg:bg-orange-50 z-10">
-		<div class="max-h-full w-[28rem] absolute bottom-0 right-0 z-10 hidden lg:block">
+		<div class="h-full w-[28rem] absolute bottom-0 right-0 z-10 hidden lg:block">
 			<img src={swoosh} alt="swoosh" class="h-full w-full"/>
 		</div>
 		<div class="h-full w-full z-20 flex items-center relative">
@@ -104,10 +127,11 @@
 				</div>
 			</div>
 			<div class="flex flex-col gap-5 mt-72 lg:mt-32">
-				<div class="bg-white w-72 py-3 rounded-lg flex items-center justify-center shadow-md">
+				<button class="bg-white w-72 py-3 rounded-lg flex items-center justify-center shadow-md"
+				on:click={login}>
 					<img src={google} alt="google" class="w-6 h-6"/>
 					<span class="text-neutral-500 font-bold ml-4 text-base">{$_('login_continueWithGoogle')}</span>
-				</div>
+				</button>
 				<div class="bg-orange-100/50 lg:bg-transparent border-2 border-orange-500 w-72 py-3 rounded-lg flex items-center justify-center">
 					<span class="text-orange-500 font-bold text-base">{$_('login_lookingAround')}</span>
 				</div>

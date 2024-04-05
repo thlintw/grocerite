@@ -2,7 +2,7 @@
 	"name": "grocerite",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "vite dev --host",
+		"dev": "vite dev --host --port 11123",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -27,6 +27,9 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"axios": "^1.6.8",
+		"firebase": "^10.10.0",
+		"firebase-admin": "^12.0.0",
 		"svelte-i18n": "^4.0.0",
 		"tw-neumorphism": "^0.2.0"
 	}
