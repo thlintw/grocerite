@@ -21,9 +21,6 @@ export default {
       fontFamily: {
         berkshire: ['Berkshire Swash', 'cursive'],
       },
-      boxShadow: {
-        'grocerite-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-      }
     },
   },
   plugins: [
@@ -64,6 +61,47 @@ export default {
       });
 
       addUtilities(newUtilities, ['responsive', 'hover']);
+    }),
+    plugin(function({ addUtilities, theme }) {
+      const newUtilities = {};
+      const colors = theme('colors');
+
+      const shadowSizes = {
+        sm: '1px',
+        md: '2px',
+        lg: '3px',
+        xl: '4px',
+        '2xl': '5px',
+      };
+
+      Object.keys(shadowSizes).forEach((size) => {
+        const sizeValue = shadowSizes[size];
+
+        Object.keys(colors).forEach((colorName) => {
+          const isColorObject = typeof colors[colorName] === 'object';
+
+          if (isColorObject) {
+            Object.keys(colors[colorName]).forEach((shade) => {
+              const colorValue = colors[colorName][shade];
+              const key = `.drop-shadow-grocerite-${colorName}-${shade}-${size}`;
+              newUtilities[key] = {
+                // dropShadow: `0 ${sizeValue} 0 0 ${colorValue}`,
+                filter: `drop-shadow(0 ${sizeValue} 0 ${colorValue})`,
+              };
+            });
+          } else {
+            const colorValue = colors[colorName];
+            const key = `.shadow-grocerite-${colorName}-${size}`;
+            newUtilities[key] = {
+              // dropShadow: `0 ${sizeValue} 0 0 ${colorValue}`,
+              filter: `drop-shadow(0 ${sizeValue} 0 ${colorValue})`,
+            };
+          }
+        });
+      });
+      
+      addUtilities(newUtilities, ['responsive', 'hover']);
+
     }),
   ],
 }

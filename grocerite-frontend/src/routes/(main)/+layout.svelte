@@ -20,7 +20,7 @@
 	flex
 	fixed w-40 h-40 bg-orange-50 rounded-[60%] rounded-tl-[50%] rounded-br-[50%] border-2 border-orange-200 border-t-[.5rem]
 	-bottom-10 -left-10 items-center justify-center
-	lg:h-full lg:w-2/12 lg:rounded-none lg:border-none lg:top-0 lg:left-0 lg:flex-col 
+	lg:relative lg:h-[calc(100dvh)] lg:w-2/12 lg:rounded-none lg:border-none lg:top-0 lg:left-0 lg:flex-col 
 	
 ">
 	<div class="flex lg:hidden">
@@ -32,6 +32,10 @@
 		</div>
 	</div>
 </nav>
-<main class="p-5 w-full flex bg-orange-100">
+<main class="
+	flex
+	p-5 w-full bg-orange-100
+	lg:w-10/12
+">
 	<slot></slot>
 </main>

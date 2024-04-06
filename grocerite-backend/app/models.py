@@ -140,6 +140,8 @@ class GroceryListItem(TimestampMixin, db.Model):
     ticked_by = relationship('Member', back_populates='grocery_list_items')
     store_idx = Column(Integer, ForeignKey('store.id'), nullable=True)
     store = relationship('Store', back_populates='grocery_list_items')
+    target_container_idx = Column(Integer, ForeignKey('container.id'), nullable=True)
+    target_container = relationship('Container', back_populates='grocery_list_items')
 
 
 class GroceryListChangeType(TimestampMixin, db.Model):

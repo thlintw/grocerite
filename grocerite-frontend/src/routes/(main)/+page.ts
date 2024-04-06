@@ -1,6 +1,4 @@
 /** @type {import('./$types').PageLoad} */
-import { Endpoints, ApiService } from "../../lib/services/api";
-import { authStore } from "../../lib/stores/authStore";
 
 export async function load({ params, fetch }) {
     // Fetch data from an https://httpbin.org/get

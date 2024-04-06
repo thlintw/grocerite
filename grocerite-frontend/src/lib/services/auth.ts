@@ -3,7 +3,14 @@ import { authStore } from '../stores/authStore';
 import { GoogleAuthProvider, signInWithPopup, OAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
 
 export class AuthService {
+    static instance: AuthService | null = null;
+
     constructor() {
+        if (AuthService.instance) {
+            return AuthService.instance;
+        }
+        AuthService.instance = this;
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in
@@ -50,6 +57,14 @@ export class AuthService {
         } finally {
             authStore.setLoading(false);
         }
+    }
+
+    
+    static getInstance() {
+        if (!AuthService.instance) {
+            AuthService.instance = new AuthService();
+        }
+        return AuthService.instance;
     }
 }
   

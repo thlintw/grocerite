@@ -14,29 +14,8 @@
 	import flagSvSe from '$lib/images/flag-sv-SE.png';
 	import flagZhTw from '$lib/images/flag-zh-TW.png';
 	import { scaleFade } from '$lib/transitions';
-    import { getFirebaseClient } from "$lib/firebaseClient";
-    import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+	import { AuthService } from '$lib/services/auth';
 
-    let form: HTMLFormElement;
-    async function login(): Promise<void> {
-        try {
-            const auth = getFirebaseClient();
-            if (auth.error) {
-                return alert("Error: " + auth.msg);
-            }
-            const cred = await signInWithPopup(auth.data, new GoogleAuthProvider());
-            const token = await cred.user.getIdToken();
-            await auth.data.signOut();
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "token";
-            input.value = token;
-            form.appendChild(input);
-            form.submit();
-        } catch (err) {
-            console.error(err);
-        }
-    }
 	
 	$: l = $locale;
 
@@ -79,6 +58,10 @@
 	};
 
 	let showLocaleDropdown = false;
+
+	const loginGoogle = async () => {
+		await AuthService.getInstance().signInWithGoogle();
+	};
 
 </script>
 
@@ -128,7 +111,7 @@
 			</div>
 			<div class="flex flex-col gap-5 mt-72 lg:mt-32">
 				<button class="bg-white w-72 py-3 rounded-lg flex items-center justify-center shadow-md"
-				on:click={login}>
+					on:click={() => loginGoogle()}>
 					<img src={google} alt="google" class="w-6 h-6"/>
 					<span class="text-neutral-500 font-bold ml-4 text-base">{$_('login_continueWithGoogle')}</span>
 				</button>
