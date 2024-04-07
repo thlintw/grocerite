@@ -15,49 +15,13 @@
 	import flagZhTw from '$lib/images/flag-zh-TW.png';
 	import { scaleFade } from '$lib/transitions';
 	import { AuthService } from '$lib/services/auth';
+	import LocaleSwitch from '$lib/components/localeSwitch.svelte';
 
 	
 	$: l = $locale;
 
 	$: fontFamilyCls = l == 'ja-JP' || l == 'zh-TW' ? 'font-sans' : 'font-berkshire';
 
-
-	const getLocaleFlag = (locale: string) => {
-		switch (locale) {
-			case 'en-US':
-				return flagEnUs;
-			case 'ja-JP':
-				return flagJaJp;
-			case 'sv-SE':
-				return flagSvSe;
-			case 'zh-TW':
-				return flagZhTw;
-			default:
-				return flagEnUs;
-		}
-	};
-
-	const getLocaleName = (locale: string) => {
-		switch (locale) {
-			case 'en-US':
-				return 'English';
-			case 'ja-JP':
-				return '日本語';
-			case 'sv-SE':
-				return 'Svenska';
-			case 'zh-TW':
-				return '正體中文';
-			default:
-				return 'English';
-		}
-	};
-
-	const setLocale = (lString: string) => {
-		locale.set(lString);
-		showLocaleDropdown = false;
-	};
-
-	let showLocaleDropdown = false;
 
 	const loginGoogle = async () => {
 		await AuthService.getInstance().signInWithGoogle();
@@ -66,7 +30,10 @@
 </script>
 
 <div class="bg-orange-100 lg:bg-orange-50 w-full min-h-full max-h-full flex overflow-hidden relative">
-	<div class="absolute right-3 top-3 lg:top-10 lg:right-10 w-12 h-12 bg-orange-200 rounded-full z-30
+	<LocaleSwitch
+		cls="absolute right-3 top-3 lg:top-10 lg:right-10"
+	 />
+	<!-- <div class="absolute right-3 top-3 lg:top-10 lg:right-10 w-12 h-12 bg-orange-200 rounded-full z-30
 		flex items-center justify-center cursor-pointer">
 
 		<button type="button" on:click={() => showLocaleDropdown = true}>
@@ -88,7 +55,7 @@
 			{/each}
 		</div>
 		{/if}
-	</div>
+	</div> -->
 	<div class="w-full lg:w-7/12 h-full max-h-full flex flex-col lg:flex-row absolute lg:relative lg:bg-orange-50 z-10">
 		<div class="h-full w-[28rem] absolute bottom-0 right-0 z-10 hidden lg:block">
 			<img src={swoosh} alt="swoosh" class="h-full w-full"/>
