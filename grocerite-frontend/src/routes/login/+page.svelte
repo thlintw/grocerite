@@ -15,7 +15,7 @@
 	import flagZhTw from '$lib/images/flag-zh-TW.png';
 	import { scaleFade } from '$lib/transitions';
 	import { AuthService } from '$lib/services/auth';
-	import LocaleSwitch from '$lib/components/localeSwitch.svelte';
+	import LocaleSwitch from '$lib/components/LocaleSwitch.svelte';
 
 	
 	$: l = $locale;

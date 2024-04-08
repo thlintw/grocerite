@@ -19,6 +19,7 @@ class User(TimestampMixin, db.Model):
     username = Column(String(100), nullable=False, unique=True)
     email = Column(String(100), nullable=False, unique=True)
     f_uid = Column(String(100), nullable=False, unique=True)
+    u_uid = Column(String(100), nullable=False, unique=True)
     nickname = Column(String(100))
     picture = Column(String(255))    
     households = relationship('Household', secondary='user_household', back_populates='users')    
@@ -199,6 +200,7 @@ class ContainerItem(TimestampMixin, db.Model):
 class Store(TimestampMixin, db.Model):
     __tablename__ = 'store'
     id = Column(Integer, primary_key=True)
+    store_id = Column(String(100), nullable=False, unique=True)
     name = Column(Unicode(100), nullable=False)
     location = Column(Unicode(255))
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)

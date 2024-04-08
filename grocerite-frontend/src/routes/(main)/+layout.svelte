@@ -5,7 +5,7 @@
 	import { goto } from '$app/navigation';
 	import logoFull from '$lib/images/logo-full.png';
 	import logoSmall from '$lib/images/logo-small.png';
-	import LocaleSwitch from '$lib/components/localeSwitch.svelte';
+	import LocaleSwitch from '$lib/components/LocaleSwitch.svelte';
 	import { scaleFade } from '$lib/transitions';
 
 	export async function preload() {
