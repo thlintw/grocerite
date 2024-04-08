@@ -65,7 +65,7 @@ export class GroceryListItem extends Item {
 
 export class GroceryList {
     idx: number;
-    starred: boolean;
+    starred: boolean; // meaning asignee = currentUser
     name: string;
     description: string;
     asignee: Member | null;

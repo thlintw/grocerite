@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { AuthService } from '$lib/services/auth';
 	import { authStore } from '$lib/stores/authStore';
+	import '@fortawesome/fontawesome-svg-core/styles.css';
 
 
 	export async function preload() {

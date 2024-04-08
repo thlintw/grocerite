@@ -72,7 +72,7 @@
 <main class="
 	flex
 	p-5 w-full bg-orange-100
-	lg:w-6/12 lg:border-r-4 lg:border-l-4 lg:border-orange-200
+	lg:w-6/12 lg:rounded-[4rem] lg:my-5 
 ">
 	<slot></slot>
 </main>
