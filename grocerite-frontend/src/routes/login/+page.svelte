@@ -16,11 +16,7 @@
 	import { scaleFade } from '$lib/transitions';
 	import { AuthService } from '$lib/services/auth';
 	import LocaleSwitch from '$lib/components/LocaleSwitch.svelte';
-
-	
-	$: l = $locale;
-
-	$: fontFamilyCls = l == 'ja-JP' || l == 'zh-TW' ? 'font-sans' : 'font-berkshire';
+	import { lc } from '$lib/stores/general';
 
 
 	const loginGoogle = async () => {
@@ -71,7 +67,7 @@
 					<img src={logoFull} alt="logo" class="w-[22rem]"/>
 					<span class="text-2xl font-bold text-center mt-8
 						absolute right-5 -bottom-4
-						{fontFamilyCls} text-orange-500">
+						{$lc.title} text-orange-500">
 						{$_('login_catchPhrase')}
 					</span>
 				</div>

@@ -7,6 +7,7 @@
 	import PlusButton from "$lib/components/PlusButton.svelte";
 	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   	import { faAsterisk, faUser, faCalendar, faBagShopping } from '@fortawesome/free-solid-svg-icons';
+	import { lc } from '$lib/stores/general';
 
 	onMount(() => {
 	});
@@ -75,7 +76,7 @@
 		w-full flex-col bg-orange-50 mt-8 rounded-[3rem] shadow-grocerite-orange-200-md
 	">
 		<div class="
-			{fontFamilyCls} text-orange-500 drop-shadow-grocerite-orange-100-md relative pl-5
+			{$lc.title} text-orange-500 drop-shadow-grocerite-orange-100-md relative pl-5
 		">
 			{$_('home_activeList')}
 		</div>
@@ -94,12 +95,12 @@
 					{/if}
 					<div class="flex flex-col w-full justify-center grow-0 overflow-hidden pr-1 gap-1">
 						<div class="
-							text-lg font-bold text-neutral-800 {normalTextCls} 
+							text-lg font-bold text-neutral-800 {$lc.text} 
 							text-ellipsis text-nowrap whitespace-nowrap overflow-hidden break-all
 							">
 							{list.name}
 						</div>
-						<div class="flex text-sm gap-1 {normalTextCls}">
+						<div class="flex text-sm gap-1 {$lc.text}">
 							{#if list.asignee}
 								<div class="bg-orange-50 rounded-md px-2 py-0.5 flex gap-1">
 									<div class="text-lime-600">
@@ -139,7 +140,7 @@
 					</div>
 					<div class="relative ml-auto w-[4rem] h-[4rem] shrink-0">
 						<div class="absolute -bottom-1 left-[50%] -translate-x-1/2 w-[2rem] h-[2rem] rounded-full bg-neutral-700/10 scale-y-[20%] origin-bottom z-0"></div>
-						<img src={list.getIcon()} alt={`icon for ${list.name}`} class="ml-auto w-[4rem] h-[4rem] z-10 relative"/>
+						<img src={list.icon} alt={`icon for ${list.name}`} class="ml-auto w-[4rem] h-[4rem] z-10 relative"/>
 					</div>
 				</div>
 			{/each}
@@ -151,7 +152,7 @@
 		w-full flex-col bg-orange-50 mt-8 rounded-3xl shadow-grocerite-orange-200-md
 	">
 		<div class="
-			{fontFamilyCls} text-orange-500 drop-shadow-grocerite-orange-100-md relative pl-5
+			{$lc.title} text-orange-500 drop-shadow-grocerite-orange-100-md relative pl-5
 		">
 			{$_('home_householdList')}
 		</div>

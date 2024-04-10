@@ -10,7 +10,7 @@
     
 	let showLocaleDropdown = false;
 
-	const getLocaleFlag = (locale: string) => {
+	const getLocaleFlag = (locale: string | null | undefined) => {
 		switch (locale) {
 			case 'en-US':
 				return flagEnUs;
@@ -59,8 +59,8 @@
 	</button>
 
 	{#if showLocaleDropdown}
-		<div transition:scaleFade 
-			class="fixed inset-0 w-screen h-screen" on:click={() => showLocaleDropdown = false}></div>
+		<button transition:scaleFade type="button" 
+			class="fixed inset-0 w-screen h-screen" on:click={() => showLocaleDropdown = false}></button>
 		<div transition:scaleFade 
 			class="absolute {leftMenu ? 'right-2' : ''} top-2 w-32
             bg-orange-50 rounded-xl flex flex-col gap-1 py-2 px-1 shadow-grocerite-orange-200-md">

@@ -71,8 +71,14 @@
 </nav>
 <main class="
 	flex
-	p-5 w-full bg-orange-100
-	lg:w-6/12 lg:rounded-[4rem] lg:my-5 
+	w-full 
+	lg:w-6/12 
+	lg:max-h-dvh lg:grow-0 lg:py-5
 ">
-	<slot></slot>
+	<div class="
+		w-full bg-orange-100 p-5 lg:rounded-[2rem]
+		lg:overflow-y-auto lg:max-h-full no-scrollbar
+	">
+		<slot></slot>
+	</div>
 </main>

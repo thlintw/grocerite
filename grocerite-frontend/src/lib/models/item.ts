@@ -31,8 +31,8 @@ export enum ItemCategory {
     Other = 'other'
 }
 
-export const getItemCategoryIcon = (category: ItemCategory): string => {
-    return `./icons/itemCategory/itemCategory-icon-${category}.png`;
+export const getItemCategoryIcon = (category: ItemCategory | string): string => {
+    return `/icons/itemCategory/itemCategory-icon-${category}.png`;
 };
 
 export enum ItemIcon {

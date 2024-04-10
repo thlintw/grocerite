@@ -149,6 +149,7 @@ class GroceryListItem(TimestampMixin, db.Model):
     grocery_list = relationship('GroceryList', back_populates='items')
     label = Column(Unicode(100), nullable=False)
     quantity = Column(Unicode(50))
+    unit = Column(Unicode(50))
     ticked = Column(Boolean, default=False)
     ticked_time = Column(DateTime)
     ticked_by_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True)
