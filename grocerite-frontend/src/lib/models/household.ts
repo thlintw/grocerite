@@ -8,22 +8,26 @@ export class Member {
     userIdx: number;
     pfpIdx: number;
     householdIdx: number;
+    name: string;
 
     constructor({
         user = null,
         userIdx = -1,
         pfpIdx = -1,
-        householdIdx = -1
+        householdIdx = -1,
+        name = ''
     } : {
         user?: UserProfile | null,
         userIdx?: number,
         pfpIdx?: number,
-        householdIdx?: number
+        householdIdx?: number,
+        name?: string
     } = {}) {
         this.user = user;
         this.userIdx = userIdx;
         this.pfpIdx = pfpIdx;
         this.householdIdx = householdIdx;
+        this.name = name;
     }
 
     static fromJson(json: any): Member {
@@ -31,7 +35,8 @@ export class Member {
             user: UserProfile.fromJson(json.user),
             userIdx: json.userIdx,
             pfpIdx: json.pfpIdx,
-            householdIdx: json.householdIdx
+            householdIdx: json.householdIdx,
+            name: json.name
         });
     }
 }

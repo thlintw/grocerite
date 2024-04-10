@@ -2,9 +2,11 @@
 	import { onMount } from "svelte";
 	import { _, locale, locales } from 'svelte-i18n';
 	import { GroceryList } from "$lib/models/groceryList";
+	import { Household } from "$lib/models/household";
+	import { Member } from "$lib/models/household";
 	import PlusButton from "$lib/components/PlusButton.svelte";
 	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
-  	import { faAsterisk } from '@fortawesome/free-solid-svg-icons';
+  	import { faAsterisk, faUser, faCalendar, faBagShopping } from '@fortawesome/free-solid-svg-icons';
 
 	onMount(() => {
 	});
@@ -20,10 +22,42 @@
 			idx: 1,
 			name: 'starving to death im  so hunnnngry oh my  god',
 			householdIdx: 1,
-			iconIdx: 12,
+			iconIdx: 2,
 			starred: true,
+			asignee: new Member({
+				userIdx: 1,
+				name: 'You',
+			}),
+		}),
+		new GroceryList({
+			idx: 1,
+			name: 'Baking supplies',
+			householdIdx: 1,
+			iconIdx: 12,
+			asignee: new Member({
+				userIdx: 1,
+				name: 'Jeanne',
+			}),
 		}),
 	];
+
+	// const mockHouseholds = [
+	// 	new Household({
+	// 		idx: 1,
+	// 		name: 'Home',
+	// 		iconIdx: 1,
+	// 		members: [
+	// 			new Member({
+	// 				userIdx: 1,
+	// 				name: 'You',
+	// 			}),
+	// 			new Member({
+	// 				userIdx: 2,
+	// 				name: 'Jeanne',
+	// 			}),
+	// 		],
+	// 	}),
+	// ]
 
 </script>
 
@@ -38,7 +72,7 @@
 ">
 	<div class="
 		flex relative
-		w-full flex-col bg-orange-50 mt-8 rounded-3xl shadow-grocerite-orange-200-md
+		w-full flex-col bg-orange-50 mt-8 rounded-[3rem] shadow-grocerite-orange-200-md
 	">
 		<div class="
 			{fontFamilyCls} text-orange-500 drop-shadow-grocerite-orange-100-md relative pl-5
@@ -58,15 +92,49 @@
 							<FontAwesomeIcon icon={faAsterisk} />
 						</div>
 					{/if}
-					<div class="flex flex-col w-full justify-center grow-0 overflow-hidden pr-1">
+					<div class="flex flex-col w-full justify-center grow-0 overflow-hidden pr-1 gap-1">
 						<div class="
 							text-lg font-bold text-neutral-800 {normalTextCls} 
 							text-ellipsis text-nowrap whitespace-nowrap overflow-hidden break-all
 							">
 							{list.name}
 						</div>
-						<div class="flex">
-
+						<div class="flex text-sm gap-1 {normalTextCls}">
+							{#if list.asignee}
+								<div class="bg-orange-50 rounded-md px-2 py-0.5 flex gap-1">
+									<div class="text-lime-600">
+										<FontAwesomeIcon
+											icon={faUser}
+											class="text-lime-600"
+										/>
+									</div>
+									<div class="text-neutral-800">
+										{list.asignee.name}
+									</div>
+								</div>
+							{/if}
+							<div class="bg-orange-50 rounded-md px-2 py-0.5 flex gap-1">
+								<div class="text-lime-600">
+									<FontAwesomeIcon
+										icon={faCalendar}
+										class="text-lime-600"
+									/>
+								</div>
+								<div class="text-neutral-800">
+									2024-12-31
+								</div>
+							</div>
+							<div class="bg-orange-50 rounded-md px-2 py-0.5 flex gap-1">
+								<div class="text-lime-600">
+									<FontAwesomeIcon
+										icon={faBagShopping}
+										class="text-lime-600"
+									/>
+								</div>
+								<div class="text-neutral-800">
+									70%
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="relative ml-auto w-[4rem] h-[4rem] shrink-0">
@@ -75,7 +143,7 @@
 					</div>
 				</div>
 			{/each}
-			<PlusButton cls="mt-1" onClick={() => console.log('134')} />
+			<PlusButton cls="mt-2" onClick={() => console.log('134')} />
 		</div>
 	</div>
 	<div class="
