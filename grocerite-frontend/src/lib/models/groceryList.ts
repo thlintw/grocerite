@@ -110,7 +110,7 @@ export class GroceryList {
         this.iconIdx = iconIdx;
     }
 
-    public getIcon(): string {
+    public get icon(): string {
         const paddedIdx = this.iconIdx.toString().padStart(2, '0');
         return `./icons/groceryList/groceryList-icon-${paddedIdx}.png`;
     }

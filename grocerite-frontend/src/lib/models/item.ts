@@ -31,8 +31,12 @@ export enum ItemCategory {
     Other = 'other'
 }
 
-export enum ItemIcon {
+export const getItemCategoryIcon = (category: ItemCategory): string => {
+    return `./icons/itemCategory/itemCategory-icon-${category}.png`;
+};
 
+export enum ItemIcon {
+    // to be implemented... or not?
 }
 
 export class Item {
@@ -63,7 +67,7 @@ export class Item {
             idx: json.idx,
             name: json.name,
             category: ItemCategory[json.category],
-            icon: json.icon
+            icon: null
         });
     }
 

@@ -43,6 +43,7 @@ export class Household {
     members: Member[];
     containers: Container[];
     groceryLists: GroceryList[];
+    iconIdx: number;
     stores: Store[];
 
     constructor({
@@ -51,6 +52,7 @@ export class Household {
         members = [],
         containers = [],
         groceryLists = [],
+        iconIdx = -1,
         stores = []
     } : {
         idx?: number,
@@ -58,6 +60,7 @@ export class Household {
         members?: Member[],
         containers?: Container[],
         groceryLists?: GroceryList[],
+        iconIdx?: number,
         stores?: Store[]
     } = {}) {
         this.idx = idx;
@@ -65,7 +68,13 @@ export class Household {
         this.members = members;
         this.containers = containers;
         this.groceryLists = groceryLists;
+        this.iconIdx = iconIdx;
         this.stores = stores;
+    }
+
+    public get icon(): string {
+        const paddedIdx = this.iconIdx.toString().padStart(2, '0');
+        return `./icons/household/household-icon-${paddedIdx}.png`;
     }
 
     static fromJson(json: any): Household {
@@ -75,6 +84,7 @@ export class Household {
             members: json.members.map((member: any) => Member.fromJson(member)),
             containers: json.containers.map((container: any) => Container.fromJson(container)),
             groceryLists: json.groceryLists.map((groceryList: any) => GroceryList.fromJson(groceryList)),
+            iconIdx: json.iconIdx,
             stores: json.stores.map((store: any) => Store.fromJson(store))
         });
     }
