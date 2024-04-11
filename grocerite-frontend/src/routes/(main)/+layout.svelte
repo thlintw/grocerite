@@ -24,7 +24,7 @@
 	fixed w-40 h-40 bg-orange-50 rounded-[60%] rounded-tl-[50%] rounded-br-[50%] border-2 border-orange-200 border-t-[.5rem]
 	-bottom-10 -left-10 items-center justify-center
 	lg:relative lg:h-[calc(100dvh)] lg:w-3/12 lg:rounded-none lg:border-none lg:top-0 lg:left-0 lg:flex-col 
-	lg:items-end 
+	lg:items-end  z-[9999]
 ">
 	<button class="flex lg:hidden" type="button" on:click={() => showMobileMenu = true}>
 		<img src={logoSmall} alt="Logo" class="h-16 ml-4 mb-6" />
@@ -34,7 +34,7 @@
 		<button 
 			transition:scaleFade
 			class="
-				fixed w-screen h-screen bg-blue-500 bg-opacity-50 left-0 top-0
+				fixed w-screen h-screen bg-blue-500 bg-opacity-50 left-0 top-0 z-[10000]
 			"
 			on:click={() => showMobileMenu = false}
 		>
@@ -78,6 +78,7 @@
 	<div class="
 		w-full bg-orange-100 p-5 lg:rounded-[2rem]
 		lg:overflow-y-auto lg:max-h-full no-scrollbar
+		lg:border-4 border-orange-100
 	">
 		<slot></slot>
 	</div>
