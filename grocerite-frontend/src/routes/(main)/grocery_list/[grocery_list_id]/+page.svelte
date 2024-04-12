@@ -7,6 +7,7 @@
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
     import { faCheck } from '@fortawesome/free-solid-svg-icons';
     import { properCapitalize } from '$lib/utilities';
+    import { fade } from 'svelte/transition';
 
     onMount(() => {
         console.log('onMount');
@@ -148,7 +149,7 @@
         {#each sortedCategories as category}
             <div class="w-full bg-orange-50 px-3 lg:px-5 py-3 flex flex-col gap-3 rounded-xl shadow-grocerite-orange-200-sm">
                 <div class="flex items-center w-full gap-2 border-b-2 border-b-orange-100 pb-2">
-                    <h3 class="text-lg lg:text-2xl text-orange-500 {$lc.title}">{$_(`common_category_${category}`)}</h3>
+                    <h3 class="text-xl lg:text-2xl text-orange-500 {$lc.title}">{$_(`common_category_${category}`)}</h3>
                     <img src={getItemCategoryIcon(category)} alt="{category}" class="ml-auto w-8 lg:w-10" />
                 </div>
                 <div class="flex flex-col gap-2 mb-2">
@@ -158,9 +159,16 @@
                             flex justify-center items-center"
                             on:click={() => tickingHandler(item)}>
                             {#if apiLoading.includes(item.idx)}
-                                <div class="animate-spin rounded-full h-4 w-4 border-2 border-b-transparent border-orange-200"></div>
+                                <div 
+                                    class="animate-spin rounded-full h-4 w-4 border-2 border-b-transparent border-orange-200"></div>
                             {:else if item.ticked && !apiLoading.includes(item.idx)}
-                                <FontAwesomeIcon icon={faCheck} class="absolute -top-[2px] -left-[2px] w-9 h-9 text-lime-600" />
+                                <div class="absolute -top-[2px] -left-[2px] w-9 h-9 text-lime-600"
+                                transition:fade>
+                                    <FontAwesomeIcon 
+                                        icon={faCheck}
+                                        class="w-9 h-9"
+                                        />
+                                </div>
                             {/if}
                         </button>
                         <div class="text-xl {$lc.text} font-mono text-center w-16 font-bold shrink-0">{item.quantity}</div>
