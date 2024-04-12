@@ -10,6 +10,7 @@
 <button type="button" class="
     rounded-full bg-orange-200 text-orange-400 text-3xl w-10 h-10 flex items-center justify-center
     hover:bg-orange-300 hover:text-orange-500 active:bg-orange-200 active:text-orange-400
+    transition-all duration-300
     {cls}
 "
     on:click={onClick}>
