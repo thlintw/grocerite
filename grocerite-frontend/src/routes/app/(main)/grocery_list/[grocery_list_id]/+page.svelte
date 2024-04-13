@@ -6,7 +6,7 @@
     import { _ } from 'svelte-i18n';
 	import { lc } from '$lib/stores/general';
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
-    import { faCheck, faEllipsisVertical, faUser, faCalendar, faBagShopping, faAsterisk, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+    import { faCheck, faEllipsisVertical, faUser, faCalendar, faBagShopping, faAsterisk, faPen, faTrash, faBars } from '@fortawesome/free-solid-svg-icons';
     import { properCapitalize } from '$lib/utilities';
     import { fade, scale } from 'svelte/transition';
     import { scaleFade } from '$lib/transitions';
@@ -48,6 +48,10 @@
                 name: 'Potato',
                 quantity: 1,
                 ticked: true,
+                tickedBy: new Member({
+                    userIdx: 1,
+                    name: 'Annie',
+                }),
                 category: ItemCategory.Vegetables
             }),
             new GroceryListItem({
@@ -150,7 +154,7 @@
 
     const actionMenuItems = [
         {
-            title: $_('groceryList_completeThisList'),
+            title: 'groceryList_completeThisList',
             icon: faCheck,
             action: () => {
                 closeActionMenu();
@@ -162,7 +166,14 @@
             }
         },
         {
-            title: $_('groceryList_deleteThisList'),
+            title: 'groceryList_editThisList',
+            icon: faPen,
+            action: () => {
+                console.log('delete this list');
+            }
+        },
+        {
+            title: 'groceryList_deleteThisList',
             icon: faTrash,
             action: () => {
                 console.log('delete this list');
@@ -183,7 +194,7 @@
 <div class="flex flex-col w-full gap-3">
     <ActionMenu
         showActionMenu={showActionMenu}
-        menuTitle={$_('common_actions')}
+        menuTitle={'common_actions'}
         actionMenuItems={actionMenuItems}
         on:click:closeMenu={closeActionMenu}
         />
@@ -195,10 +206,6 @@
             </div>
         {/if}
         <span class="whitespace-nowrap overflow-hidden text-ellipsis">{properCapitalize(mockList.name)}</span>
-        <button type="button" class="ml-auto"
-            on:click={openActionMenu}>
-            <FontAwesomeIcon icon={faEllipsisVertical} class="w-6 h-6"/>
-        </button>
     </div>
     <div class="flex text-sm gap-3 {$lc.text}">
         {#if mockList.asignee}
@@ -236,6 +243,10 @@
                 {tickedCount.toLocaleString()} / {totalItemCount.toLocaleString()}
             </div>
         </div>
+        <button type="button" class="bg-orange-50 rounded-md px-1.5 py-0.5 ml-auto text-orange-500 flex items-center"
+            on:click={openActionMenu}>
+            <FontAwesomeIcon icon={faBars} class="w-6 h-6"/>
+        </button>
     </div>
     
     <div class="
@@ -270,11 +281,21 @@
                             {/if}
                         </button>
                         <div class="text-xl {$lc.text} font-mono text-center w-16 font-bold shrink-0">{item.quantity}</div>
-                        <div class="{$lc.text} text-base lg:text-lg overflow-hidden text-ellipsis text-nowrap pr-2">
+                        <div class="{$lc.text} text-base lg:text-lg overflow-hidden text-ellipsis text-nowrap pr-2 flex items-center">
                             {#if tickedItemIdxs.includes(item.idx)}
                                 <span class="line-through text-neutral-400">{item.name}</span>
                             {:else}
                                 <span class="">{item.name}</span>
+                            {/if}
+                            {#if item.tickedBy}
+                                <span class="ml-2 bg-neutral-400 rounded-md text-white text-sm px-1.5 py-0.5 flex gap-1">
+                                    <span>
+                                        <FontAwesomeIcon
+                                            icon={faCheck}
+                                        />
+                                    </span>
+                                    <span>{$_('common_by')} {item.tickedBy.name}</span>
+                                </span>
                             {/if}
                         </div>
                     </div>

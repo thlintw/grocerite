@@ -16,6 +16,11 @@ export const lc = derived(locale, $locale => {
 // control loading overlay
 export const showLoadingOverlay = writable(false);
 export const overlayText = writable('');
-export const openLoadingOverlay = () => showLoadingOverlay.set(true);
-export const closeLoadingOverlay = () => showLoadingOverlay.set(false);
+export const openLoadingOverlay = () => {
+    showLoadingOverlay.set(true);
+};
+export const closeLoadingOverlay = () => {
+    showLoadingOverlay.set(false);
+    overlayText.set('');
+};
 

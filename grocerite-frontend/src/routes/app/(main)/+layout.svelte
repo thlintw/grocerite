@@ -79,7 +79,7 @@
 	lg:max-h-dvh lg:grow-0 lg:py-5
 ">
 	<div class="
-		w-full bg-orange-100 p-5 lg:rounded-[2rem]
+		w-full bg-orange-100 p-3 lg:p-5 lg:rounded-[2rem]
 		lg:overflow-y-auto lg:max-h-full no-scrollbar
 		lg:border-4 border-orange-100
 	">

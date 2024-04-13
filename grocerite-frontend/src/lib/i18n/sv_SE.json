@@ -43,7 +43,9 @@
     "common_category_other": "Övrigt",
     "groceryList_completeThisList": "Slutför den här listan",
     "groceryList_deleteThisList": "Ta bort den här listan",
+    "groceryList_editThisList": "Redigera den här listan",
     "common_actions": "Åtgärder",
-    "common_wakingServer": "Väcker servern..."
+    "common_wakingServer": "Väcker servern...",
+    "common_by": "av"
 }
   

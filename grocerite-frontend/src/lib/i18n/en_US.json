@@ -43,7 +43,9 @@
     "common_category_other": "Other",
     "groceryList_completeThisList": "Complete this list",
     "groceryList_deleteThisList": "Delete this list",
+    "groceryList_editThisList": "Edit this list",
     "common_actions": "Actions",
-    "common_wakingServer": "Waking up server..."
+    "common_wakingServer": "Waking up server...",
+    "common_by": "by"
 }
   

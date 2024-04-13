@@ -43,7 +43,9 @@
     "common_category_other": "其他",
     "groceryList_completeThisList": "完成此清單",
     "groceryList_deleteThisList": "刪除此清單",
+    "groceryList_editThisList": "編輯此清單",
     "common_actions": "操作",
-    "common_wakingServer": "正在喚醒伺服器"
+    "common_wakingServer": "正在喚醒伺服器",
+    "common_by": "由"
 }
   

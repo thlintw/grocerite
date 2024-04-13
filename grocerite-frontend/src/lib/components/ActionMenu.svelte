@@ -37,7 +37,7 @@
             ">
             <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
-                { menuTitle }
+                { $_(menuTitle) }
             </div>
             <div class="bg-orange-50 rounded-xl flex flex-col gap-3 px-3 py-3 pt-4
                 shadow-grocerite-orange-200-sm items-start">
@@ -50,7 +50,7 @@
                                     <FontAwesomeIcon icon={item.icon} />
                                 {/if}
                             </div>
-                            <span class="text-neutral-700 hover:text-orange-500">{ item.title }</span>
+                            <span class="text-neutral-700 hover:text-orange-500">{ $_(item.title) }</span>
                         </button>
                     </div>
                 {/each}

@@ -43,7 +43,9 @@
     "common_category_other": "その他",
     "groceryList_completeThisList": "このリストを完了する",
     "groceryList_deleteThisList": "このリストを削除する",
+    "groceryList_editThisList": "このリストを編集する",
     "common_actions": "アクション",
-    "common_wakingServer": "サーバーを起動しています"
+    "common_wakingServer": "サーバーを起動しています",
+    "common_by": ""
 }
 
