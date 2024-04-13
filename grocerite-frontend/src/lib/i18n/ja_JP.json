@@ -46,6 +46,12 @@
     "groceryList_editThisList": "このリストを編集する",
     "common_actions": "アクション",
     "common_wakingServer": "サーバーを起動しています",
-    "common_by": ""
+    "common_by": "",
+    "newListForm_createNewList": "新しいリストを作成",
+    "common_confirm": "確認",
+    "groceryList_sureWantToComplete": "このリストを完了してもよろしいですか？",
+    "groceryList_sureWantToDelete": "このリストを削除してもよろしいですか？",
+    "common_yes": "はい",
+    "common_no": "いいえ"
 }
 

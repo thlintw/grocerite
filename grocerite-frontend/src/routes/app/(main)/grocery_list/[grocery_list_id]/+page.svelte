@@ -12,6 +12,7 @@
     import { scaleFade } from '$lib/transitions';
     import ActionMenu from '$lib/components/ActionMenu.svelte';
     import { showLoadingOverlay } from '$lib/stores/general';
+    import { dialog } from '$lib/stores/dialogStore';
 
     onMount(() => {
         console.log('onMount');
@@ -158,11 +159,19 @@
             icon: faCheck,
             action: () => {
                 closeActionMenu();
-                showLoading();
-                let ival = setInterval(() => {
-                    hideLoading();
-                    clearInterval(ival);
-                }, 4000);
+                dialog.openDialog({
+                    title: 'common_confirm',
+                    message: 'groceryList_sureWantToComplete',
+                    onConfirm: () => {
+                        console.log('complete this list');
+                        dialog.closeDialog();
+                        showLoading();
+                        let ival = setInterval(() => {
+                            hideLoading();
+                            clearInterval(ival);
+                        }, 4000);
+                    }
+                });
             }
         },
         {
@@ -176,7 +185,15 @@
             title: 'groceryList_deleteThisList',
             icon: faTrash,
             action: () => {
-                console.log('delete this list');
+                closeActionMenu();
+                dialog.openDialog({
+                    title: 'common_confirm',
+                    message: 'groceryList_sureWantToDelete',
+                    onConfirm: () => {
+                        console.log('delete this list');
+                        dialog.closeDialog();
+                    }
+                });
             }
         },
     ];
@@ -288,7 +305,7 @@
                                 <span class="">{item.name}</span>
                             {/if}
                             {#if item.tickedBy}
-                                <span class="ml-2 bg-neutral-400 rounded-md text-white text-sm px-1.5 py-0.5 flex gap-1">
+                                <span class="ml-2 border-2 border-neutral-300 rounded-md text-neutral-400 text-sm px-1.5 py-0.5 flex gap-1">
                                     <span>
                                         <FontAwesomeIcon
                                             icon={faCheck}

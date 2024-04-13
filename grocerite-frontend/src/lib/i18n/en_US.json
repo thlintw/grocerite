@@ -46,6 +46,12 @@
     "groceryList_editThisList": "Edit this list",
     "common_actions": "Actions",
     "common_wakingServer": "Waking up server...",
-    "common_by": "by"
+    "common_by": "by",
+    "newListForm_createNewList": "Create a new list",
+    "common_confirm": "Confirm",
+    "groceryList_sureWantToComplete": "Are you sure you want to complete this list?",
+    "groceryList_sureWantToDelete": "Are you sure you want to delete this list?",
+    "common_yes": "Yes",
+    "common_no": "No"
 }
   

@@ -14,6 +14,7 @@ export default {
       borderRadius: {
         '2xl': '2rem',
         'xl': '1rem',
+        'llg': '0.75rem',
       },
       screens: {
         '3xl': '1600px',

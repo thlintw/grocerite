@@ -46,6 +46,12 @@
     "groceryList_editThisList": "Redigera den här listan",
     "common_actions": "Åtgärder",
     "common_wakingServer": "Väcker servern...",
-    "common_by": "av"
+    "common_by": "av",
+    "newListForm_createNewList": "Skapa ny lista",
+    "common_confirm": "Bekräfta",
+    "groceryList_sureWantToComplete": "Är du säker på att du vill markera den här listan som slutförd?",
+    "groceryList_sureWantToDelete": "Är du säker på att du vill ta bort den här listan?",
+    "common_yes": "Ja",
+    "common_no": "Nej"
 }
   

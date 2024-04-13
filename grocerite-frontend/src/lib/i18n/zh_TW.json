@@ -46,6 +46,12 @@
     "groceryList_editThisList": "編輯此清單",
     "common_actions": "操作",
     "common_wakingServer": "正在喚醒伺服器",
-    "common_by": "由"
+    "common_by": "由",
+    "newListForm_createNewList": "建立新購物清單",
+    "common_confirm": "確認",
+    "groceryList_sureWantToComplete": "您確定要完成此清單嗎？",
+    "groceryList_sureWantToDelete": "您確定要刪除此清單嗎？",
+    "common_yes": "是",
+    "common_no": "否"
 }
   

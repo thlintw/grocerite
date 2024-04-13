@@ -33,7 +33,7 @@
     <div transition:scaleFade
         class="fixed top-0 right-0 bottom-0 left-0 z-[11001] pointer-events-none 
             flex items-center justify-center">
-        <div class="pointer-events-auto z-[11002]flex flex-col
+        <div class="pointer-events-auto z-[11002] flex flex-col
             ">
             <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
@@ -43,7 +43,7 @@
                 shadow-grocerite-orange-200-sm items-start">
                 {#each actionMenuItems as item}
                     <div class="hover:bg-orange-100 rounded-md flex pr-2">
-                        <button type="button" class="w-full flex  {$lc.text} text-xl items-center"
+                        <button type="button" class="w-full flex  {$lc.text} text-lg items-center"
                             on:click={item.action}>
                             <div class="w-8 text-base text-orange-500">
                                 {#if item.icon}

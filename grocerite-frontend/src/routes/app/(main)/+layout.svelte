@@ -6,6 +6,7 @@
 	import LocaleSwitch from '$lib/components/LocaleSwitch.svelte';
 	import { scaleFade } from '$lib/transitions';
 	import LoadingOverlay from '$lib/components/LoadingOverlay.svelte';
+	import Dialogue from '$lib/components/Dialogue.svelte';
 
 	export async function preload() {
 		return waitLocale()
@@ -20,6 +21,7 @@
 
 
 <LoadingOverlay />
+<Dialogue />
   
 <nav class="
 	flex
