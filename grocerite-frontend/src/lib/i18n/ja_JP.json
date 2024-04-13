@@ -9,6 +9,8 @@
     "household_pageTitle": "家庭",
     "home_activeList": "未完了",
     "home_householdList": "家庭",
+    "home_metaTitle": "Groceriteホーム",
+    "home_metaDescription": "Groceriteは家に何があるかを追跡するのを助け、二度と買いすぎることはありません。",
     "common_category_vegetables": "野菜",
     "common_category_fruits": "果物",
     "common_category_meat_and_poultry": "肉類と鶏肉",
@@ -40,6 +42,8 @@
     "common_category_fitness_and_sports": "フィットネスとスポーツ",
     "common_category_other": "その他",
     "groceryList_completeThisList": "このリストを完了する",
-    "common_actions": "アクション"
+    "groceryList_deleteThisList": "このリストを削除する",
+    "common_actions": "アクション",
+    "common_wakingServer": "サーバーを起動しています"
 }
 

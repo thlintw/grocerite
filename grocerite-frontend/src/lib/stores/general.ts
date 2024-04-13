@@ -12,3 +12,10 @@ export const lc = derived(locale, $locale => {
         text: isJPorTW ? 'font-sans' : 'font-serif'
     };
 });
+
+// control loading overlay
+export const showLoadingOverlay = writable(false);
+export const overlayText = writable('');
+export const openLoadingOverlay = () => showLoadingOverlay.set(true);
+export const closeLoadingOverlay = () => showLoadingOverlay.set(false);
+

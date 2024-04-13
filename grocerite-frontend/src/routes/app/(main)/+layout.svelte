@@ -1,12 +1,11 @@
 <script>
-	import '../styles.css';
+	import '../../styles.css';
   	import { waitLocale } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import logoFull from '$lib/images/logo-full.png';
-	import logoSmall from '$lib/images/logo-small.png';
 	import LocaleSwitch from '$lib/components/LocaleSwitch.svelte';
 	import { scaleFade } from '$lib/transitions';
+	import LoadingOverlay from '$lib/components/LoadingOverlay.svelte';
 
 	export async function preload() {
 		return waitLocale()
@@ -18,6 +17,9 @@
 <style>
 /* You can also write additional styles here */
 </style>
+
+
+<LoadingOverlay />
   
 <nav class="
 	flex
@@ -27,7 +29,7 @@
 	lg:items-end  z-[9999]
 ">
 	<button class="flex lg:hidden" type="button" on:click={() => showMobileMenu = true}>
-		<img src={logoSmall} alt="Logo" class="h-14 ml-4 mb-6" />
+		<img src='/image/logo-small.png' alt="Logo" class="h-14 ml-4 mb-6" />
 	</button>
 
 	{#if showMobileMenu}
@@ -61,7 +63,7 @@
 		nav-menu-lg flex-col items-center gap-5  p-4
 	">
 		<div class="">
-			<img src={logoFull} alt="Logo" class="max-h-16 mr-4" />
+			<img src='/image/logo-full.png' alt="Logo" class="max-h-16 mr-4" />
 		</div>
 	</div>
 	

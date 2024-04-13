@@ -9,6 +9,8 @@
     "household_pageTitle": "Hushåll",
     "home_activeList": "Aktiva",
     "home_householdList": "Hushåll",
+    "home_metaTitle": "Grocerite Hem",
+    "home_metaDescription": "Grocerite hjälper dig att hålla koll på vad du har hemma, så att du aldrig köper dubbletter igen.",
     "common_category_vegetables": "Grönsaker",
     "common_category_fruits": "Frukter",
     "common_category_meat_and_poultry": "Kött och Fjäderfä",
@@ -40,6 +42,8 @@
     "common_category_fitness_and_sports": "Fitness och Sport",
     "common_category_other": "Övrigt",
     "groceryList_completeThisList": "Slutför den här listan",
-    "common_actions": "Åtgärder"
+    "groceryList_deleteThisList": "Ta bort den här listan",
+    "common_actions": "Åtgärder",
+    "common_wakingServer": "Väcker servern..."
 }
   

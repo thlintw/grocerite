@@ -9,6 +9,8 @@
     "household_pageTitle": "Household",
     "home_activeList": "Active",
     "home_householdList": "Households",
+    "home_metaTitle": "Grocerite Home",
+    "home_metaDescription": "Grocerite helps you keep track of what you have at home, so you never buy duplicates again.",
     "common_category_vegetables": "Vegetables",   
     "common_category_fruits": "Fruits",
     "common_category_meat_and_poultry": "Meat and Poultry",
@@ -40,6 +42,8 @@
     "common_category_fitness_and_sports": "Fitness and Sports",
     "common_category_other": "Other",
     "groceryList_completeThisList": "Complete this list",
-    "common_actions": "Actions"
+    "groceryList_deleteThisList": "Delete this list",
+    "common_actions": "Actions",
+    "common_wakingServer": "Waking up server..."
 }
   

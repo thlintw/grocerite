@@ -9,6 +9,8 @@
     "household_pageTitle": "家庭",
     "home_activeList": "採買中",
     "home_householdList": "家庭",
+    "home_metaTitle": "Grocerite首頁",
+    "home_metaDescription": "Grocerite幫助您追蹤家裡有什麼，再也不多買",
     "common_category_vegetables": "蔬菜",
     "common_category_fruits": "水果",
     "common_category_meat_and_poultry": "肉類",
@@ -40,6 +42,8 @@
     "common_category_fitness_and_sports": "健身與運動",
     "common_category_other": "其他",
     "groceryList_completeThisList": "完成此清單",
-    "common_actions": "操作"
+    "groceryList_deleteThisList": "刪除此清單",
+    "common_actions": "操作",
+    "common_wakingServer": "正在喚醒伺服器"
 }
   

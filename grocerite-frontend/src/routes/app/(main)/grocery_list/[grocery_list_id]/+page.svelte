@@ -6,10 +6,12 @@
     import { _ } from 'svelte-i18n';
 	import { lc } from '$lib/stores/general';
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
-    import { faCheck, faEllipsisVertical, faUser, faCalendar, faBagShopping, faAsterisk, faTimes } from '@fortawesome/free-solid-svg-icons';
+    import { faCheck, faEllipsisVertical, faUser, faCalendar, faBagShopping, faAsterisk, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
     import { properCapitalize } from '$lib/utilities';
     import { fade, scale } from 'svelte/transition';
     import { scaleFade } from '$lib/transitions';
+    import ActionMenu from '$lib/components/ActionMenu.svelte';
+    import { showLoadingOverlay } from '$lib/stores/general';
 
     onMount(() => {
         console.log('onMount');
@@ -136,44 +138,55 @@
     $: tickedCount = mockList.items.filter((i) => i.ticked).length;
     $: totalItemCount = mockList.items.length;
 
-    let showActionDialog = false;
-
-    const openActionDialog = () => {
-        showActionDialog = true;
+    let showActionMenu = false;
+    
+    const openActionMenu = () => {
+        showActionMenu = true;
     };
 
-    const closeActionDialog = () => {
-        showActionDialog = false;
+    const closeActionMenu = () => {
+        showActionMenu = false;
     };
 
+    const actionMenuItems = [
+        {
+            title: $_('groceryList_completeThisList'),
+            icon: faCheck,
+            action: () => {
+                closeActionMenu();
+                showLoading();
+                let ival = setInterval(() => {
+                    hideLoading();
+                    clearInterval(ival);
+                }, 4000);
+            }
+        },
+        {
+            title: $_('groceryList_deleteThisList'),
+            icon: faTrash,
+            action: () => {
+                console.log('delete this list');
+            }
+        },
+    ];
+
+
+    const showLoading = () => {
+        showLoadingOverlay.set(true);
+    };
+
+    const hideLoading = () => {
+        showLoadingOverlay.set(false);
+    };
 </script>
 
 <div class="flex flex-col w-full gap-3">
-    {#if showActionDialog}
-        <button transition:fade
-            class="fixed inset-0 left-0 top-0 w-full h-full z-[11000] bg-neutral-700/20" 
-            on:click={closeActionDialog}></button>
-        <div transition:scaleFade
-            class="fixed top-0 right-0 bottom-0 left-0 z-[11001] pointer-events-none 
-                flex items-center justify-center">
-            <div class="pointer-events-auto z-[11002]flex flex-col
-                ">
-                <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
-                    relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
-                    {$_('common_actions')}
-                </div>
-                <div class="bg-orange-50 rounded-xl flex flex-col gap-3 px-3 py-3 pt-4
-                    shadow-grocerite-orange-200-sm">
-                    <div class="hover:bg-orange-100 rounded-md">
-                        <button type="button" class="w-full flex text-orange-500 {$lc.text} text-xl">
-                            {$_('groceryList_completeThisList')}
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    {/if}
+    <ActionMenu
+        showActionMenu={showActionMenu}
+        menuTitle={$_('common_actions')}
+        actionMenuItems={actionMenuItems}
+        on:click:closeMenu={closeActionMenu}
+        />
 
     <div class="{$lc.title} text-2xl text-orange-500 flex items-center">
         {#if mockList.starred}
@@ -183,17 +196,17 @@
         {/if}
         <span class="whitespace-nowrap overflow-hidden text-ellipsis">{properCapitalize(mockList.name)}</span>
         <button type="button" class="ml-auto"
-            on:click={openActionDialog}>
+            on:click={openActionMenu}>
             <FontAwesomeIcon icon={faEllipsisVertical} class="w-6 h-6"/>
         </button>
     </div>
     <div class="flex text-sm gap-3 {$lc.text}">
         {#if mockList.asignee}
             <div class="bg-orange-50 rounded-md px-2 py-0.5 flex gap-1 text-base lg:text-lg items-center">
-                <div class="text-lime-600">
+                <div class="text-emerald-600">
                     <FontAwesomeIcon
                         icon={faUser}
-                        class="text-lime-600"
+                        class="text-emerald-600"
                     />
                 </div>
                 <div class="text-neutral-800">
@@ -202,10 +215,10 @@
             </div>
         {/if}
         <div class="bg-orange-50 rounded-md px-2 py-0.5 flex gap-1 text-base lg:text-lg items-center">
-            <div class="text-lime-600">
+            <div class="text-emerald-600">
                 <FontAwesomeIcon
                     icon={faCalendar}
-                    class="text-lime-600"
+                    class="text-emerald-600"
                 />
             </div>
             <div class="text-neutral-800">
@@ -213,10 +226,10 @@
             </div>
         </div>
         <div class="bg-orange-50 rounded-md px-2 py-0.5 flex gap-1 text-base lg:text-lg items-center">
-            <div class="text-lime-600">
+            <div class="text-emerald-600">
                 <FontAwesomeIcon
                     icon={faBagShopping}
-                    class="text-lime-600"
+                    class="text-emerald-600"
                 />
             </div>
             <div class="text-neutral-800">
@@ -247,7 +260,7 @@
                                 <div 
                                     class="animate-spin rounded-full h-4 w-4 border-2 border-b-transparent border-orange-200"></div>
                             {:else if tickedItemIdxs.includes(item.idx) && !apiLoading.includes(item.idx)}
-                                <div class="absolute -top-[2px] -left-[2px] w-9 h-9 text-lime-600"
+                                <div class="absolute -top-[2px] -left-[2px] w-9 h-9 text-emerald-600"
                                 transition:fade>
                                     <FontAwesomeIcon 
                                         icon={faCheck}

@@ -63,8 +63,8 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>{$_('home_metaTitle')}</title>
+	<meta name="description" content="{$_('home_metaDescription')}" />
 </svelte:head>
 
 <div class="
@@ -103,10 +103,10 @@
 						<div class="flex text-sm gap-1 {$lc.text}">
 							{#if list.asignee}
 								<div class="bg-orange-50 rounded-md px-2 py-0.5 flex gap-1">
-									<div class="text-lime-600">
+									<div class="text-emerald-600">
 										<FontAwesomeIcon
 											icon={faUser}
-											class="text-lime-600"
+											class="text-emerald-600"
 										/>
 									</div>
 									<div class="text-neutral-800">
@@ -115,10 +115,10 @@
 								</div>
 							{/if}
 							<div class="bg-orange-50 rounded-md px-2 py-0.5 flex gap-1">
-								<div class="text-lime-600">
+								<div class="text-emerald-600">
 									<FontAwesomeIcon
 										icon={faCalendar}
-										class="text-lime-600"
+										class="text-emerald-600"
 									/>
 								</div>
 								<div class="text-neutral-800">
@@ -126,10 +126,10 @@
 								</div>
 							</div>
 							<div class="bg-orange-50 rounded-md px-2 py-0.5 flex gap-1">
-								<div class="text-lime-600">
+								<div class="text-emerald-600">
 									<FontAwesomeIcon
 										icon={faBagShopping}
-										class="text-lime-600"
+										class="text-emerald-600"
 									/>
 								</div>
 								<div class="text-neutral-800">
