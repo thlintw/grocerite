@@ -64,7 +64,7 @@
 
     const detectTrackPad = (e: WheelEvent) => {
         if (e.deltaY) {
-            if (Math.abs(e.deltaY) < 120) {
+            if (Math.abs(e.deltaY) < 80) {
                 return true;
             }
         }
@@ -106,7 +106,7 @@
                 shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden">
 
                 <div bind:this={iconsOuter}
-                    class="overflow-y-scroll overscroll-none {!innerAtStart ? 'left-mask' : ''}">
+                    class="overflow-y-scroll no-scrollbar overscroll-none {!innerAtStart ? 'left-mask' : ''}">
                     <div bind:this={iconsInner} 
                         on:scroll={changeStartEnd}
                         on:wheel|preventDefault={verticalToHorizontalScroll}
