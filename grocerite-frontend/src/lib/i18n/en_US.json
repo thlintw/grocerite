@@ -54,6 +54,7 @@
     "common_yes": "Yes",
     "common_no": "No",
     "common_ok": "OK",
-    "common_select": "Select"
+    "common_select": "Select",
+    "common_selectAnIcon": "Select an icon"
 }
   

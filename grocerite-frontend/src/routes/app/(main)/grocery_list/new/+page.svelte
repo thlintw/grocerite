@@ -15,21 +15,24 @@
         showDialog = false;
     };
 
+    let selectedIconPath: string = "";
+    let selectedIconIdx: number = -1;
+
     const getGroceryIcon = (iconPath: string) => {
+        closeIconDialog();
         const regex = /groceryList-icon-(\d{2})\.png$/;
         const match = iconPath.match(regex);
         if (match && match[1]) {
-            console.log(parseInt(match[1], 10));
-            return parseInt(match[1], 10);
+            selectedIconPath = iconPath;
+            selectedIconIdx = parseInt(match[1], 10);
         }
-        return null;
     };
 </script>
 
 <IconSelectionDialog 
     showDialog={showDialog}
     mode="groceryList"
-    title="common_select"
+    title="common_selectAnIcon"
     on:click:selectIcon={(e) => {
         getGroceryIcon(e.detail.iconPath);
     }}
@@ -42,6 +45,12 @@
         </span>
     </div>
     <div class="w-full">
+        {#if selectedIconIdx !== -1}
+        <div class="flex items-center gap-3">
+            <img src={`/icons/groceryList/groceryList-icon-${String(selectedIconIdx).padStart(2, '0')}.png`} alt="icon" class="w-20" />
+            <span>selected idx: {selectedIconIdx}</span>
+        </div>
+        {/if}
         <button type="button" on:click={openIconDialog}>
             test icon dialog
         </button>

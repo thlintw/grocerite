@@ -6,7 +6,8 @@
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
     import { _ } from 'svelte-i18n';
     import { ContainerType } from '$lib/models/container';
-    import { createEventDispatcher, onMount } from 'svelte';
+    import { createEventDispatcher, onMount, afterUpdate, onDestroy } from 'svelte';
+    import type { UIEventHandler } from 'svelte/elements';
 
     const dispatch = createEventDispatcher();
 
@@ -56,19 +57,36 @@
     let innerAtStart: boolean = true;
     let innerAtEnd: boolean = false;
 
-    const watchIconsInner = () => {
-        if (iconsInner) {
-            iconsInner.addEventListener('scroll', () => {
-                innerAtStart = iconsInner.scrollLeft <= 0;
-                innerAtEnd = iconsInner.scrollLeft + iconsInner.clientWidth >= iconsInner.scrollWidth;
-            });
+    const changeStartEnd = () => {
+        innerAtStart = iconsInner.scrollLeft <= 0;
+        innerAtEnd = iconsInner.scrollLeft + iconsInner.clientWidth >= iconsInner.scrollWidth;
+    };
+
+    const detectTrackPad = (e: WheelEvent) => {
+        if (e.deltaY) {
+            if (Math.abs(e.deltaY) < 120) {
+                return true;
+            }
+        }
+        else if (e.deltaMode === 0) {
+            return true;
+        }
+        return false;
+    }
+
+    const verticalToHorizontalScroll = (event: WheelEvent) => {
+        let dy = event.deltaY;
+        
+        if (!detectTrackPad(event)) {
+            event.preventDefault();
+            iconsInner.scrollLeft += dy / 5;
         }
     };
 
-    onMount(() => {
-        if (iconsInner) watchIconsInner();
-    });
-
+    $: if (!showDialog) {
+        innerAtStart = true;
+        innerAtEnd = false;
+    }
     
 </script>
 
@@ -78,7 +96,7 @@
     <div transition:scaleFade
         class="fixed top-0 right-0 bottom-0 left-0 z-[11001] pointer-events-none 
             flex items-center justify-center">
-        <div class="pointer-events-auto z-[11002] flex flex-col lg:w-[40rem] xl:w-[50rem] w-11/12
+        <div class="pointer-events-auto z-[11002] flex flex-col lg:w-[40rem] 2xl:w-[55rem] w-11/12
             ">
             <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
@@ -88,12 +106,15 @@
                 shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden">
 
                 <div bind:this={iconsOuter}
-                    class="overflow-y-scroll {!innerAtStart ? 'left-mask' : ''}">
+                    class="overflow-y-scroll overscroll-none {!innerAtStart ? 'left-mask' : ''}">
                     <div bind:this={iconsInner} 
-                        class="w-full flex-nowrap flex no-scrollbar overflow-y-scroll {!innerAtEnd ? 'right-mask' : ''}">
+                        on:scroll={changeStartEnd}
+                        on:wheel|preventDefault={verticalToHorizontalScroll}
+                        class="w-full flex-nowrap flex no-scrollbar overflow-y-scroll overscroll-none
+                         {!innerAtEnd ? 'right-mask' : ''}">
                         {#each iconList as icon}
-                            <div class="hover:bg-orange-100 rounded-md flex pr-2">
-                                <button type="button" class="w-full flex  text-lg items-center"
+                            <div class="rounded-md flex p-2 hover:bg-orange-100 ">
+                                <button type="button" class="w-full flex text-lg items-center justify-center "
                                     on:click={() => onSelect(icon)}>
                                     <div class="w-16 text-base text-orange-500">
                                         <img src={icon} alt="icon" />

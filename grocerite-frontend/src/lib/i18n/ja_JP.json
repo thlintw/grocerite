@@ -54,6 +54,7 @@
     "common_yes": "はい",
     "common_no": "いいえ",
     "common_ok": "OK",
-    "common_select": "選択"
+    "common_select": "選択",
+    "common_selectAnIcon": "アイコンを選択"
 }
 
