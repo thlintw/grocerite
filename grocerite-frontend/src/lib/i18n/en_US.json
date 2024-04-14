@@ -52,6 +52,8 @@
     "groceryList_sureWantToComplete": "Are you sure you want to complete this list?",
     "groceryList_sureWantToDelete": "Are you sure you want to delete this list?",
     "common_yes": "Yes",
-    "common_no": "No"
+    "common_no": "No",
+    "common_ok": "OK",
+    "common_select": "Select"
 }
   

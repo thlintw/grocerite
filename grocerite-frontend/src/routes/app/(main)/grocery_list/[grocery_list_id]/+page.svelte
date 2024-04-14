@@ -146,6 +146,7 @@
     let showActionMenu = false;
     
     const openActionMenu = () => {
+        console.log('open action menu');
         showActionMenu = true;
     };
 
@@ -261,7 +262,7 @@
             </div>
         </div>
         <button type="button" class="bg-orange-50 rounded-md px-1.5 py-0.5 ml-auto text-orange-500 flex items-center"
-            on:click={openActionMenu}>
+            on:click={openActionMenu} on:touchstart={openActionMenu}>
             <FontAwesomeIcon icon={faBars} class="w-6 h-6"/>
         </button>
     </div>

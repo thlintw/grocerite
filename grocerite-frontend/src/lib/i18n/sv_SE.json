@@ -52,6 +52,8 @@
     "groceryList_sureWantToComplete": "Är du säker på att du vill markera den här listan som slutförd?",
     "groceryList_sureWantToDelete": "Är du säker på att du vill ta bort den här listan?",
     "common_yes": "Ja",
-    "common_no": "Nej"
+    "common_no": "Nej",
+    "common_ok": "OK",
+    "common_select": "Välj"
 }
   

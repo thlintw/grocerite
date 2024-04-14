@@ -52,6 +52,8 @@
     "groceryList_sureWantToComplete": "您確定要完成此清單嗎？",
     "groceryList_sureWantToDelete": "您確定要刪除此清單嗎？",
     "common_yes": "是",
-    "common_no": "否"
+    "common_no": "否",
+    "common_ok": "確定",
+    "common_select": "選擇"
 }
   

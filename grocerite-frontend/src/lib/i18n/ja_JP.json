@@ -52,6 +52,8 @@
     "groceryList_sureWantToComplete": "このリストを完了してもよろしいですか？",
     "groceryList_sureWantToDelete": "このリストを削除してもよろしいですか？",
     "common_yes": "はい",
-    "common_no": "いいえ"
+    "common_no": "いいえ",
+    "common_ok": "OK",
+    "common_select": "選択"
 }
 

@@ -21,7 +21,7 @@ export default {
       },
       fontFamily: {
         berkshire: ['Berkshire Swash', 'cursive'],
-      },
+      }
     },
   },
   plugins: [
