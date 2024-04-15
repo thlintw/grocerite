@@ -106,12 +106,14 @@
                 shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden">
 
                 <div bind:this={iconsOuter}
-                    class="overflow-y-scroll no-scrollbar overscroll-none {!innerAtStart ? 'left-mask' : ''}">
+                    class="overflow-y-scroll no-scrollbar overscroll-none">
                     <div bind:this={iconsInner} 
                         on:scroll={changeStartEnd}
                         on:wheel|preventDefault={verticalToHorizontalScroll}
                         class="w-full flex-nowrap flex no-scrollbar overflow-y-scroll overscroll-none
-                         {!innerAtEnd ? 'right-mask' : ''}">
+                        {innerAtStart ? 'right-mask' : ''}
+                        {!innerAtEnd && !innerAtStart ? 'both-mask' : ''}
+                         {innerAtEnd ? 'left-mask' : ''}">
                         {#each iconList as icon}
                             <div class="rounded-md flex p-2 hover:bg-orange-100 ">
                                 <button type="button" class="w-full flex text-lg items-center justify-center "
