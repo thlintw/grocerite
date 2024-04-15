@@ -102,20 +102,22 @@
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
                 { $_(title) }
             </div>
-            <div class="bg-orange-50 rounded-2xl flex gap-3 px-3 py-5
+            <div class="bg-orange-50 rounded-2xl flex gap-3 py-5
                 shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden">
 
                 <div bind:this={iconsOuter}
                     class="overflow-y-scroll no-scrollbar overscroll-none">
                     <div bind:this={iconsInner} 
                         on:scroll={changeStartEnd}
-                        on:wheel|preventDefault={verticalToHorizontalScroll}
-                        class="w-full flex-nowrap flex no-scrollbar overflow-y-scroll overscroll-none
-                        {innerAtStart ? 'right-mask' : ''}
-                        {!innerAtEnd && !innerAtStart ? 'both-mask' : ''}
-                         {innerAtEnd ? 'left-mask' : ''}">
+                        on:wheel={verticalToHorizontalScroll}
+                        class="
+                            w-full flex-nowrap flex no-scrollbar overflow-y-scroll overscroll-none px-5
+                            { innerAtStart ? 'right-mask' : '' }
+                            { !innerAtEnd && !innerAtStart ? 'both-mask' : '' }
+                            { innerAtEnd ? 'left-mask' : '' }
+                        ">
                         {#each iconList as icon}
-                            <div class="rounded-md flex p-2 hover:bg-orange-100 ">
+                            <div class="rounded-md flex p-2 hover:bg-orange-100">
                                 <button type="button" class="w-full flex text-lg items-center justify-center "
                                     on:click={() => onSelect(icon)}>
                                     <div class="w-16 text-base text-orange-500">

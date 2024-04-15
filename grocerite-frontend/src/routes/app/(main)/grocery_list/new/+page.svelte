@@ -4,6 +4,7 @@
     import { _ } from "svelte-i18n";
     import { lc, showLoadingOverlay } from "$lib/stores/general";
     import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
+    import FormInput from "$lib/components/FormInput.svelte";
 
     let showDialog = false;
 
@@ -55,4 +56,9 @@
             test icon dialog
         </button>
     </div>
+    <FormInput 
+        id="test"
+        label="This is label"
+        placeholder="This is placeholder"
+    />
 </div>
