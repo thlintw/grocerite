@@ -4,6 +4,7 @@
 	import flagJaJp from '$lib/images/flag-ja-JP.png';
 	import flagSvSe from '$lib/images/flag-sv-SE.png';
 	import flagZhTw from '$lib/images/flag-zh-TW.png';
+	import flagFrFr from '$lib/images/flag-fr-FR.png';
 	import { scaleFade } from '$lib/transitions';
 
 	$: l = $locale;
@@ -20,6 +21,8 @@
 				return flagSvSe;
 			case 'zh-TW':
 				return flagZhTw;
+			case 'fr-FR':
+				return flagFrFr;
 			default:
 				return flagEnUs;
 		}
@@ -35,6 +38,8 @@
 				return 'Svenska';
 			case 'zh-TW':
 				return '正體中文';
+			case 'fr-FR':
+				return 'Français';
 			default:
 				return 'English';
 		}

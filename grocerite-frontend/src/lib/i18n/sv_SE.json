@@ -55,6 +55,11 @@
     "common_no": "Nej",
     "common_ok": "OK",
     "common_select": "Välj",
-    "common_selectAnIcon": "Välj en ikon"
+    "common_selectAnIcon": "Välj en ikon",
+    "common_isOffLine": "För närvarande ingen internetanslutning, ändringar kommer inte att synkroniseras.",
+    "groceryList_newListDefaultName": "Inköpslista",
+    "groceryList_labelListName": "Listnamn",
+    "groceryList_placeholderListName": "Namn på din lista",
+    "groceryList_labelListIcon": "Listikon"
 }
   

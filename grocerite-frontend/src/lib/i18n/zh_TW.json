@@ -55,6 +55,11 @@
     "common_no": "否",
     "common_ok": "確定",
     "common_select": "選擇",
-    "common_selectAnIcon": "選擇圖示"
+    "common_selectAnIcon": "選擇圖示",
+    "common_isOffLine": "目前沒有網路連線，變更將不會同步。",
+    "groceryList_newListDefaultName": "購物清單",
+    "groceryList_labelListName": "清單名稱",
+    "groceryList_placeholderListName": "例如：週末購物清單",
+    "groceryList_labelListIcon": "清單圖示"
 }
   

@@ -55,6 +55,11 @@
     "common_no": "No",
     "common_ok": "OK",
     "common_select": "Select",
-    "common_selectAnIcon": "Select an icon"
+    "common_selectAnIcon": "Select an icon",
+    "common_isOffLine": "Currently no internet connection, changes will not be synced.",
+    "groceryList_newListDefaultName": "Shopping List",
+    "groceryList_labelListName": "List Name",
+    "groceryList_placeholderListName": "Enter list name",
+    "groceryList_labelListIcon": "List Icon"
 }
   

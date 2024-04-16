@@ -6,11 +6,12 @@
     export let label: string | null = "";
     export let error: string | null = "";
     export let placeholder: string | null = "";
+    export let value: string | null = "";
 </script>
 
 <div class="w-full {$lc.text} flex flex-col gap-1">
     {#if label}
-        <label for={id} class="block text-base text-neutral-700 { error? ' text-red-500' : '' }">
+        <label for={id} class="block text-lg text-neutral-700 { error? ' text-red-500' : '' }">
             {label}
         </label>
     {/if}
@@ -24,6 +25,7 @@
             focus:outline-none focus:ring focus:ring-orange-300 focus:border-orange-500
         "
         placeholder={placeholder}
+        bind:value={value}
         />
     {#if error}
         <div class="text-red-500 text-sm ml-2">

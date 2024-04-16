@@ -55,6 +55,11 @@
     "common_no": "いいえ",
     "common_ok": "OK",
     "common_select": "選択",
-    "common_selectAnIcon": "アイコンを選択"
+    "common_selectAnIcon": "アイコンを選択",
+    "common_isOffLine": "インターネットに接続されていません。変更は同期されません。",
+    "groceryList_newListDefaultName": "買い物リスト",
+    "groceryList_labelListName": "リスト名",
+    "groceryList_placeholderListName": "例: 週末の食料品",
+    "groceryList_labelListIcon": "リストアイコン"
 }
 
