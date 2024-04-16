@@ -26,8 +26,6 @@ export default {
   },
   safelist: [
     // orange outline button
-    'focus:ring-4',
-    'focus:outline-none',
     'border-orange-500',
     'text-orange-500',
     'hover:bg-orange-500',
@@ -39,14 +37,30 @@ export default {
     'dark:hover:text-white',
     'dark:focus:ring-orange-800',
     // orange button
-    'focus:ring-4',
-    'focus:outline-none',
     'bg-orange-500',
     'hover:bg-orange-600',
     'focus:ring-orange-300',
     'dark:bg-orange-600',
     'dark:hover:bg-orange-700',
-    'dark:focus:ring-orange-800'
+    'dark:focus:ring-orange-800',
+    // emerald outline button
+    'border-emerald-500',
+    'text-emerald-500',
+    'hover:bg-emerald-500',
+    'hover:text-white',
+    'focus:ring-emerald-300',
+    'dark:border-emerald-300',
+    'dark:text-emerald-300',
+    'dark:hover:bg-emerald-300',
+    'dark:hover:text-white',
+    'dark:focus:ring-emerald-800',
+    // emerald button
+    'bg-emerald-500',
+    'hover:bg-emerald-600',
+    'focus:ring-emerald-300',
+    'dark:bg-emerald-600',
+    'dark:hover:bg-emerald-700',
+    'dark:focus:ring-emerald-800'
   ],
   plugins: [
     plugin(function({ addUtilities, theme }) {
