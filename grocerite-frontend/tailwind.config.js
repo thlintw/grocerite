@@ -24,6 +24,30 @@ export default {
       }
     },
   },
+  safelist: [
+    // orange outline button
+    'focus:ring-4',
+    'focus:outline-none',
+    'border-orange-500',
+    'text-orange-500',
+    'hover:bg-orange-500',
+    'hover:text-white',
+    'focus:ring-orange-300',
+    'dark:border-orange-300',
+    'dark:text-orange-300',
+    'dark:hover:bg-orange-300',
+    'dark:hover:text-white',
+    'dark:focus:ring-orange-800',
+    // orange button
+    'focus:ring-4',
+    'focus:outline-none',
+    'bg-orange-500',
+    'hover:bg-orange-600',
+    'focus:ring-orange-300',
+    'dark:bg-orange-600',
+    'dark:hover:bg-orange-700',
+    'dark:focus:ring-orange-800'
+  ],
   plugins: [
     plugin(function({ addUtilities, theme }) {
       const newUtilities = {};

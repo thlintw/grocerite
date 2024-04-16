@@ -48,6 +48,7 @@
     "common_wakingServer": "Waking up server...",
     "common_by": "by",
     "newListForm_createNewList": "Create a new list",
+    "common_cancel": "Cancel",
     "common_confirm": "Confirm",
     "groceryList_sureWantToComplete": "Are you sure you want to complete this list?",
     "groceryList_sureWantToDelete": "Are you sure you want to delete this list?",
@@ -58,8 +59,9 @@
     "common_selectAnIcon": "Select an icon",
     "common_isOffLine": "Currently no internet connection, changes will not be synced.",
     "groceryList_newListDefaultName": "Shopping List",
-    "groceryList_labelListName": "List Name",
-    "groceryList_placeholderListName": "Enter list name",
-    "groceryList_labelListIcon": "List Icon"
+    "groceryList_labelListName": "Name",
+    "groceryList_listNameDialogTitle": "Enter list name",
+    "groceryList_placeholderListName": "Enter list name here",
+    "groceryList_labelListIcon": "Icon"
 }
   

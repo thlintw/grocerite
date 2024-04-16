@@ -1,13 +1,10 @@
 <script lang="ts">
-    import { fade } from 'svelte/transition';
-    import { scaleFade } from '$lib/transitions';
-    import { dialog } from '$lib/stores/dialogStore';
-    import { lc } from '$lib/stores/general';
-    import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
-    import { _ } from 'svelte-i18n';
     import { ContainerType } from '$lib/models/container';
-    import { createEventDispatcher, onMount, afterUpdate, onDestroy } from 'svelte';
-    import type { UIEventHandler } from 'svelte/elements';
+    import { lc } from '$lib/stores/general';
+    import { scaleFade } from '$lib/transitions';
+    import { createEventDispatcher } from 'svelte';
+    import { _ } from 'svelte-i18n';
+    import { fade } from 'svelte/transition';
 
     const dispatch = createEventDispatcher();
 
@@ -91,7 +88,7 @@
 </script>
 
 {#if showDialog}
-    <button transition:fade on:click={onBarrierDismiss} disabled={!$dialog.barrierDismiss}
+    <button transition:fade on:click={onBarrierDismiss} 
         class="fixed inset-0 left-0 top-0 w-full h-full z-[11000] bg-neutral-700/20"></button>
     <div transition:scaleFade
         class="fixed top-0 right-0 bottom-0 left-0 z-[11001] pointer-events-none 

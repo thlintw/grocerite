@@ -59,7 +59,8 @@
     "common_isOffLine": "目前沒有網路連線，變更將不會同步。",
     "groceryList_newListDefaultName": "購物清單",
     "groceryList_labelListName": "清單名稱",
-    "groceryList_placeholderListName": "例如：週末購物清單",
+    "groceryList_listNameDialogTitle": "輸入列表名稱",
+    "groceryList_placeholderListName": "在此輸入列表名稱",
     "groceryList_labelListIcon": "清單圖示"
 }
   

@@ -6,16 +6,17 @@
     import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import FormInput from "$lib/components/FormInput.svelte";
     import Button from "$lib/components/Button.svelte";
+    import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
+    import { faComment, faPen, faSun, faUser } from "@fortawesome/free-solid-svg-icons";
+    import TextInputDialog from "$lib/components/TextInputDialog.svelte";
 
-    let showDialog = false;
+    let showIconDialog = false;
 
-    const openIconDialog = () => {
-        showDialog = true;
-    };
+    const setIconDialog = (value: boolean) => showIconDialog = value;
 
-    const closeIconDialog = () => {
-        showDialog = false;
-    };
+    let showListNameDialog = false;
+
+    const setListNameDialog = (value: boolean) => showListNameDialog = value;
 
 
     let listName: string = '';
@@ -41,7 +42,7 @@
     };
 
     const getGroceryIcon = (iconPath: string) => {
-        closeIconDialog();
+        setIconDialog(false);
         const regex = /groceryList-icon-(\d{2})\.png$/;
         const match = iconPath.match(regex);
         if (match && match[1]) {
@@ -49,52 +50,89 @@
             listIconIdx = parseInt(match[1], 10);
         }
     };
-    
+
+    const handleListNameKeyUp = (e: CustomEvent) => {
+        const key = e.detail.key;
+        if (key === 'Enter' || key === 'Escape') {
+            setListNameDialog(false);
+        }
+    };
+
 </script>
 
 <div class="flex flex-col w-full gap-3 {$lc.text}">
 
     <IconSelectionDialog 
-        showDialog={showDialog}
+        showDialog={showIconDialog}
         mode="groceryList"
         title="common_selectAnIcon"
         on:click:selectIcon={(e) => {
             getGroceryIcon(e.detail.iconPath);
         }}
-        on:click:barrierDismiss={closeIconDialog}
+        on:click:barrierDismiss={(e) => {
+            setIconDialog(false);
+        }}
     />
+
+    <TextInputDialog
+        title="groceryList_listNameDialogTitle"
+        showDialog={showListNameDialog}
+        bind:value={listName}
+        placeholder="groceryList_placeholderListName"
+        showRefreshButton={true}
+        on:click:barrierDismiss={(e) => {
+            setListNameDialog(false);
+        }}
+        on:keyup={handleListNameKeyUp}
+        on:click:refresh={() => {
+            getLocalizedDefaultName();
+        }}
+        />
+
 
     <div class="{$lc.title} text-2xl text-orange-500 flex items-center">
         <span class="whitespace-nowrap overflow-hidden text-ellipsis">
             {$_('newListForm_createNewList')}
         </span>
     </div>
-    <div class="mt-2 flex flex-col gap-3">
-        <FormInput 
-            id="listName"
-            label={$_('groceryList_labelListName')}
-            placeholder={$_('groceryList_placeholderListName')}
-            bind:value={listName}
-        />
-
-        <div class="w-full flex-col">
-            <div class="{$lc.text} block text-lg text-neutral-700">
-                {$_('groceryList_labelListIcon')}
-            </div>
-            <div class="w-full flex gap-3 items-center">
-                <div class="flex items-center gap-3 p-3 bg-orange-50 rounded-lg">
-                    <img src={listIconPath} alt="icon" class="w-20" />
+    <div class="grid gap-3 w-full grid-cols-2 2xl:grid-cols-3">
+        <button class="flex flex-col rounded-xl bg-orange-50 p-2 shrink-0"
+            on:click={() => setListNameDialog(true)}>
+            <div class="flex items-center gap-2 text-lg w-full px-2">
+                <FontAwesomeIcon
+                    icon={faComment}
+                    class="text-emerald-700"
+                    />
+                <span>{$_('groceryList_labelListName')}</span>
+                <div class="ml-auto">
+                    <FontAwesomeIcon
+                        icon={faPen}
+                        class="text-orange-500"
+                        />
                 </div>
-                <!-- <button type="button" on:click={openIconDialog}
-                    class="p-2 bg-orange-500 rounded-lg text-white">
-                    {$_('common_select')}
-                </button> -->
-
-                <Button
-                    text={$_('common_select')}
-                    on:click={openIconDialog}
-                />
             </div>
-        </div>
+            <div class="flex grow font-bold px-3 py-1 justify-center items-center text-left">
+                <span>{listName}</span>
+            </div>
+        </button>
+        <button class="flex flex-col rounded-xl bg-orange-50 p-2 shrink-0" 
+            on:click={() => setIconDialog(true)}>
+            <div class="flex items-center gap-2 text-lg w-full">
+                <FontAwesomeIcon
+                    icon={faSun}
+                    class="text-emerald-700"
+                    />
+                <span>{$_('groceryList_labelListIcon')}</span>
+                <div class="ml-auto">
+                    <FontAwesomeIcon
+                        icon={faPen}
+                        class="text-orange-500"
+                        />
+                </div>
+            </div>
+            <div class="flex font-bold px-3 py-1 items-center justify-center overflow-hidden w-full">
+                <img src={listIconPath} alt="icon" class="w-20" />
+            </div>
+        </button>
     </div>
 </div>

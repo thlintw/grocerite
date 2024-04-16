@@ -14,6 +14,7 @@
     export let text = ''; 
     export let outline = false;
     export let icon: IconDefinition | null = null;
+    export let cls = '';
     
     const sizeClass = (size: string) => {
         switch (size) {
@@ -28,9 +29,9 @@
   
     const colorClass = (color: string) => {
         if (outline) {
-            return `border-${color}-500 text-${color}-500 hover:bg-${color}-500 hover:text-white focus:ring-${color}-300 dark:border-${color}-300 dark:text-${color}-300 dark:hover:bg-${color}-300 dark:hover:text-white dark:focus:ring-${color}-800`;
+            return `border-2 border-${color}-500 text-${color}-500 hover:bg-${color}-500 hover:text-white focus:ring-${color}-300 dark:border-${color}-300 dark:text-${color}-300 dark:hover:bg-${color}-300 dark:hover:text-white dark:focus:ring-${color}-800`;
         } else {
-            return `bg-${color}-500 hover:bg-${color}-600 focus:ring-${color}-300 dark:bg-${color}-600 dark:hover:bg-${color}-700 dark:focus:ring-${color}-800`;
+            return `text-white bg-${color}-500 hover:bg-${color}-600 focus:ring-${color}-300 dark:bg-${color}-600 dark:hover:bg-${color}-700 dark:focus:ring-${color}-800`;
         }
     }
 </script>
@@ -38,13 +39,14 @@
 <button
     type="button"
     class="
-        flex transition-all duration-300 items-center justify-center
-        font-medium rounded-lg text-center text-white focus:ring-4 focus:outline-none
+        flex transition-all duration-300 items-center justify-center gap-2
+        font-medium rounded-full text-center focus:ring-4 focus:outline-none
         {colorClass(color)} {sizeClass(size)}
+        {cls}
     "
     on:click={onButtonClick}>
     {#if icon}
-        <FontAwesomeIcon icon={icon} class="mr-2" />
+        <FontAwesomeIcon icon={icon} class="" />
     {/if}
     {text}
 </button>

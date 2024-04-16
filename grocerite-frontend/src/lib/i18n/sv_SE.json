@@ -48,6 +48,7 @@
     "common_wakingServer": "Väcker servern...",
     "common_by": "av",
     "newListForm_createNewList": "Skapa ny lista",
+    "common_cancel": "Avbryt",
     "common_confirm": "Bekräfta",
     "groceryList_sureWantToComplete": "Är du säker på att du vill markera den här listan som slutförd?",
     "groceryList_sureWantToDelete": "Är du säker på att du vill ta bort den här listan?",
@@ -58,8 +59,9 @@
     "common_selectAnIcon": "Välj en ikon",
     "common_isOffLine": "För närvarande ingen internetanslutning, ändringar kommer inte att synkroniseras.",
     "groceryList_newListDefaultName": "Inköpslista",
-    "groceryList_labelListName": "Listnamn",
-    "groceryList_placeholderListName": "Namn på din lista",
-    "groceryList_labelListIcon": "Listikon"
+    "groceryList_labelListName": "Namn på listan",
+    "groceryList_listNameDialogTitle": "Ange listnamn",
+    "groceryList_placeholderListName": "Ange listnamn här",
+    "groceryList_labelListIcon": "Välj en ikon"
 }
   

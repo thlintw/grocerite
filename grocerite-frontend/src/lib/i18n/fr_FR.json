@@ -59,6 +59,7 @@
     "common_isOffLine": "Actuellement pas de connexion Internet, les modifications ne seront pas synchronisées.",
     "groceryList_newListDefaultName": "Liste de courses",
     "groceryList_labelListName": "Nom de la liste",
-    "groceryList_placeholderListName": "Entrez le nom de la liste",
+    "groceryList_listNameDialogTitle": "Entrez le nom de la liste",
+    "groceryList_placeholderListName": "Entrez le nom de la liste ici",
     "groceryList_labelListIcon": "Icône de la liste"
 }
