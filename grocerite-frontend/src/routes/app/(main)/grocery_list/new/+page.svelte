@@ -1,15 +1,11 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-    import { page } from "$app/stores";
-    import { _, locale } from "svelte-i18n";
-    import { lc, showLoadingOverlay } from "$lib/stores/general";
     import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
-    import FormInput from "$lib/components/FormInput.svelte";
-    import Button from "$lib/components/Button.svelte";
-    import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
-    import { faComment, faPen, faSun, faUser } from "@fortawesome/free-solid-svg-icons";
-    import TextInputDialog from "$lib/components/TextInputDialog.svelte";
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
+    import TextInputDialog from "$lib/components/TextInputDialog.svelte";
+    import { lc } from "$lib/stores/general";
+    import { faCalendar, faComment, faSun, faUser } from "@fortawesome/free-solid-svg-icons";
+    import { onMount } from "svelte";
+    import { _, locale } from "svelte-i18n";
 
     let showIconDialog = false;
 
@@ -96,7 +92,7 @@
             {$_('newListForm_createNewList')}
         </span>
     </div>
-    <div class="grid gap-3 w-full grid-cols-2 2xl:grid-cols-3">
+    <div class="grid gap-3 w-full grid-cols-2">
         <ListPropCardButton
             onClick={() => setListNameDialog(true)}
             icon={faComment}
@@ -105,29 +101,26 @@
             <span>{listName}</span>
         </ListPropCardButton>
 
-        <!-- <button class="flex flex-col rounded-xl bg-orange-50 p-2 shrink-0" 
-            on:click={() => setIconDialog(true)}>
-            <div class="flex items-center gap-2 text-lg w-full px-2">
-                <FontAwesomeIcon
-                    icon={faSun}
-                    class="text-emerald-700"
-                    />
-                <span>{$_('groceryList_labelListIcon')}</span>
-                <div class="ml-auto">
-                    <FontAwesomeIcon
-                        icon={faPen}
-                        class="text-orange-500"
-                        />
-                </div>
-            </div>
-            <div class="flex font-bold px-3 py-1 items-center justify-center overflow-hidden w-full">
-                <img src={listIconPath} alt="icon" class="w-20" />
-            </div>
-        </button> -->
         <ListPropCardButton
             onClick={() => setIconDialog(true)}
             icon={faSun}
             headerText={$_('groceryList_labelListIcon')}
+            >
+            <img src={listIconPath} alt="icon" class="w-20" />
+        </ListPropCardButton>
+
+        <ListPropCardButton
+            onClick={() => setIconDialog(true)}
+            icon={faCalendar}
+            headerText={$_('groceryList_labelListDeadline')}
+            >
+            <img src={listIconPath} alt="icon" class="w-20" />
+        </ListPropCardButton>
+
+        <ListPropCardButton
+            onClick={() => setIconDialog(true)}
+            icon={faUser}
+            headerText={$_('groceryList_labelListAsignee')}
             >
             <img src={listIconPath} alt="icon" class="w-20" />
         </ListPropCardButton>

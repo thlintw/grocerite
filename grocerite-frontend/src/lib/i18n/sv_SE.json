@@ -62,6 +62,10 @@
     "groceryList_labelListName": "Namn på listan",
     "groceryList_listNameDialogTitle": "Ange listnamn",
     "groceryList_placeholderListName": "Ange listnamn här",
-    "groceryList_labelListIcon": "Välj en ikon"
+    "groceryList_labelListIcon": "Välj en ikon",
+    "groceryList_labelListDeadline": "Deadline",
+    "groceryList_placeholderSelectDeadline": "Välj datum",
+    "groceryList_labelListAsignee": "Tilldelad",
+    "groceryList_placeholderSelectAsignee": "Välj tilldelad"
 }
   

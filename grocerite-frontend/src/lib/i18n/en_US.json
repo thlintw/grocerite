@@ -62,6 +62,10 @@
     "groceryList_labelListName": "Name",
     "groceryList_listNameDialogTitle": "Enter list name",
     "groceryList_placeholderListName": "Enter list name here",
-    "groceryList_labelListIcon": "Icon"
+    "groceryList_labelListIcon": "Icon",
+    "groceryList_labelListDeadline": "Deadline",
+    "groceryList_placeholderSelectDeadline": "Select a date",
+    "groceryList_labelListAsignee": "Asignee",
+    "groceryList_placeholderSelectAsignee": "Select asignee"
 }
   

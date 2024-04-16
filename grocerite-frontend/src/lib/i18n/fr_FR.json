@@ -61,5 +61,9 @@
     "groceryList_labelListName": "Nom de la liste",
     "groceryList_listNameDialogTitle": "Entrez le nom de la liste",
     "groceryList_placeholderListName": "Entrez le nom de la liste ici",
-    "groceryList_labelListIcon": "Icône de la liste"
+    "groceryList_labelListIcon": "Icône de la liste",
+    "groceryList_labelListDeadline": "Date limite",
+    "groceryList_placeholderSelectDeadline": "Sélectionnez une date",
+    "groceryList_labelListAsignee": "Assigné",
+    "groceryList_placeholderSelectAsignee": "Sélectionnez un assigné"
 }

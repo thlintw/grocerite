@@ -61,6 +61,10 @@
     "groceryList_labelListName": "清單名稱",
     "groceryList_listNameDialogTitle": "輸入列表名稱",
     "groceryList_placeholderListName": "在此輸入列表名稱",
-    "groceryList_labelListIcon": "清單圖示"
+    "groceryList_labelListIcon": "清單圖示",
+    "groceryList_labelListDeadline": "截止日期",
+    "groceryList_placeholderSelectDeadline": "選擇日期",
+    "groceryList_labelListAsignee": "指派人",
+    "groceryList_placeholderSelectAsignee": "選擇指派人"
 }
   

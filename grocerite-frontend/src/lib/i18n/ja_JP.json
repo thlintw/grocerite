@@ -48,6 +48,7 @@
     "common_wakingServer": "サーバーを起動しています",
     "common_by": "",
     "newListForm_createNewList": "新しいリストを作成",
+    "common_cancel": "キャンセル",
     "common_confirm": "確認",
     "groceryList_sureWantToComplete": "このリストを完了してもよろしいですか？",
     "groceryList_sureWantToDelete": "このリストを削除してもよろしいですか？",
@@ -61,6 +62,10 @@
     "groceryList_labelListName": "リストの名前",
     "groceryList_listNameDialogTitle": "リスト名を入力",
     "groceryList_placeholderListName": "ここにリスト名を入力",
-    "groceryList_labelListIcon": "リストアイコン"
+    "groceryList_labelListIcon": "リストアイコン",
+    "groceryList_labelListDeadline": "締め切り",
+    "groceryList_placeholderSelectDeadline": "日付を選択",
+    "groceryList_labelListAsignee": "担当者",
+    "groceryList_placeholderSelectAsignee": "担当者を選択"
 }
 
