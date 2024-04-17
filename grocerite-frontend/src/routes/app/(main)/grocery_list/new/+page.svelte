@@ -60,6 +60,61 @@
         }
     };
 
+
+
+    const tempMemberList = [
+        {
+            iconPath: '/icons/avatar/fp/avatar-fp-01.png',
+            label: 'Alice',
+            value: 'Alice'
+        },
+        {
+            iconPath: '/icons/avatar/mp/avatar-mp-02.png',
+            label: 'Bob',
+            value: 'Bob'
+        },
+        {
+            iconPath: '/icons/avatar/nb/avatar-nb-03.png',
+            label: 'Charlie',
+            value: 'Charlie'
+        },
+        {
+            iconPath: '/icons/avatar/fp/avatar-fp-04.png',
+            label: 'Diana',
+            value: 'Diana'
+        },
+        {
+            iconPath: '/icons/avatar/mp/avatar-mp-05.png',
+            label: 'Eve',
+            value: 'Eve'
+        },
+        {
+            iconPath: '/icons/avatar/nb/avatar-nb-05.png',
+            label: 'Frank',
+            value: 'Frank'
+        },
+        {
+            iconPath: '/icons/avatar/fp/avatar-fp-07.png',
+            label: 'Grace',
+            value: 'Grace'
+        },
+        {
+            iconPath: '/icons/avatar/mp/avatar-mp-08.png',
+            label: 'Hank',
+            value: 'Hank'
+        },
+        {
+            iconPath: '/icons/avatar/nb/avatar-nb-01.png',
+            label: 'Ivy',
+            value: 'Ivy'
+        },
+        {
+            iconPath: '/icons/avatar/fp/avatar-fp-10.png',
+            label: 'Jack',
+            value: 'Jack'
+        },
+    ];
+
 </script>
 
 <div class="flex flex-col w-full gap-3 {$lc.text}">
@@ -97,6 +152,7 @@
         on:click:barrierDismiss={(e) => {
             setAssigneeDialog(false);
         }}
+        options={tempMemberList}
         />
 
     

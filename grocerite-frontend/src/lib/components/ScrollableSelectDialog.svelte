@@ -55,43 +55,49 @@
     <div transition:scaleFade
         class="fixed top-0 right-0 bottom-0 left-0 z-[11001] pointer-events-none 
             flex items-center justify-center">
-        <div class="pointer-events-auto z-[11002] flex flex-col lg:w-[40rem] 2xl:w-[55rem] w-11/12
+        <div class="pointer-events-auto z-[11002] flex flex-col lg:w-[30rem] 2xl:w-[35rem] w-11/12
             ">
             <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
                 { $_(title) }
             </div>
-            <div class="bg-orange-50 rounded-2xl flex gap-3 py-5
+            <div class="bg-orange-50 rounded-2xl flex gap-3 py-5 pb-2
                 shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden">
                 {#if options.length > 0}
                     <div bind:this={optionsOuter}
-                        class="overflow-x-scroll no-scrollbar overscroll-none h-52 w-full">
+                        class="overflow-x-scroll no-scrollbar overscroll-none w-full flex 
+                        { options.length >= 3 ? 'items-start' : 'items-center' }
+                        { options.length >= 3 ? ' h-48' :
+                            options.length >= 2 ? 'h-40' : 'h-20'}">
                         <div bind:this={optionsInner} 
                             on:scroll={changeStartEnd}
                             class="
-                                w-full flex-col no-scrollbar overflow-x-scroll overscroll-none px-5
-                                { innerAtStart ? 'top-mask' : '' }
-                                { !innerAtEnd && !innerAtStart ? 'both-v-mask' : '' }
-                                { innerAtEnd ? 'bottom-mask' : '' }
+                                w-full flex-col no-scrollbar overflow-x-scroll overscroll-none px-5 max-h-full
+                                { innerAtStart && options.length >= 3 ? 'top-mask' : '' }
+                                { !innerAtEnd && options.length > 2 && !innerAtStart ? 'both-v-mask' : '' }
+                                { innerAtEnd && options.length > 2 ? 'bottom-mask' : '' }
                             ">
                                 {#each options as opt}
                                     <div class="rounded-md flex p-2 hover:bg-orange-100">
                                         <button type="button" class="w-full h-full flex text-lg items-center justify-center"
                                             on:click={() => onSelect(opt)}>
-                                            {#if opt.icon}
-                                                <div class="w-16 text-base text-orange-500">
-                                                    <FontAwesomeIcon
-                                                        icon={opt.icon}
-                                                        class="text-2xl"
-                                                        />
-                                                </div>
-                                            {/if}
-                                            {#if opt.iconPath}
-                                                <div class="w-16 text-base text-orange-500">
-                                                    <img src={opt.iconPath} alt="icon" />
-                                                </div>
-                                            {/if}
-                                            <span>{opt.label}</span>
+                                            <div class="lg:w-9/12 w-11/12 flex justify-start items-center gap-3">
+                                                {#if opt.icon}
+                                                    <div class="w-16 text-base text-orange-500 bg-blue-300">
+                                                        <FontAwesomeIcon
+                                                            icon={opt.icon}
+                                                            class="text-2xl"
+                                                            />
+                                                    </div>
+                                                {/if}
+                                                {#if opt.iconPath}
+                                                    <div class="w-14 text-base text-orange-500 rounded-full overflow-hidden"
+                                                        style={`background-color: rgb(147 197 253);`}>
+                                                        <img src={opt.iconPath} alt="icon" />
+                                                    </div>
+                                                {/if}
+                                                <span>{opt.label}</span>
+                                            </div>
                                         </button>
                                     </div>
                                 {/each}
