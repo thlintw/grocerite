@@ -24,7 +24,7 @@
                 />
         </div>
     </div>
-    <div class="flex w-full grow font-bold px-3 py-1 justify-center items-center text-left">
+    <div class="flex w-full grow font-bold px-3 py-1 justify-center items-center text-left min-h-20">
         <slot></slot>
     </div>
 </button>

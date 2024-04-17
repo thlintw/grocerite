@@ -1,11 +1,12 @@
 <script lang="ts">
-    import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
+    import DateDialog from "$lib/components/DateDialog.svelte";
+import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
     import ScrollableSelectDialog from "$lib/components/ScrollableSelectDialog.svelte";
     import TextInputDialog from "$lib/components/TextInputDialog.svelte";
     import type { Member } from "$lib/models/household";
     import { lc } from "$lib/stores/general";
-    import { faCalendar, faComment, faSun, faUser, faUserAltSlash } from "@fortawesome/free-solid-svg-icons";
+    import { faCalendar, faCalendarXmark, faComment, faSun, faUser, faUserAltSlash } from "@fortawesome/free-solid-svg-icons";
     import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
     import { onMount } from "svelte";
     import { _, locale } from "svelte-i18n";
@@ -19,11 +20,15 @@
     let showAssigneeDialog = false;
     const setAssigneeDialog = (value: boolean) => showAssigneeDialog = value;
 
+    let showDeadlineDialog = false;
+    const setDeadlineDialog = (value: boolean) => showDeadlineDialog = value;
+
 
     let listName: string = '';
     let listIconPath: string = '';
     let listIconIdx: number = -1;
     let listAssignee: Member | null = null;
+    let listDeadline: Date | null = null;
 
     onMount(() => {
         getLocalizedDefaultName();
@@ -59,6 +64,12 @@
             setListNameDialog(false);
         }
     };
+
+    const getFormattedDeadline = (date: Date, locale: string) => {
+        return date.toLocaleDateString(locale);
+    };
+
+    $: formattedDeadline = listDeadline && $locale ? getFormattedDeadline(listDeadline, $locale) : '';
 
 
 
@@ -153,9 +164,23 @@
             setAssigneeDialog(false);
         }}
         options={tempMemberList}
+        on:click:selectOption={(e) => {
+            listAssignee = e.detail.option.value;
+            setAssigneeDialog(false);
+        }}
         />
 
-    
+    <DateDialog
+        showDialog={showDeadlineDialog}
+        title="groceryList_placeholderSelectDeadline"
+        on:click:barrierDismiss={(e) => {
+            setDeadlineDialog(false);
+        }}
+        on:click:selectDate={(e) => {
+            listDeadline = e.detail.date;
+            setDeadlineDialog(false);
+        }}
+        />
 
 
 
@@ -191,20 +216,26 @@
                 <div class="text-neutral-200">
                     <FontAwesomeIcon icon={faUserAltSlash} class="text-[3rem]" />
                 </div>
-                <span>{$_('groceryList_noAssignee')}</span>
             </div>
-            {/if}
-            {#if listAssignee}
-                <span>{listAssignee.name}</span>
+            {:else if listAssignee}
+                <span>{listAssignee.label}</span>
             {/if}
         </ListPropCardButton>
 
         <ListPropCardButton
-            onClick={() => setIconDialog(true)}
+            onClick={() => setDeadlineDialog(true)}
             icon={faCalendar}
             headerText={$_('groceryList_labelListDeadline')}
             >
-            <img src={listIconPath} alt="icon" class="w-20" />
+            {#if !listDeadline}
+            <div class="text-neutral-300 text-base font-normal flex items-center gap-2">
+                <div class="text-neutral-200">
+                    <FontAwesomeIcon icon={faCalendarXmark} class="text-[3rem]" />
+                </div>
+            </div>
+            {:else if listDeadline}
+                <span>{ formattedDeadline }</span>
+            {/if}
         </ListPropCardButton>
     </div>
 </div>
