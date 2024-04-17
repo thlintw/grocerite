@@ -66,6 +66,8 @@
     "groceryList_labelListDeadline": "締め切り",
     "groceryList_placeholderSelectDeadline": "日付を選択",
     "groceryList_labelListAsignee": "担当者",
-    "groceryList_placeholderSelectAsignee": "担当者を選択"
+    "groceryList_placeholderSelectAsignee": "担当者を選択",
+    "groceryList_noAssignee": "担当者なし",
+    "groceryList_noOtherMember": "他のメンバーなし"
 }
 

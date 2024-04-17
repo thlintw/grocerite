@@ -11,7 +11,7 @@
 
 <button class="flex flex-col rounded-xl bg-orange-50 p-2 shrink-0"
     on:click={onClick}>
-    <div class="flex items-center gap-2 text-lg w-full px-2">
+    <div class="flex items-center gap-2 text-sm lg:text-base w-full px-2">
         <FontAwesomeIcon
             icon={icon}
             class="text-emerald-700"

@@ -65,6 +65,8 @@
     "groceryList_labelListDeadline": "截止日期",
     "groceryList_placeholderSelectDeadline": "選擇日期",
     "groceryList_labelListAsignee": "指派人",
-    "groceryList_placeholderSelectAsignee": "選擇指派人"
+    "groceryList_placeholderSelectAsignee": "選擇指派人",
+    "groceryList_noAssignee": "未指派給任何人",
+    "groceryList_noOtherMember": "沒有其他成員"
 }
   

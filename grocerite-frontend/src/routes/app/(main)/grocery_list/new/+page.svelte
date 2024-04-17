@@ -1,24 +1,29 @@
 <script lang="ts">
     import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
+    import ScrollableSelectDialog from "$lib/components/ScrollableSelectDialog.svelte";
     import TextInputDialog from "$lib/components/TextInputDialog.svelte";
+    import type { Member } from "$lib/models/household";
     import { lc } from "$lib/stores/general";
-    import { faCalendar, faComment, faSun, faUser } from "@fortawesome/free-solid-svg-icons";
+    import { faCalendar, faComment, faSun, faUser, faUserAltSlash } from "@fortawesome/free-solid-svg-icons";
+    import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
     import { onMount } from "svelte";
     import { _, locale } from "svelte-i18n";
 
     let showIconDialog = false;
-
     const setIconDialog = (value: boolean) => showIconDialog = value;
 
     let showListNameDialog = false;
-
     const setListNameDialog = (value: boolean) => showListNameDialog = value;
+
+    let showAssigneeDialog = false;
+    const setAssigneeDialog = (value: boolean) => showAssigneeDialog = value;
 
 
     let listName: string = '';
     let listIconPath: string = '';
     let listIconIdx: number = -1;
+    let listAssignee: Member | null = null;
 
     onMount(() => {
         getLocalizedDefaultName();
@@ -86,6 +91,17 @@
         }}
         />
 
+    <ScrollableSelectDialog
+        showDialog={showAssigneeDialog}
+        title="groceryList_placeholderSelectAsignee"
+        on:click:barrierDismiss={(e) => {
+            setAssigneeDialog(false);
+        }}
+        />
+
+    
+
+
 
     <div class="{$lc.title} text-2xl text-orange-500 flex items-center">
         <span class="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -110,17 +126,27 @@
         </ListPropCardButton>
 
         <ListPropCardButton
-            onClick={() => setIconDialog(true)}
-            icon={faCalendar}
-            headerText={$_('groceryList_labelListDeadline')}
+            onClick={() => setAssigneeDialog(true)}
+            icon={faUser}
+            headerText={$_('groceryList_labelListAsignee')}
             >
-            <img src={listIconPath} alt="icon" class="w-20" />
+            {#if !listAssignee}
+            <div class="text-neutral-300 text-base font-normal flex items-center gap-2">
+                <div class="text-neutral-200">
+                    <FontAwesomeIcon icon={faUserAltSlash} class="text-[3rem]" />
+                </div>
+                <span>{$_('groceryList_noAssignee')}</span>
+            </div>
+            {/if}
+            {#if listAssignee}
+                <span>{listAssignee.name}</span>
+            {/if}
         </ListPropCardButton>
 
         <ListPropCardButton
             onClick={() => setIconDialog(true)}
-            icon={faUser}
-            headerText={$_('groceryList_labelListAsignee')}
+            icon={faCalendar}
+            headerText={$_('groceryList_labelListDeadline')}
             >
             <img src={listIconPath} alt="icon" class="w-20" />
         </ListPropCardButton>

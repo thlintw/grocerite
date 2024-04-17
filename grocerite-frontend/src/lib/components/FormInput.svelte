@@ -4,6 +4,7 @@
 
     const dispatch = createEventDispatcher();
 
+    // props
     export let required: boolean = false;
     export let id: string = "";
     export let label: string | null = "";

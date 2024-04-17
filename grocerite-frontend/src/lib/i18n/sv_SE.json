@@ -66,6 +66,8 @@
     "groceryList_labelListDeadline": "Deadline",
     "groceryList_placeholderSelectDeadline": "Välj datum",
     "groceryList_labelListAsignee": "Tilldelad",
-    "groceryList_placeholderSelectAsignee": "Välj tilldelad"
+    "groceryList_placeholderSelectAsignee": "Välj tilldelad",
+    "groceryList_noAssignee": "Inte tilldelad någon",
+    "groceryList_noOtherMember": "Inga andra medlemmar i detta hushåll"
 }
   

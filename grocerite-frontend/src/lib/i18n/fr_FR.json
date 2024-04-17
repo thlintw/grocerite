@@ -65,5 +65,7 @@
     "groceryList_labelListDeadline": "Date limite",
     "groceryList_placeholderSelectDeadline": "Sélectionnez une date",
     "groceryList_labelListAsignee": "Assigné",
-    "groceryList_placeholderSelectAsignee": "Sélectionnez un assigné"
+    "groceryList_placeholderSelectAsignee": "Sélectionnez un assigné",
+    "groceryList_noAssignee": "Non assigné",
+    "groceryList_noOtherMember": "Aucun autre membre dans ce ménage"
 }
