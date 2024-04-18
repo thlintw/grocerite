@@ -3,6 +3,7 @@
     import { lc } from '$lib/stores/general';
     import { scaleFade } from '$lib/transitions';
     import type { IconDefinition, icon } from '@fortawesome/fontawesome-svg-core';
+    import { faUserAltSlash } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
     import { createEventDispatcher } from 'svelte';
     import { _ } from 'svelte-i18n';
@@ -16,6 +17,7 @@
     interface SelectOption {
         iconPath?: string;
         icon?: IconDefinition;
+        iconBg?: string;
         value: string;
         label: string;
     }
@@ -91,12 +93,21 @@
                                                     </div>
                                                 {/if}
                                                 {#if opt.iconPath}
-                                                    <div class="w-14 text-base text-orange-500 rounded-full overflow-hidden"
-                                                        style={`background-color: rgb(147 197 253);`}>
-                                                        <img src={opt.iconPath} alt="icon" />
-                                                    </div>
+                                                    {#if opt.iconPath === 'x'}
+                                                        <div class="w-14 text-base text-neutral-300 bg-neutral-200 rounded-full h-14 flex items-center justify-center">
+                                                            <FontAwesomeIcon
+                                                                icon={faUserAltSlash}
+                                                                class="text-2xl"
+                                                                />
+                                                        </div>
+                                                    {:else}
+                                                        <div class="w-14 text-base text-orange-500 rounded-full overflow-hidden"
+                                                            style={opt.iconBg ? `background-color: ${opt.iconBg}` : ''}>
+                                                            <img src={opt.iconPath} alt="icon" />
+                                                        </div>
+                                                    {/if}
                                                 {/if}
-                                                <span>{opt.label}</span>
+                                                <span>{opt.iconPath !== 'x' ? opt.label : $_(opt.label)}</span>
                                             </div>
                                         </button>
                                     </div>

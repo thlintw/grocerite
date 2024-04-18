@@ -71,7 +71,7 @@
 
                 <div class="flex w-full mt-3 relative">
                     <FormInput 
-                        placeholder={placeholder}
+                        placeholder={$_(placeholder)}
                         bind:value={value}
                         on:keyup={onKeyUp}
                         on:keydown={onKeyDown}
@@ -87,15 +87,15 @@
                     {/if}
                 </div>
                 
-                <div class="grid w-8/12 gap-3 grid-cols-2 mt-3">
-                    <Button
+                <div class="grid w-5/12 gap-3 grid-cols-1 mt-3">
+                    <!-- <Button
                         text={$_('common_cancel')}
                         size="sm"
                         outline={true}
                         on:click={onBarrierDismiss}
                         cls="basis-1/2"
                         />
-                        
+                         -->
                     <Button
                         text={$_('common_confirm')}
                         size="sm"

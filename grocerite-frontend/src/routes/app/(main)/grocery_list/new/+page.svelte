@@ -2,9 +2,10 @@
     import DateDialog from "$lib/components/DateDialog.svelte";
 import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
+    import PlusButton from "$lib/components/PlusButton.svelte";
     import ScrollableSelectDialog from "$lib/components/ScrollableSelectDialog.svelte";
     import TextInputDialog from "$lib/components/TextInputDialog.svelte";
-    import type { Member } from "$lib/models/household";
+    import { Member } from "$lib/models/household";
     import { lc } from "$lib/stores/general";
     import { faCalendar, faCalendarXmark, faComment, faSun, faUser, faUserAltSlash } from "@fortawesome/free-solid-svg-icons";
     import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
@@ -71,60 +72,67 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
 
     $: formattedDeadline = listDeadline && $locale ? getFormattedDeadline(listDeadline, $locale) : '';
 
+    const tempHouseholdMembers = [
+        new Member({
+            userIdx: 0,
+            pfp: {
+                presenting: 'fp',
+                idx: 1,
+                bgColor: '#FFD700'
+            },
+            name: 'Alice',
+        }),
+        new Member({
+            userIdx: 1,
+            pfp: {
+                presenting: 'mp',
+                idx: 2,
+                bgColor: '#FF6347'
+            },
+            name: 'Bob',
+        }),
+        new Member({
+            userIdx: 2,
+            pfp: {
+                presenting: 'nb',
+                idx: 3,
+                bgColor: '#FF69B4'
+            },
+            name: 'Charlie',
+        }),
+        new Member({
+            userIdx: 3,
+            pfp: {
+                presenting: 'fp',
+                idx: 4,
+                bgColor: '#FFD700'
+            },
+            name: 'Diana',
+        }),
+    ]
 
+    const tempMemberList = tempHouseholdMembers.map((member) => {
+        return {
+            iconPath: `/icons/avatar/${member.pfp.presenting}/avatar-${member.pfp.presenting}-${member.pfp.idx.toString().padStart(2, '0')}.png`,
+            iconBg: member.pfp.bgColor,
+            value: member.userIdx.toString(),
+            label: member.name,
+        };
+    })
 
-    const tempMemberList = [
+    const tempMemberListWithNull = [
         {
-            iconPath: '/icons/avatar/fp/avatar-fp-01.png',
-            label: 'Alice',
-            value: 'Alice'
+            iconPath: 'x',
+            iconBg: '',
+            value: '-1',
+            label: 'groceryList_cancelAsigneeSelection',
         },
-        {
-            iconPath: '/icons/avatar/mp/avatar-mp-02.png',
-            label: 'Bob',
-            value: 'Bob'
-        },
-        {
-            iconPath: '/icons/avatar/nb/avatar-nb-03.png',
-            label: 'Charlie',
-            value: 'Charlie'
-        },
-        {
-            iconPath: '/icons/avatar/fp/avatar-fp-04.png',
-            label: 'Diana',
-            value: 'Diana'
-        },
-        {
-            iconPath: '/icons/avatar/mp/avatar-mp-05.png',
-            label: 'Eve',
-            value: 'Eve'
-        },
-        {
-            iconPath: '/icons/avatar/nb/avatar-nb-05.png',
-            label: 'Frank',
-            value: 'Frank'
-        },
-        {
-            iconPath: '/icons/avatar/fp/avatar-fp-07.png',
-            label: 'Grace',
-            value: 'Grace'
-        },
-        {
-            iconPath: '/icons/avatar/mp/avatar-mp-08.png',
-            label: 'Hank',
-            value: 'Hank'
-        },
-        {
-            iconPath: '/icons/avatar/nb/avatar-nb-01.png',
-            label: 'Ivy',
-            value: 'Ivy'
-        },
-        {
-            iconPath: '/icons/avatar/fp/avatar-fp-10.png',
-            label: 'Jack',
-            value: 'Jack'
-        },
+        ...tempMemberList
     ];
+
+    const getMemberFromIdx = (idx: number) => {
+        return tempHouseholdMembers.find((member) => member.userIdx === idx);
+    };
 
 </script>
 
@@ -163,9 +171,14 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         on:click:barrierDismiss={(e) => {
             setAssigneeDialog(false);
         }}
-        options={tempMemberList}
+        options={tempMemberListWithNull}
         on:click:selectOption={(e) => {
-            listAssignee = e.detail.option.value;
+            if (e.detail.option) {
+                let ass = getMemberFromIdx(parseInt(e.detail.option.value, 10));
+                if (ass) listAssignee = ass;
+            } else {
+                listAssignee = null;
+            }
             setAssigneeDialog(false);
         }}
         />
@@ -195,7 +208,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
             icon={faComment}
             headerText={$_('groceryList_labelListName')}
             >
-            <span>{listName}</span>
+            <span class="text-neutral-700 font-normal">{listName}</span>
         </ListPropCardButton>
 
         <ListPropCardButton
@@ -207,25 +220,10 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         </ListPropCardButton>
 
         <ListPropCardButton
-            onClick={() => setAssigneeDialog(true)}
-            icon={faUser}
-            headerText={$_('groceryList_labelListAsignee')}
-            >
-            {#if !listAssignee}
-            <div class="text-neutral-300 text-base font-normal flex items-center gap-2">
-                <div class="text-neutral-200">
-                    <FontAwesomeIcon icon={faUserAltSlash} class="text-[3rem]" />
-                </div>
-            </div>
-            {:else if listAssignee}
-                <span>{listAssignee.label}</span>
-            {/if}
-        </ListPropCardButton>
-
-        <ListPropCardButton
             onClick={() => setDeadlineDialog(true)}
             icon={faCalendar}
             headerText={$_('groceryList_labelListDeadline')}
+            optional={true}
             >
             {#if !listDeadline}
             <div class="text-neutral-300 text-base font-normal flex items-center gap-2">
@@ -234,8 +232,44 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
                 </div>
             </div>
             {:else if listDeadline}
-                <span>{ formattedDeadline }</span>
+                <span class="text-neutral-700 font-normal">{ formattedDeadline }</span>
             {/if}
         </ListPropCardButton>
+
+        <ListPropCardButton
+            onClick={() => setAssigneeDialog(true)}
+            icon={faUser}
+            headerText={$_('groceryList_labelListAsignee')}
+            optional={true}
+            >
+            {#if !listAssignee}
+            <div class="text-neutral-300 text-base font-normal flex items-center gap-2">
+                <div class="text-neutral-200">
+                    <FontAwesomeIcon icon={faUserAltSlash} class="text-[3rem]" />
+                </div>
+            </div>
+            {:else if listAssignee}
+                <div class="flex items-center gap-2">
+                    <div class="rounded-full"
+                        style={`background-color: ${listAssignee.pfp.bgColor}`}>
+                        <img src={`/icons/avatar/${listAssignee.pfp.presenting}/avatar-${listAssignee.pfp.presenting}-${listAssignee.pfp.idx.toString().padStart(2, '0')}.png`} alt="assignee" class="w-16 h-16 rounded-full" />
+                    </div>
+                    <span>{listAssignee.name}</span>
+                </div>
+            {/if}
+        </ListPropCardButton>
+
+    </div>
+    <div class="flex-col w-full mt-5">
+        <div class="w-full flex items-center justify-start">
+            <PlusButton
+                onClick={() => {
+                    console.log('Create list');
+                }}
+                />
+            <div class="text-orange-500 text-base font-normal ml-2 {$lc.text}">
+                {$_('groceryList_addListItems')}
+            </div>
+        </div>
     </div>
 </div>

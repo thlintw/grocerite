@@ -3,29 +3,35 @@ import { GroceryList } from "./groceryList";
 import { Container } from "./container";
 import { Store } from "./store";
 
+export interface Pfp {
+    presenting: string;
+    idx: number;
+    bgColor: string;
+}
+
 export class Member {
     user?: UserProfile | null;
     userIdx: number;
-    pfpIdx: number;
+    pfp: Pfp;
     householdIdx: number;
     name: string;
 
     constructor({
         user = null,
         userIdx = -1,
-        pfpIdx = -1,
+        pfp = {} as Pfp,
         householdIdx = -1,
         name = ''
     } : {
         user?: UserProfile | null,
         userIdx?: number,
-        pfpIdx?: number,
+        pfp?: Pfp,
         householdIdx?: number,
         name?: string
     } = {}) {
         this.user = user;
         this.userIdx = userIdx;
-        this.pfpIdx = pfpIdx;
+        this.pfp = pfp;
         this.householdIdx = householdIdx;
         this.name = name;
     }
@@ -34,7 +40,7 @@ export class Member {
         return new Member({
             user: UserProfile.fromJson(json.user),
             userIdx: json.userIdx,
-            pfpIdx: json.pfpIdx,
+            pfp: json.pfp,
             householdIdx: json.householdIdx,
             name: json.name
         });

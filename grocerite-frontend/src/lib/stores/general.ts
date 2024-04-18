@@ -9,7 +9,7 @@ export const lc = derived(locale, $locale => {
     const isJPorTW = $locale === 'ja-JP' || $locale === 'zh-TW';
     return {
         title: isJPorTW ? 'font-sans text-2xl font-bold -top-5' : 'font-berkshire text-3xl -top-6',
-        text: isJPorTW ? 'font-sans' : 'font-serif'
+        text: isJPorTW ? 'font-sans' : 'font-sans'
     };
 });
 

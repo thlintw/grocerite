@@ -71,3 +71,19 @@
 	animation: bounce 1.5s infinite ease-in-out;
 	animation-delay: 0.3s;
 }
+
+
+.calendars-container {
+	top: 0 !important;
+	--datepicker-container-position: relative;
+	--datepicker-calendar-position: relative;
+	--datepicker-container-box-shadow: none;
+	--datepicker-container-border: none;
+	--datepicker-container-background: theme('colors.orange.50');
+	--datepicker-state-active: theme('colors.orange.500');
+	--datepicker-calendar-range-selected-background: theme('colors.orange.500');
+}
+
+body {
+	touch-action: manipulation;
+}
