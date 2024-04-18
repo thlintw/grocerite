@@ -192,7 +192,7 @@ class ContainerItem(TimestampMixin, db.Model):
     container = relationship('Container', back_populates='items')
     store_idx = Column(Integer, ForeignKey('store.id'), nullable=True)
     store = relationship('Store', back_populates='container_items')
-    label = Column(Unicode(100), nullable=False)
+    name = Column(Unicode(100), nullable=False)
     quantity = Column(Unicode(50))
     comment = Column(Text)
     is_removed = Column(Boolean, default=False)

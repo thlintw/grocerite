@@ -5,7 +5,11 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import PlusButton from "$lib/components/PlusButton.svelte";
     import ScrollableSelectDialog from "$lib/components/ScrollableSelectDialog.svelte";
     import TextInputDialog from "$lib/components/TextInputDialog.svelte";
+    import { Container, ContainerItem } from "$lib/models/container";
+    import { GroceryListItem } from "$lib/models/groceryList";
     import { Member } from "$lib/models/household";
+    import { ItemCategory } from "$lib/models/item";
+    import { Store } from "$lib/models/store";
     import { lc } from "$lib/stores/general";
     import { faCalendar, faCalendarXmark, faComment, faSun, faUser, faUserAltSlash } from "@fortawesome/free-solid-svg-icons";
     import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
@@ -23,6 +27,9 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
 
     let showDeadlineDialog = false;
     const setDeadlineDialog = (value: boolean) => showDeadlineDialog = value;
+
+    let showNewItemDialog = false;
+    const setNewItemDialog = (value: boolean) => showNewItemDialog = value;
 
 
     let listName: string = '';
@@ -134,6 +141,65 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         return tempHouseholdMembers.find((member) => member.userIdx === idx);
     };
 
+    const tempAvailableItems = [
+        new ContainerItem({
+            idx: 0,
+            name: 'Apple',
+            quantity: 2,
+            category: ItemCategory.Fruits
+        }),
+        new ContainerItem({
+            idx: 1,
+            name: 'Banana',
+            quantity: 3,
+            category: ItemCategory.Fruits
+        }),
+        new ContainerItem({
+            idx: 2,
+            name: 'Carrot',
+            quantity: 1,
+            category: ItemCategory.Vegetables
+        }),
+        new ContainerItem({
+            idx: 3,
+            name: 'Milk',
+            quantity: 1,
+            category: ItemCategory.DairyAndEggs
+        }),
+        new ContainerItem({
+            idx: 4,
+            name: 'Eggs',
+            quantity: 6,
+            category: ItemCategory.DairyAndEggs
+        }),
+        new ContainerItem({
+            idx: 5,
+            name: 'Bread',
+            quantity: 1,
+            category: ItemCategory.BakeryAndBread
+        }),
+    ]
+
+    const tempAvailableStores = [
+        new Store({
+            name: 'Walmart',
+            idx: 0,
+            location: '1234 Main St, Springfield, IL 62701'
+        })
+    ]
+
+    const tempAvailableContainers = [
+        new Container({
+            name: 'Fridge',
+            idx: 0,
+        }),
+    ]
+
+    $: availableMembers = tempMemberListWithNull;
+    $: availableItems = tempAvailableItems;
+    $: availableStores = tempAvailableStores;
+
+
 </script>
 
 <div class="flex flex-col w-full gap-3 {$lc.text}">
@@ -171,7 +237,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         on:click:barrierDismiss={(e) => {
             setAssigneeDialog(false);
         }}
-        options={tempMemberListWithNull}
+        options={availableMembers}
         on:click:selectOption={(e) => {
             if (e.detail.option) {
                 let ass = getMemberFromIdx(parseInt(e.detail.option.value, 10));

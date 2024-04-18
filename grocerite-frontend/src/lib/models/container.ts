@@ -1,42 +1,51 @@
+import { ItemCategory } from "./item";
+
 export class ContainerItem{
     idx: number;
-    label: string;
+    name: string;
     quantity: number;
     comment: string;
     isRemoved: boolean;
     storeIdx: number;
+    category: ItemCategory;
 
     constructor({
         idx = -1,
-        label = '',
+        name = '',
         quantity = 0,
         comment = '',
         isRemoved = false,
-        storeIdx = -1
+        storeIdx = -1,
+        category = ItemCategory.Other
     } : {
         idx?: number,
-        label?: string,
+        name?: string,
         quantity?: number,
         comment?: string,
         isRemoved?: boolean,
-        storeIdx?: number
+        storeIdx?: number,
+        category?: ItemCategory
     } = {}) {
         this.idx = idx;
-        this.label = label;
+        this.name = name;
         this.quantity = quantity;
         this.comment = comment;
         this.isRemoved = isRemoved;
         this.storeIdx = storeIdx;
+        this.category = category;
     }
 
     static fromJson(json: any): ContainerItem {
+        const cateIdx = json.categoryIdx;
+        const cate = ItemCategory[cateIdx];
         return new ContainerItem({
             idx: json.idx,
-            label: json.label,
+            name: json.name,
             quantity: json.quantity,
             comment: json.comment,
             isRemoved: json.isRemoved,
-            storeIdx: json.storeIdx
+            storeIdx: json.storeIdx,
+            category: cate
         });
     }
 }
