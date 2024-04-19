@@ -66,25 +66,29 @@ export class Container {
     type: ContainerType;
     householdIdx: number;
     comment: string;
+    iconIdx: number;
 
     constructor({
         idx = -1,
         name = '',
         type = ContainerType.Other,
         householdIdx = -1,
-        comment = ''
+        comment = '',
+        iconIdx = -1
     } : {
         idx?: number,
         name?: string,
         type?: ContainerType,
         householdIdx?: number,
-        comment?: string
+        comment?: string,
+        iconIdx?: number
     } = {}) {
         this.idx = idx;
         this.name = name;
         this.type = type;
         this.householdIdx = householdIdx;
         this.comment = comment;
+        this.iconIdx = iconIdx;
     }
 
     public get icon(): string {
@@ -97,7 +101,8 @@ export class Container {
             name: json.name,
             type: json.type,
             householdIdx: json.householdIdx,
-            comment: json.comment
+            comment: json.comment,
+            iconIdx: json.iconIdx
         });
     }
 

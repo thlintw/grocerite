@@ -2,6 +2,7 @@
     import DateDialog from "$lib/components/DateDialog.svelte";
 import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
+    import NewGroceryListItemDialog from "$lib/components/NewGroceryListItemDialog.svelte";
     import PlusButton from "$lib/components/PlusButton.svelte";
     import ScrollableSelectDialog from "$lib/components/ScrollableSelectDialog.svelte";
     import TextInputDialog from "$lib/components/TextInputDialog.svelte";
@@ -145,7 +146,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         new ContainerItem({
             idx: 0,
             name: 'Apple',
-            quantity: 2,
+            quantity: 0,
             category: ItemCategory.Fruits
         }),
         new ContainerItem({
@@ -157,7 +158,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         new ContainerItem({
             idx: 2,
             name: 'Carrot',
-            quantity: 1,
+            quantity: 3,
             category: ItemCategory.Vegetables
         }),
         new ContainerItem({
@@ -175,7 +176,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         new ContainerItem({
             idx: 5,
             name: 'Bread',
-            quantity: 1,
+            quantity: 0,
             category: ItemCategory.BakeryAndBread
         }),
     ]
@@ -192,6 +193,12 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         new Container({
             name: 'Fridge',
             idx: 0,
+            iconIdx: 1,
+        }),
+        new Container({
+            name: 'Pantry',
+            idx: 1,
+            iconIdx: 2,
         }),
     ]
 
@@ -239,7 +246,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         }}
         options={availableMembers}
         on:click:selectOption={(e) => {
-            if (e.detail.option) {
+            if (e.detail.option.value !== '-1') {
                 let ass = getMemberFromIdx(parseInt(e.detail.option.value, 10));
                 if (ass) listAssignee = ass;
             } else {
@@ -261,7 +268,13 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         }}
         />
 
-
+    <NewGroceryListItemDialog
+        showDialog={showNewItemDialog}
+        on:click:barrierDismiss={(e) => {
+            setNewItemDialog(false);
+        }}
+        title='groceryList_addListItemsDialogTitle'
+        />
 
     <div class="{$lc.title} text-2xl text-orange-500 flex items-center">
         <span class="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -330,7 +343,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         <div class="w-full flex items-center justify-start">
             <PlusButton
                 onClick={() => {
-                    console.log('Create list');
+                    setNewItemDialog(true);
                 }}
                 />
             <div class="text-orange-500 text-base font-normal ml-2 {$lc.text}">

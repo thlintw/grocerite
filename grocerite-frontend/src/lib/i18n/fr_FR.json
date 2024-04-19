@@ -95,5 +95,12 @@
     "datePicker_December": "Décembre",
     "common_optional": "Optionnel",
     "groceryList_cancelAsigneeSelection": "Personne",
-    "groceryList_addListItems": "Articles"
+    "groceryList_addListItems": "Articles",
+    "groceryList_addListItemsDialogTitle": "Ajouter un article",
+    "groceryList_addListItemsName": "Nom",
+    "groceryList_addListItemsCategory": "Catégorie",
+    "groceryList_addListItemsQuantity": "Quantité",
+    "groceryList_addListItemsContainer": "Conteneur",
+    "groceryList_addListItemsComment": "Notes"
+
 }

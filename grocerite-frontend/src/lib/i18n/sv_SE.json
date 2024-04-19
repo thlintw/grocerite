@@ -96,6 +96,12 @@
     "datePicker_December": "December",
     "common_optional": "Valfritt",
     "groceryList_cancelAsigneeSelection": "Ingen",
-    "groceryList_addListItems": "Objekt"
+    "groceryList_addListItems": "Objekt",
+    "groceryList_addListItemsDialogTitle": "Lägg till vara",
+    "groceryList_addListItemsName": "Namn",
+    "groceryList_addListItemsCategory": "Kategori",
+    "groceryList_addListItemsQuantity": "Antal",
+    "groceryList_addListItemsContainer": "Behållare",
+    "groceryList_addListItemsComment": "Anteckningar"
 }
   

@@ -5,6 +5,7 @@
     import type { IconDefinition, icon } from '@fortawesome/fontawesome-svg-core';
     import { faUserAltSlash } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
+    import SearchableFormInput from './SearchableFormInput.svelte';
     import { createEventDispatcher } from 'svelte';
     import { _ } from 'svelte-i18n';
     import { fade } from 'svelte/transition';
@@ -65,61 +66,7 @@
             </div>
             <div class="bg-orange-50 rounded-2xl flex gap-3 py-5 pb-2
                 shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden">
-                {#if options.length > 0}
-                    <div bind:this={optionsOuter}
-                        class="overflow-x-scroll no-scrollbar overscroll-none w-full flex 
-                        { options.length >= 3 ? 'items-start' : 'items-center' }
-                        { options.length >= 3 ? ' h-48' :
-                            options.length >= 2 ? 'h-40' : 'h-20'}">
-                        <div bind:this={optionsInner} 
-                            on:scroll={changeStartEnd}
-                            class="
-                                w-full flex-col no-scrollbar overflow-x-scroll overscroll-none px-5 max-h-full
-                                { innerAtStart && options.length >= 3 ? 'top-mask' : '' }
-                                { !innerAtEnd && options.length > 2 && !innerAtStart ? 'both-v-mask' : '' }
-                                { innerAtEnd && options.length > 2 ? 'bottom-mask' : '' }
-                            ">
-                                {#each options as opt}
-                                    <div class="rounded-md flex p-2 hover:bg-orange-100">
-                                        <button type="button" class="w-full h-full flex text-lg items-center justify-center"
-                                            on:click={() => onSelect(opt)}>
-                                            <div class="lg:w-9/12 w-11/12 flex justify-start items-center gap-3">
-                                                {#if opt.icon}
-                                                    <div class="w-16 text-base text-orange-500 bg-blue-300">
-                                                        <FontAwesomeIcon
-                                                            icon={opt.icon}
-                                                            class="text-2xl"
-                                                            />
-                                                    </div>
-                                                {/if}
-                                                {#if opt.iconPath}
-                                                    {#if opt.iconPath === 'x'}
-                                                        <div class="w-14 text-base text-neutral-300 bg-neutral-200 rounded-full h-14 flex items-center justify-center">
-                                                            <FontAwesomeIcon
-                                                                icon={faUserAltSlash}
-                                                                class="text-2xl"
-                                                                />
-                                                        </div>
-                                                    {:else}
-                                                        <div class="w-14 text-base text-orange-500 rounded-full overflow-hidden"
-                                                            style={opt.iconBg ? `background-color: ${opt.iconBg}` : ''}>
-                                                            <img src={opt.iconPath} alt="icon" />
-                                                        </div>
-                                                    {/if}
-                                                {/if}
-                                                <span>{opt.iconPath !== 'x' ? opt.label : $_(opt.label)}</span>
-                                            </div>
-                                        </button>
-                                    </div>
-                                {/each}
-                        </div>
-                    </div>
-
-                {:else}
-                    <div class="flex justify-center items-center w-full h-20 text-neutral-500">
-                        <span>{$_('groceryList_noOtherMember')}</span>
-                    </div>
-                {/if}
+                
             </div>
         </div>
     </div>

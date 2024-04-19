@@ -95,6 +95,12 @@
     "datePicker_December": "十二月",
     "common_optional": "選填",
     "groceryList_cancelAsigneeSelection": "沒有人",
-    "groceryList_addListItems": "品項"
+    "groceryList_addListItems": "品項",
+    "groceryList_addListItemsDialogTitle": "新增項目",
+    "groceryList_addListItemsName": "名稱",
+    "groceryList_addListItemsCategory": "類別",
+    "groceryList_addListItemsQuantity": "數量",
+    "groceryList_addListItemsContainer": "容器",
+    "groceryList_addListItemsComment": "備註"
 }
   

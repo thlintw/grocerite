@@ -96,6 +96,12 @@
     "datePicker_December": "12月",
     "common_optional": "オプション",
     "groceryList_cancelAsigneeSelection": "選択をキャンセル",
-    "groceryList_addListItems": "アイテム"
+    "groceryList_addListItems": "アイテム",
+    "groceryList_addListItemsDialogTitle": "アイテムを追加",
+    "groceryList_addListItemsName": "名前",
+    "groceryList_addListItemsCategory": "カテゴリ",
+    "groceryList_addListItemsQuantity": "数量",
+    "groceryList_addListItemsContainer": "容器",
+    "groceryList_addListItemsComment": "コメント"
 }
 
