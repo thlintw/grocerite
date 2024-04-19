@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ContainerType } from '$lib/models/container';
+    import { ContainerItem, ContainerType } from '$lib/models/container';
     import { lc } from '$lib/stores/general';
     import { scaleFade } from '$lib/transitions';
     import type { IconDefinition, icon } from '@fortawesome/fontawesome-svg-core';
@@ -9,46 +9,25 @@
     import { createEventDispatcher } from 'svelte';
     import { _ } from 'svelte-i18n';
     import { fade } from 'svelte/transition';
+    import type { SelectCandidate } from '$lib/types/general';
 
     const dispatch = createEventDispatcher();
 
     export let showDialog = false;
     export let title: string = '';
+    export let availableItems: SelectCandidate[] = [];
 
-    interface SelectOption {
-        iconPath?: string;
-        icon?: IconDefinition;
-        iconBg?: string;
-        value: string;
-        label: string;
-    }
-
-    export let options: SelectOption[] = [];
+    let itemName = '';
 
 
-    const onSelect = (option: SelectOption) => {
-        dispatch('click:selectOption', { option });
+    const onSelect = (selected) => {
+        dispatch('click:selectOption', { selected });
     };
 
     const onBarrierDismiss = () => {
         dispatch('click:barrierDismiss');
     };
 
-    let optionsInner: HTMLDivElement;
-    let optionsOuter: HTMLDivElement;
-
-    let innerAtStart: boolean = true;
-    let innerAtEnd: boolean = false;
-
-    const changeStartEnd = () => {
-        innerAtStart = optionsInner.scrollTop <= 0;
-        innerAtEnd = optionsInner.scrollTop + optionsInner.clientHeight >= optionsInner.scrollHeight;
-    };
-
-    $: if (!showDialog) {
-        innerAtStart = true;
-        innerAtEnd = false;
-    }
     
 </script>
 
@@ -58,14 +37,54 @@
     <div transition:scaleFade
         class="fixed top-0 right-0 bottom-0 left-0 z-[11001] pointer-events-none 
             flex items-center justify-center">
-        <div class="pointer-events-auto z-[11002] flex flex-col lg:w-[30rem] 2xl:w-[35rem] w-11/12
+        <div class="pointer-events-auto z-[11002] flex flex-col lg:w-[40rem] 2xl:w-[55rem] w-11/12
             ">
             <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
                 { $_(title) }
             </div>
-            <div class="bg-orange-50 rounded-2xl flex gap-3 py-5 pb-2
-                shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden">
+            <div class="bg-orange-50 rounded-2xl flex gap-4 py-7 px-5
+                shadow-grocerite-orange-200-sm {$lc.text} flex-col items-center">
+
+                <div class="relative flex w-full">
+
+                    <SearchableFormInput 
+                        label={$_('groceryList_addListItemsName')}
+                        placeholder={$_('groceryList_addListItemsNamePlaceholder')}
+                        bind:value={itemName}
+                        candidates={availableItems}
+                    />
+                </div>
+
+                <div class="flex w-full flex-col">
+                    <div class="text-lg text-emerald-700 font-bold">
+                        Category
+                    </div>
+                    <div class="px-3">
+                        cate
+                    </div>
+                </div>
+
+                <div class="flex w-full flex-col">
+                    <div class="text-lg text-emerald-700 font-bold">
+                        Quantity
+                    </div>
+                    <div class="px-3">
+                        cate
+                    </div>
+                </div>
+
+                <div class="flex w-full flex-col">
+                    <div class="text-lg text-emerald-700 font-bold">
+                        Target Container
+                    </div>
+                    <div class="px-3">
+                        cate
+                    </div>
+                </div>
+
+
+
                 
             </div>
         </div>

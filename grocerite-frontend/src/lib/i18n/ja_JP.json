@@ -102,6 +102,7 @@
     "groceryList_addListItemsCategory": "カテゴリ",
     "groceryList_addListItemsQuantity": "数量",
     "groceryList_addListItemsContainer": "容器",
-    "groceryList_addListItemsComment": "コメント"
+    "groceryList_addListItemsComment": "コメント",
+    "groceryList_addListItemsNamePlaceholder": "アイテム名を入力するか、既存のものから選択してください"
 }
 

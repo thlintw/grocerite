@@ -101,6 +101,7 @@
     "groceryList_addListItemsCategory": "Catégorie",
     "groceryList_addListItemsQuantity": "Quantité",
     "groceryList_addListItemsContainer": "Conteneur",
-    "groceryList_addListItemsComment": "Notes"
+    "groceryList_addListItemsComment": "Notes",
+    "groceryList_addListItemsNamePlaceholder": "Entrez le nom de l'article ou sélectionnez parmi les existants"
 
 }

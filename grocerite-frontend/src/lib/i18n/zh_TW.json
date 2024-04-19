@@ -101,6 +101,8 @@
     "groceryList_addListItemsCategory": "類別",
     "groceryList_addListItemsQuantity": "數量",
     "groceryList_addListItemsContainer": "容器",
-    "groceryList_addListItemsComment": "備註"
+    "groceryList_addListItemsComment": "備註",
+    "groceryList_addListItemsNamePlaceholder": "輸入項目名稱或從現有的選擇"
+
 }
   

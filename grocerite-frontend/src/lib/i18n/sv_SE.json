@@ -102,6 +102,7 @@
     "groceryList_addListItemsCategory": "Kategori",
     "groceryList_addListItemsQuantity": "Antal",
     "groceryList_addListItemsContainer": "Behållare",
-    "groceryList_addListItemsComment": "Anteckningar"
+    "groceryList_addListItemsComment": "Anteckningar",
+    "groceryList_addListItemsNamePlaceholder": "Ange artikelnamn eller välj från befintliga"
 }
   

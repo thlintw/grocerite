@@ -203,7 +203,12 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     ]
 
     $: availableMembers = tempMemberListWithNull;
-    $: availableItems = tempAvailableItems;
+    $: availableItems = tempAvailableItems.map((item) => {
+        return {
+            value: item.idx.toString(),
+            label: item.name,
+        };
+    });
     $: availableStores = tempAvailableStores;
 
 
@@ -270,8 +275,12 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
 
     <NewGroceryListItemDialog
         showDialog={showNewItemDialog}
+        availableItems={availableItems}
         on:click:barrierDismiss={(e) => {
             setNewItemDialog(false);
+        }}
+        on:click:selectOption={(e) => {
+            console.log(e.detail.selected);
         }}
         title='groceryList_addListItemsDialogTitle'
         />
