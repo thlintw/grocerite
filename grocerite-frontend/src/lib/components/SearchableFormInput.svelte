@@ -93,7 +93,7 @@
             aria-required={required}
             class="
                 bg-orange-50
-                w-full px-3 py-2 border-2 border-neutral-300 rounded-md 
+                w-full px-3 py-2 border-2 border-neutral-300 rounded-xl
                 focus:outline-none focus:ring focus:ring-orange-300 focus:border-orange-500
             "
             placeholder={actualPlaceholder}

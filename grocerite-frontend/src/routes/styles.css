@@ -86,4 +86,9 @@
 
 body {
 	touch-action: manipulation;
+	overscroll-behavior-y: none;
+}
+
+html {
+	overscroll-behavior-y: none;
 }

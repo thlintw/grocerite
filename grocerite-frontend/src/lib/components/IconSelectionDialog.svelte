@@ -103,12 +103,12 @@
                 shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden">
 
                 <div bind:this={iconsOuter}
-                    class="overflow-y-scroll no-scrollbar overscroll-none">
+                    class="overflow-y-scroll no-scrollbar ">
                     <div bind:this={iconsInner} 
                         on:scroll={changeStartEnd}
                         on:wheel={verticalToHorizontalScroll}
                         class="
-                            w-full flex-nowrap flex no-scrollbar overflow-y-scroll overscroll-none px-5
+                            w-full flex-nowrap flex no-scrollbar overflow-y-scroll  px-5
                             { innerAtStart ? 'right-mask' : '' }
                             { !innerAtEnd && !innerAtStart ? 'both-mask' : '' }
                             { innerAtEnd ? 'left-mask' : '' }

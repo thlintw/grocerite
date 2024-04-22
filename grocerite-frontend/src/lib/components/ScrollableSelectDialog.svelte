@@ -50,6 +50,7 @@
     $: if (!showDialog) {
         innerAtStart = true;
         innerAtEnd = false;
+        filterValue = '';
     }
 
     let filterValue = '';
@@ -90,14 +91,14 @@
                 {/if}
                 {#if options.length > 0}
                     <div bind:this={optionsOuter}
-                        class="overflow-x-scroll no-scrollbar overscroll-none w-full flex 
+                        class="overflow-x-scroll no-scrollbar  w-full flex 
                         { filteredOptions.length >= 3 ? 'items-start' : 'items-center' }
                         { filteredOptions.length >= 3 ? ' h-48' :
                             filteredOptions.length >= 2 ? 'h-40' : 'h-20'}">
                         <div bind:this={optionsInner} 
                             on:scroll={changeStartEnd}
                             class="
-                                w-full flex-col no-scrollbar overflow-x-scroll overscroll-none px-5 max-h-full
+                                w-full flex-col no-scrollbar overflow-x-scroll  px-5 max-h-full
                                 { innerAtStart && filteredOptions.length >= 3 ? 'top-mask' : '' }
                                 { !innerAtEnd && filteredOptions.length > 2 && !innerAtStart ? 'both-v-mask' : '' }
                                 { innerAtEnd && filteredOptions.length > 2 ? 'bottom-mask' : '' }
@@ -106,7 +107,7 @@
                                     <div class="rounded-md flex p-2 hover:bg-orange-100">
                                         <button type="button" class="w-full h-full flex text-lg items-center justify-center"
                                             on:click={() => onSelect(opt)}>
-                                            <div class="lg:w-9/12 w-11/12 flex justify-start items-center gap-3">
+                                            <div class="lg:w-10/12 w-11/12 flex justify-start items-center gap-3">
                                                 {#if opt.icon}
                                                     <div class="w-16 text-base text-orange-500 bg-blue-300">
                                                         <FontAwesomeIcon

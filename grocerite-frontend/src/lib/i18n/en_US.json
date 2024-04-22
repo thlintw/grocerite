@@ -106,6 +106,7 @@
     "groceryList_addListItemsNamePlaceholder": "Enter item name or select from existing",
     "groceryList_addListItemsCategorySelect": "Select category",
     "common_noFilterResult": "No result found",
-    "common_searchPlaceholder": "Search here"
+    "common_searchPlaceholder": "Search here",
+    "groceryList_addListItemsQuantityPlaceholder": "Enter or select quantity"
 }
   

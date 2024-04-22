@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { ContainerItem, ContainerType } from '$lib/models/container';
+    import { Container, ContainerItem, ContainerType } from '$lib/models/container';
     import { lc } from '$lib/stores/general';
     import { scaleFade } from '$lib/transitions';
     import type { IconDefinition, icon } from '@fortawesome/fontawesome-svg-core';
@@ -14,6 +14,7 @@
     import ScrollableSelectDialog from './ScrollableSelectDialog.svelte';
     import { ItemCategory } from '$lib/models/item';
     import Button from './Button.svelte';
+    import QuantitySelectionDialog from './QuantitySelectionDialog.svelte';
 
     const dispatch = createEventDispatcher();
 
@@ -23,10 +24,17 @@
 
     let itemName = '';
     let itemCategory: ItemCategory = ItemCategory.Vegetables;
+    let itemQuantity = 1;
+    let itemContainer: Container | null = null;
 
     let showCategoryDialog = false;
     const setCategoryDialog = (value) => {
         showCategoryDialog = value;
+    };
+
+    let showQuantityDialog = false;
+    const setQuantityDialog = (value) => {
+        showQuantityDialog = value;
     };
 
     const onSelect = (selected) => {
@@ -52,23 +60,60 @@
         setCategoryDialog(false);
     };
 
+    const itemQuantityControl = (mode: '--' | '-' | '+' | '++') => {
+        switch (mode) {
+            case '--':
+                if (itemQuantity > 10) {
+                    itemQuantity -= 10;
+                } else {
+                    itemQuantity = 1;
+                }
+                break;
+            case '-':
+                if (itemQuantity > 1) {
+                    itemQuantity--;
+                }
+                break;
+            case '+':
+                itemQuantity++;
+                break;
+            case '++':
+                itemQuantity += 10;
+                break;
+        }
+    };
+
     
 </script>
 
 {#if showDialog}
 
-<ScrollableSelectDialog 
-    showDialog={showCategoryDialog}
-    options={getCategoryOptions()}
-    title="common_selectACategory"
-    hasFilter={true}
-    on:click:selectOption={(e) => {
-        getItemCategory(e.detail.option.value);
-    }}
-    on:click:barrierDismiss={(e) => {
-        setCategoryDialog(false);
-    }}
-/>
+    <ScrollableSelectDialog 
+        showDialog={showCategoryDialog}
+        options={getCategoryOptions()}
+        title="groceryList_addListItemsCategorySelect"
+        hasFilter={true}
+        on:click:selectOption={(e) => {
+            getItemCategory(e.detail.option.value);
+        }}
+        on:click:barrierDismiss={(e) => {
+            setCategoryDialog(false);
+        }}
+    />
+
+    <QuantitySelectionDialog
+        showDialog={showQuantityDialog}
+        title="groceryList_addListItemsQuantityPlaceholder"
+        value={itemQuantity}
+        on:click:barrierDismiss={(e) => {
+            setQuantityDialog(false);
+        }}
+        on:click:minus={() => itemQuantityControl('-')}
+        on:click:doubleMinus={() => itemQuantityControl('--')}
+        on:click:plus={() => itemQuantityControl('+')}
+        on:click:doublePlus={() => itemQuantityControl('++')}
+        />
+
     <button transition:fade on:click={onBarrierDismiss} 
         class="fixed inset-0 left-0 top-0 w-full h-full z-[10008] bg-neutral-700/20"></button>
     <div transition:scaleFade
@@ -115,7 +160,13 @@
                         Quantity
                     </div>
                     <div class="px-3">
-                        cate
+                        <button type="button" 
+                            class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
+                            on:click={() => setQuantityDialog(true)}>
+                            <div class="text-xl font-bold">
+                                {itemQuantity}
+                            </div>
+                        </button>
                     </div>
                 </div>
 
