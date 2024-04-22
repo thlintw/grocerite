@@ -8,11 +8,14 @@
     import { createEventDispatcher } from 'svelte';
     import { _ } from 'svelte-i18n';
     import { fade } from 'svelte/transition';
+    import FormInput from './FormInput.svelte';
 
     const dispatch = createEventDispatcher();
 
     export let showDialog = false;
     export let title: string = '';
+    export let barrierColor: string = 'bg-neutral-700/20';
+    export let hasFilter: boolean = false;
 
     interface SelectOption {
         iconPath?: string;
@@ -48,12 +51,23 @@
         innerAtStart = true;
         innerAtEnd = false;
     }
+
+    let filterValue = '';
+
+    const filterOptions = (value: string) => {
+        const flt =  options.filter((opt) => {
+            return opt.label.toLowerCase().includes(value.toLowerCase());
+        });
+        return flt;
+    };
+
+    $: filteredOptions = hasFilter ? filterOptions(filterValue) : options;
     
 </script>
 
 {#if showDialog}
     <button transition:fade on:click={onBarrierDismiss} 
-        class="fixed inset-0 left-0 top-0 w-full h-full z-[11000] bg-neutral-700/20"></button>
+        class="fixed inset-0 left-0 top-0 w-full h-full z-[11000] {barrierColor}"></button>
     <div transition:scaleFade
         class="fixed top-0 right-0 bottom-0 left-0 z-[11001] pointer-events-none 
             flex items-center justify-center">
@@ -64,22 +78,31 @@
                 { $_(title) }
             </div>
             <div class="bg-orange-50 rounded-2xl flex gap-3 py-5 pb-2
-                shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden">
+                shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden flex flex-col">
+                {#if hasFilter}
+                    <div class="flex w-full px-2 py-2">
+                        <FormInput 
+                            label=""
+                            placeholder={$_('common_searchPlaceholder')}
+                            bind:value={filterValue}
+                            />
+                    </div>
+                {/if}
                 {#if options.length > 0}
                     <div bind:this={optionsOuter}
                         class="overflow-x-scroll no-scrollbar overscroll-none w-full flex 
-                        { options.length >= 3 ? 'items-start' : 'items-center' }
-                        { options.length >= 3 ? ' h-48' :
-                            options.length >= 2 ? 'h-40' : 'h-20'}">
+                        { filteredOptions.length >= 3 ? 'items-start' : 'items-center' }
+                        { filteredOptions.length >= 3 ? ' h-48' :
+                            filteredOptions.length >= 2 ? 'h-40' : 'h-20'}">
                         <div bind:this={optionsInner} 
                             on:scroll={changeStartEnd}
                             class="
                                 w-full flex-col no-scrollbar overflow-x-scroll overscroll-none px-5 max-h-full
-                                { innerAtStart && options.length >= 3 ? 'top-mask' : '' }
-                                { !innerAtEnd && options.length > 2 && !innerAtStart ? 'both-v-mask' : '' }
-                                { innerAtEnd && options.length > 2 ? 'bottom-mask' : '' }
+                                { innerAtStart && filteredOptions.length >= 3 ? 'top-mask' : '' }
+                                { !innerAtEnd && filteredOptions.length > 2 && !innerAtStart ? 'both-v-mask' : '' }
+                                { innerAtEnd && filteredOptions.length > 2 ? 'bottom-mask' : '' }
                             ">
-                                {#each options as opt}
+                                {#each filteredOptions as opt}
                                     <div class="rounded-md flex p-2 hover:bg-orange-100">
                                         <button type="button" class="w-full h-full flex text-lg items-center justify-center"
                                             on:click={() => onSelect(opt)}>
@@ -107,7 +130,7 @@
                                                         </div>
                                                     {/if}
                                                 {/if}
-                                                <span>{opt.iconPath !== 'x' ? opt.label : $_(opt.label)}</span>
+                                                <span class="text-left">{opt.iconPath !== 'x' ? opt.label : $_(opt.label)}</span>
                                             </div>
                                         </button>
                                     </div>
@@ -117,7 +140,7 @@
 
                 {:else}
                     <div class="flex justify-center items-center w-full h-20 text-neutral-500">
-                        <span>{$_('groceryList_noOtherMember')}</span>
+                        <span>{$_('common_noFilterResult')}</span>
                     </div>
                 {/if}
             </div>

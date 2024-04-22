@@ -10,6 +10,10 @@
     import { _ } from 'svelte-i18n';
     import { fade } from 'svelte/transition';
     import type { SelectCandidate } from '$lib/types/general';
+    import IconSelectionDialog from './IconSelectionDialog.svelte';
+    import ScrollableSelectDialog from './ScrollableSelectDialog.svelte';
+    import { ItemCategory } from '$lib/models/item';
+    import Button from './Button.svelte';
 
     const dispatch = createEventDispatcher();
 
@@ -18,7 +22,12 @@
     export let availableItems: SelectCandidate[] = [];
 
     let itemName = '';
+    let itemCategory: ItemCategory = ItemCategory.Vegetables;
 
+    let showCategoryDialog = false;
+    const setCategoryDialog = (value) => {
+        showCategoryDialog = value;
+    };
 
     const onSelect = (selected) => {
         dispatch('click:selectOption', { selected });
@@ -28,16 +37,44 @@
         dispatch('click:barrierDismiss');
     };
 
+    const getCategoryOptions = () => {
+        return Object.values(ItemCategory).map((category) => {
+            return {
+                value: category,
+                label: $_(`common_category_${category}`),
+                iconPath: `/icons/itemCategory/itemCategory-icon-${category}.png`,
+            };
+        });
+    };
+
+    const getItemCategory = (value: string) => {
+        itemCategory = value as ItemCategory;
+        setCategoryDialog(false);
+    };
+
     
 </script>
 
 {#if showDialog}
+
+<ScrollableSelectDialog 
+    showDialog={showCategoryDialog}
+    options={getCategoryOptions()}
+    title="common_selectACategory"
+    hasFilter={true}
+    on:click:selectOption={(e) => {
+        getItemCategory(e.detail.option.value);
+    }}
+    on:click:barrierDismiss={(e) => {
+        setCategoryDialog(false);
+    }}
+/>
     <button transition:fade on:click={onBarrierDismiss} 
-        class="fixed inset-0 left-0 top-0 w-full h-full z-[11000] bg-neutral-700/20"></button>
+        class="fixed inset-0 left-0 top-0 w-full h-full z-[10008] bg-neutral-700/20"></button>
     <div transition:scaleFade
-        class="fixed top-0 right-0 bottom-0 left-0 z-[11001] pointer-events-none 
+        class="fixed top-0 right-0 bottom-0 left-0 z-[10009] pointer-events-none 
             flex items-center justify-center">
-        <div class="pointer-events-auto z-[11002] flex flex-col lg:w-[40rem] 2xl:w-[55rem] w-11/12
+        <div class="pointer-events-auto z-[10010] flex flex-col lg:w-[40rem] 2xl:w-[55rem] w-11/12
             ">
             <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
@@ -61,7 +98,15 @@
                         Category
                     </div>
                     <div class="px-3">
-                        cate
+                        <button type="button" 
+                            class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
+                            on:click={() => setCategoryDialog(true)}>
+                            <div>
+                                <img src="/icons/itemCategory/itemCategory-icon-{itemCategory}.png" 
+                                    alt="category icon" class="w-12" />
+                            </div>
+                            <div>{$_(`common_category_${itemCategory}`)}</div>
+                        </button>
                     </div>
                 </div>
 
