@@ -120,7 +120,7 @@
                             /> -->
                     </div>
                     <button type="button" class="bg-orange-100 rounded-full p-2 w-10 h-10 text-orange-500 cursor-pointer"
-                        on:click={onDoublePlusClick}>
+                        on:click={onPlusClick}>
                         <FontAwesomeIcon
                             icon={faPlus}
                             />
