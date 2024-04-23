@@ -72,6 +72,31 @@
 	animation-delay: 0.3s;
 }
 
+@keyframes bounce-s {
+	0%, 20%, 50%, 80%, 100% {
+		transform: translateY(0);
+	}
+	40% {
+		transform: translateY(-8px);
+		opacity: .7;
+	}
+	60% {
+		transform: translateY(-4px);
+	}
+}
+
+.animate-bs0 {
+	animation: bounce-s 1.5s infinite ease-in-out;
+}
+.animate-bs1 {
+	animation: bounce-s 1.5s infinite ease-in-out;
+	animation-delay: 0.2s;
+}
+.animate-bs2 {
+	animation: bounce-s 1.5s infinite ease-in-out;
+	animation-delay: 0.3s;
+}
+
 
 .calendars-container {
 	top: 0 !important;

@@ -6,7 +6,7 @@
     import { faUserAltSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
     import SearchableFormInput from './SearchableFormInput.svelte';
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import { _ } from 'svelte-i18n';
     import { fade } from 'svelte/transition';
     import type { SelectCandidate } from '$lib/types/general';
@@ -103,6 +103,14 @@
             };
         });
     };
+
+    let testLoading = false;
+
+    onMount(() => {
+        let intv = setInterval(() => {
+            testLoading = !testLoading;
+        }, 3000);
+    });
 
     
 </script>
@@ -232,7 +240,14 @@
 
 
                 </div>
-
+                
+                <div>
+                    <Button 
+                        loading={testLoading}
+                        text="Add Item"
+                        on:click={onBarrierDismiss}
+                    />
+                </div>
                 
             </div>
         </div>
