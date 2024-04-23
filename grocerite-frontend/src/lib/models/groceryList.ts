@@ -3,7 +3,7 @@ import { Member } from './household';
 
 export class GroceryListItem extends Item {
     idx: number;
-    label: string;
+    name: string;
     quantity: number;
     ticked: boolean;
     tickedBy?: Member | null;
@@ -13,10 +13,8 @@ export class GroceryListItem extends Item {
 
     constructor({
         idx = -1,
-        name = '',
         category = null,
-        icon = null,
-        label = '',
+        name = '',
         quantity = 0,
         ticked = false,
         tickedBy = null,
@@ -25,10 +23,8 @@ export class GroceryListItem extends Item {
         iconIdx = -1
     } : {
         idx?: number,
-        name?: string,
         category?: any,
-        icon?: any,
-        label?: string,
+        name?: string,
         quantity?: number,
         ticked?: boolean,
         tickedBy?: Member | null,
@@ -36,9 +32,9 @@ export class GroceryListItem extends Item {
         targetContainerIdx?: number,
         iconIdx?: number
     } = {}) {
-        super({name, category, icon});
+        super({name, category});
         this.idx = idx;
-        this.label = label;
+        this.name = name;
         this.quantity = quantity;
         this.ticked = ticked;
         this.tickedBy = tickedBy;
@@ -52,8 +48,6 @@ export class GroceryListItem extends Item {
             idx: json.idx,
             name: json.name,
             category: json.category,
-            icon: json.icon,
-            label: json.label,
             quantity: json.quantity,
             ticked: json.ticked,
             tickedBy: json.tickedBy,

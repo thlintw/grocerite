@@ -38,6 +38,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     let listIconIdx: number = -1;
     let listAssignee: Member | null = null;
     let listDeadline: Date | null = null;
+    let listItems: GroceryListItem[] = [];
 
     onMount(() => {
         getLocalizedDefaultName();
@@ -212,6 +213,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         };
     });
     $: availableStores = tempAvailableStores;
+    
 
 </script>
 
@@ -285,6 +287,11 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
             console.log(e.detail.selected);
         }}
         title='groceryList_addListItemsDialogTitle'
+        on:click:addItem={(e) => {
+            console.log(e.detail.item);
+            listItems = [...listItems, e.detail.item];
+            setNewItemDialog(false);
+        }}
         />
 
     <div class="{$lc.title} text-2xl text-orange-500 flex items-center">

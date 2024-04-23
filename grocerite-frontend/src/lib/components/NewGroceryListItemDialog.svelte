@@ -15,6 +15,7 @@
     import { ItemCategory } from '$lib/models/item';
     import Button from './Button.svelte';
     import QuantitySelectionDialog from './QuantitySelectionDialog.svelte';
+    import type { GroceryListItem } from '$lib/models/groceryList';
 
     const dispatch = createEventDispatcher();
 
@@ -43,8 +44,18 @@
         showContainerDialog = value;
     };
 
-    const onSelect = (selected) => {
-        dispatch('click:selectOption', { selected });
+    const onAddItem = () => {
+        const item: GroceryListItem = {
+            idx: -1,
+            name: itemName,
+            category: itemCategory,
+            quantity: itemQuantity,
+            targetContainerIdx: itemContainer!.idx,
+            ticked: false,
+            storeIdx: -1,
+            iconIdx: -1,
+        };
+        dispatch('click:addItem', { item });
     };
 
     const onBarrierDismiss = () => {
@@ -104,14 +115,21 @@
         });
     };
 
-    let testLoading = false;
+    let buttonLoading = false;
 
-    onMount(() => {
-        let intv = setInterval(() => {
-            testLoading = !testLoading;
-        }, 3000);
-    });
+    const reset = () => {
+        itemName = '';
+        itemCategory = ItemCategory.Vegetables;
+        itemQuantity = 1;
+        itemContainer = null;
+    };
 
+    $: {
+        if (!showDialog) {
+            reset();
+        }
+    }
+    
     
 </script>
 
@@ -243,9 +261,9 @@
                 
                 <div>
                     <Button 
-                        loading={testLoading}
+                        loading={buttonLoading}
                         text="Add Item"
-                        on:click={onBarrierDismiss}
+                        on:click={onAddItem}
                     />
                 </div>
                 

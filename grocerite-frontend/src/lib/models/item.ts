@@ -43,23 +43,19 @@ export class Item {
     idx: number;
     name: string;
     category: ItemCategory;
-    icon: ItemIcon | null;
 
     constructor({
         idx = -1,
         name = '',
         category = ItemCategory.Other,
-        icon = null
     } : {
         idx?: number,
         name?: string,
         category?: ItemCategory,
-        icon?: ItemIcon | null
     } = {}) {
         this.idx = idx;
         this.name = name;
         this.category = category;
-        this.icon = icon;
     }
 
     static fromJson(json: any): Item {
@@ -67,7 +63,6 @@ export class Item {
             idx: json.idx,
             name: json.name,
             category: ItemCategory[json.category],
-            icon: null
         });
     }
 
