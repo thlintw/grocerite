@@ -97,7 +97,7 @@
             ">
             <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
-                { $_(title) }
+                <div class="drop-shadow-title">{ $_(title) }</div>
             </div>
             <div class="bg-orange-50 rounded-2xl flex gap-3 py-5
                 shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden">

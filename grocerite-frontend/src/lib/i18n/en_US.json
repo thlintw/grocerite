@@ -105,8 +105,12 @@
     "groceryList_addListItemsComment": "Notes",
     "groceryList_addListItemsNamePlaceholder": "Enter item name or select from existing",
     "groceryList_addListItemsCategorySelect": "Select category",
-    "common_noFilterResult": "No result found",
+    "common_noFilterResult": "No item found",
     "common_searchPlaceholder": "Search here",
-    "groceryList_addListItemsQuantityPlaceholder": "Enter or select quantity"
+    "groceryList_addListItemsQuantityPlaceholder": "Enter or select quantity",
+    "groceryList_addListItemsContainerSelect": "Select container",
+    "groceryList_addListItemsContainerSelectPrompt": "Select a container",
+    "common_noContainers": "No containers in this household",
+    "common_addContainerCallToAction": "Add a container"
 }
   

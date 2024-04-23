@@ -3,7 +3,7 @@
     import { lc } from '$lib/stores/general';
     import { scaleFade } from '$lib/transitions';
     import type { IconDefinition, icon } from '@fortawesome/fontawesome-svg-core';
-    import { faUserAltSlash } from '@fortawesome/free-solid-svg-icons';
+    import { faUserAltSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
     import SearchableFormInput from './SearchableFormInput.svelte';
     import { createEventDispatcher } from 'svelte';
@@ -21,6 +21,7 @@
     export let showDialog = false;
     export let title: string = '';
     export let availableItems: SelectCandidate[] = [];
+    export let availableContainers: Container[] = [];
 
     let itemName = '';
     let itemCategory: ItemCategory = ItemCategory.Vegetables;
@@ -35,6 +36,11 @@
     let showQuantityDialog = false;
     const setQuantityDialog = (value) => {
         showQuantityDialog = value;
+    };
+
+    let showContainerDialog = false;
+    const setContainerDialog = (value) => {
+        showContainerDialog = value;
     };
 
     const onSelect = (selected) => {
@@ -60,6 +66,11 @@
         setCategoryDialog(false);
     };
 
+    const getContainer = (value: string) => {
+        itemContainer = availableContainers.find((container) => container.idx.toString() === value) || null;
+        setContainerDialog(false);
+    };
+
     const itemQuantityControl = (mode: '--' | '-' | '+' | '++') => {
         switch (mode) {
             case '--':
@@ -83,23 +94,20 @@
         }
     };
 
+    const getContainerOptions = () => {
+        return availableContainers.map((container) => {
+            return {
+                value: container.idx.toString(),
+                label: container.name,
+                iconPath: `/icons/container/container-icon-${container.type}.png`,
+            };
+        });
+    };
+
     
 </script>
 
 {#if showDialog}
-
-    <ScrollableSelectDialog 
-        showDialog={showCategoryDialog}
-        options={getCategoryOptions()}
-        title="groceryList_addListItemsCategorySelect"
-        hasFilter={true}
-        on:click:selectOption={(e) => {
-            getItemCategory(e.detail.option.value);
-        }}
-        on:click:barrierDismiss={(e) => {
-            setCategoryDialog(false);
-        }}
-    />
 
     <QuantitySelectionDialog
         showDialog={showQuantityDialog}
@@ -114,6 +122,34 @@
         on:click:doublePlus={() => itemQuantityControl('++')}
         />
 
+
+    <ScrollableSelectDialog 
+        showDialog={showCategoryDialog}
+        options={getCategoryOptions()}
+        title="groceryList_addListItemsCategorySelect"
+        hasFilter={true}
+        on:click:selectOption={(e) => {
+            getItemCategory(e.detail.option.value);
+        }}
+        on:click:barrierDismiss={(e) => {
+            setCategoryDialog(false);
+        }}
+    />
+
+
+    <ScrollableSelectDialog 
+        showDialog={showContainerDialog}
+        options={getContainerOptions()}
+        title="groceryList_addListItemsContainerSelect"
+        hasFilter={true}
+        on:click:selectOption={(e) => {
+            getContainer(e.detail.option.value);
+        }}
+        on:click:barrierDismiss={(e) => {
+            setContainerDialog(false);
+        }}
+    />
+
     <button transition:fade on:click={onBarrierDismiss} 
         class="fixed inset-0 left-0 top-0 w-full h-full z-[10008] bg-neutral-700/20"></button>
     <div transition:scaleFade
@@ -123,9 +159,9 @@
             ">
             <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
-                { $_(title) }
+                <div class="drop-shadow-title">{ $_(title) }</div>
             </div>
-            <div class="bg-orange-50 rounded-2xl flex gap-4 py-7 px-5
+            <div class="bg-orange-50 rounded-2xl flex gap-3 py-7 px-5
                 shadow-grocerite-orange-200-sm {$lc.text} flex-col items-center">
 
                 <div class="relative flex w-full">
@@ -137,49 +173,65 @@
                         candidates={availableItems}
                     />
                 </div>
+                <div class="w-full grid grid-cols-1 2xl:grid-cols-3 gap-3">
+                
+                    <div class="flex w-full flex-col">
+                        <div class="text-lg text-emerald-700 font-bold">
+                            Category
+                        </div>
+                        <div class="px-3">
+                            <button type="button" 
+                                class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
+                                on:click={() => setCategoryDialog(true)}>
+                                <div>
+                                    <img src="/icons/itemCategory/itemCategory-icon-{itemCategory}.png" 
+                                        alt="category icon" class="w-12" />
+                                </div>
+                                <div class="text-left text-neutral-700">{$_(`common_category_${itemCategory}`)}</div>
+                            </button>
+                        </div>
+                    </div>
 
-                <div class="flex w-full flex-col">
-                    <div class="text-lg text-emerald-700 font-bold">
-                        Category
+                    <div class="flex w-full flex-col">
+                        <div class="text-lg text-emerald-700 font-bold">
+                            Quantity
+                        </div>
+                        <div class="px-3">
+                            <button type="button" 
+                                class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
+                                on:click={() => setQuantityDialog(true)}>
+                                <div class="text-xl h-12 font-bold flex items-center justify-center">
+                                    {itemQuantity}
+                                </div>
+                            </button>
+                        </div>
                     </div>
-                    <div class="px-3">
-                        <button type="button" 
-                            class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
-                            on:click={() => setCategoryDialog(true)}>
-                            <div>
-                                <img src="/icons/itemCategory/itemCategory-icon-{itemCategory}.png" 
-                                    alt="category icon" class="w-12" />
-                            </div>
-                            <div>{$_(`common_category_${itemCategory}`)}</div>
-                        </button>
+
+                    <div class="flex w-full flex-col">
+                        <div class="text-lg text-emerald-700 font-bold">
+                            Target Container
+                        </div>
+                        <div class="px-3">
+                            <button type="button" 
+                                class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
+                                on:click={() => setContainerDialog(true)}>
+                                <div class="flex items-center gap-2">
+                                    {#if !itemContainer}
+                                        <div class="h-12 font-normal text-base text-neutral-400 flex justify-center items-center ">{$_('groceryList_addListItemsContainerSelectPrompt')}</div>
+                                    {:else}
+                                    <div>
+                                        <img src="/icons/container/container-icon-{itemContainer.type}.png" 
+                                            alt="category icon" class="w-12" />
+                                    </div>
+                                    <div class="text-left text-neutral-700">{itemContainer.name}</div>
+                                    {/if}
+                                </div>
+                            </button>
+                        </div>
                     </div>
+
+
                 </div>
-
-                <div class="flex w-full flex-col">
-                    <div class="text-lg text-emerald-700 font-bold">
-                        Quantity
-                    </div>
-                    <div class="px-3">
-                        <button type="button" 
-                            class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
-                            on:click={() => setQuantityDialog(true)}>
-                            <div class="text-xl font-bold">
-                                {itemQuantity}
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex w-full flex-col">
-                    <div class="text-lg text-emerald-700 font-bold">
-                        Target Container
-                    </div>
-                    <div class="px-3">
-                        cate
-                    </div>
-                </div>
-
-
 
                 
             </div>

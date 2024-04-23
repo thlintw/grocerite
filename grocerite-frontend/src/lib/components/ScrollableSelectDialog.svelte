@@ -16,6 +16,7 @@
     export let title: string = '';
     export let barrierColor: string = 'bg-neutral-700/20';
     export let hasFilter: boolean = false;
+    export let noResultText: string = 'common_noFilterResult';
 
     interface SelectOption {
         iconPath?: string;
@@ -76,7 +77,7 @@
             ">
             <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
-                { $_(title) }
+                <div class="drop-shadow-title">{ $_(title) }</div>
             </div>
             <div class="bg-orange-50 rounded-2xl flex gap-3 py-5 pb-2
                 shadow-grocerite-orange-200-sm {$lc.text} overflow-hidden flex flex-col">
@@ -104,7 +105,7 @@
                                 { innerAtEnd && filteredOptions.length > 2 ? 'bottom-mask' : '' }
                             ">
                                 {#each filteredOptions as opt}
-                                    <div class="rounded-md flex p-2 hover:bg-orange-100">
+                                    <div class="rounded-xl flex p-2 hover:bg-orange-100">
                                         <button type="button" class="w-full h-full flex text-lg items-center justify-center"
                                             on:click={() => onSelect(opt)}>
                                             <div class="lg:w-10/12 w-11/12 flex justify-start items-center gap-3">
@@ -125,8 +126,8 @@
                                                                 />
                                                         </div>
                                                     {:else}
-                                                        <div class="w-14 text-base text-orange-500 rounded-full overflow-hidden"
-                                                            style={opt.iconBg ? `background-color: ${opt.iconBg}` : ''}>
+                                                        <div class="w-14 text-base text-orange-500 overflow-hidden"
+                                                            style={opt.iconBg ? `background-color: ${opt.iconBg} rounded-full` : ''}>
                                                             <img src={opt.iconPath} alt="icon" />
                                                         </div>
                                                     {/if}
@@ -141,7 +142,7 @@
 
                 {:else}
                     <div class="flex justify-center items-center w-full h-20 text-neutral-500">
-                        <span>{$_('common_noFilterResult')}</span>
+                        <span>{$_(noResultText)}</span>
                     </div>
                 {/if}
             </div>

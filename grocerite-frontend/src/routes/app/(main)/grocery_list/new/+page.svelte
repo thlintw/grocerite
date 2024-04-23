@@ -6,7 +6,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import PlusButton from "$lib/components/PlusButton.svelte";
     import ScrollableSelectDialog from "$lib/components/ScrollableSelectDialog.svelte";
     import TextInputDialog from "$lib/components/TextInputDialog.svelte";
-    import { Container, ContainerItem } from "$lib/models/container";
+    import { Container, ContainerItem, ContainerType } from "$lib/models/container";
     import { GroceryListItem } from "$lib/models/groceryList";
     import { Member } from "$lib/models/household";
     import { ItemCategory } from "$lib/models/item";
@@ -194,11 +194,13 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
             name: 'Fridge',
             idx: 0,
             iconIdx: 1,
+            type: ContainerType.Refridgerator
         }),
         new Container({
             name: 'Pantry',
             idx: 1,
             iconIdx: 2,
+            type: ContainerType.Pantry
         }),
     ]
 
@@ -210,7 +212,6 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         };
     });
     $: availableStores = tempAvailableStores;
-
 
 </script>
 
@@ -276,6 +277,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     <NewGroceryListItemDialog
         showDialog={showNewItemDialog}
         availableItems={availableItems}
+        availableContainers={tempAvailableContainers}
         on:click:barrierDismiss={(e) => {
             setNewItemDialog(false);
         }}

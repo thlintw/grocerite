@@ -21,6 +21,9 @@ export default {
       },
       fontFamily: {
         berkshire: ['Berkshire Swash', 'cursive'],
+      },
+      dropShadow: {
+        title: '0 1px 2px #ffedd5',
       }
     },
   },
