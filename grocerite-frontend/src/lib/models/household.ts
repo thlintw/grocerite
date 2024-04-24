@@ -15,25 +15,29 @@ export class Member {
     pfp: Pfp;
     householdIdx: number;
     name: string;
+    isCreator: boolean;
 
     constructor({
         user = null,
         userIdx = -1,
         pfp = {} as Pfp,
         householdIdx = -1,
-        name = ''
+        name = '',
+        isCreator = false
     } : {
         user?: UserProfile | null,
         userIdx?: number,
         pfp?: Pfp,
         householdIdx?: number,
-        name?: string
+        name?: string,
+        isCreator? : boolean
     } = {}) {
         this.user = user;
         this.userIdx = userIdx;
         this.pfp = pfp;
         this.householdIdx = householdIdx;
         this.name = name;
+        this.isCreator = isCreator;
     }
 
     static fromJson(json: any): Member {
@@ -42,7 +46,8 @@ export class Member {
             userIdx: json.userIdx,
             pfp: json.pfp,
             householdIdx: json.householdIdx,
-            name: json.name
+            name: json.name,
+            isCreator: json.isCreator
         });
     }
 }
