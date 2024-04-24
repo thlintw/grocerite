@@ -11,13 +11,13 @@ export const properCapitalize = (str: string): string => {
 }
 
 export const getItemsCategoryOrder = (items: GroceryListItem[] | ContainerItem[])  => {
-    const categoryOrder = Object.values(ItemCategory);
-    const groupedItems = items.reduce((acc, item) => {
-        if (!acc[item.category]) {
-            acc[item.category] = [];
+    const output: Record<string, GroceryListItem[] | ContainerItem[]> = {};
+    items.forEach(item => {
+        const category = item.category;
+        if (!output[category]) {
+            output[category] = [];
         }
-        acc[item.category].push(item);
-        return acc;
+        output[category].push(item);
     });
-    return groupedItems;
+    return output;
 }

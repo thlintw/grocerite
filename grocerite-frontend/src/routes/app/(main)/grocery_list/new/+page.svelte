@@ -9,7 +9,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import { Container, ContainerItem, ContainerType } from "$lib/models/container";
     import { GroceryListItem } from "$lib/models/groceryList";
     import { Member } from "$lib/models/household";
-    import { ItemCategory } from "$lib/models/item";
+    import { ItemCategory, getItemCategoryIcon } from "$lib/models/item";
     import { Store } from "$lib/models/store";
     import { lc } from "$lib/stores/general";
     import { faCalendar, faCalendarXmark, faComment, faSun, faUser, faUserAltSlash } from "@fortawesome/free-solid-svg-icons";
@@ -216,7 +216,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     $: availableStores = tempAvailableStores;
     
 
-    $: groupedListItems = getItemsCategoryOrder(tempAvailableItems);
+    $: groupedListItems = {};
 
 </script>
 
@@ -293,6 +293,9 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         on:click:addItem={(e) => {
             console.log(e.detail.item);
             listItems = [...listItems, e.detail.item];
+            console.log(listItems);
+            groupedListItems = getItemsCategoryOrder(listItems);
+            console.log(groupedListItems);
             setNewItemDialog(false);
         }}
         />
@@ -371,5 +374,35 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
                 {$_('groceryList_addListItems')}
             </div>
         </div>
+    </div>
+
+    <div class="
+        flex flex-col
+        w-full h-full gap-5
+        pb-32 lg:pb-3
+        mt-2
+    ">
+    {#if Object.keys(groupedListItems).length > 0 }
+        {#each Object.values(ItemCategory) as category}
+            {#if groupedListItems[category]}
+                <div class="w-full bg-orange-50 px-3 lg:px-5 py-3 flex flex-col gap-3 rounded-xl shadow-grocerite-orange-200-sm">
+                    <div class="flex items-center w-full gap-2 border-b-2 border-b-orange-100 pb-2">
+                        <h3 class="text-xl lg:text-2xl text-orange-500 {$lc.title}">{$_(`common_category_${category}`)}</h3>
+                        <img src={getItemCategoryIcon(category)} alt="{category}" class="ml-auto w-8 lg:w-10" />
+                    </div>
+                    <div class="flex flex-col gap-2 mb-2">
+                        {#each groupedListItems[category] as item}
+                            <div class="flex items-center text-neutral-700">
+                                <div class="text-xl {$lc.text} font-mono text-center w-16 font-bold shrink-0">{item.quantity}</div>
+                                <div class="{$lc.text} text-base lg:text-lg overflow-hidden text-ellipsis text-nowrap pr-2 flex items-center">
+                                    <span class="">{item.name}</span>
+                                </div>
+                            </div>
+                        {/each}
+                    </div>
+                </div>
+            {/if}
+        {/each}
+    {/if}
     </div>
 </div>

@@ -53,7 +53,6 @@
             targetContainerIdx: itemContainer!.idx,
             ticked: false,
             storeIdx: -1,
-            iconIdx: -1,
         };
         dispatch('click:addItem', { item });
     };

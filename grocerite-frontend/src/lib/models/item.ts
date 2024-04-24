@@ -40,27 +40,22 @@ export enum ItemIcon {
 }
 
 export class Item {
-    itemIdx: number;
     name: string;
     category: ItemCategory;
 
     constructor({
-        itemIdx = -1,
         name = '',
         category = ItemCategory.Other,
     } : {
-        itemIdx?: number,
         name?: string,
         category?: ItemCategory
     } = {}) {
-        this.itemIdx = itemIdx;
         this.name = name;
         this.category = category;
     }
 
     static fromJson(json: any): Item {
         return new Item({
-            itemIdx: json.idx,
             name: json.name,
             category: ItemCategory[json.category],
         });

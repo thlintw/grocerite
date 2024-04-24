@@ -275,7 +275,7 @@
                             <div class="flex items-center text-neutral-700">
                                 <button type="button" class="relative border-2 bg-orange-100 border-orange-200 w-8 h-8 rounded-lg shrink-0
                                     flex justify-center items-center"
-                                    on:click={() => tickingHandler(item)}>
+                                    on:click={() => item instanceof GroceryListItem ? tickingHandler(item) : null}>
                                     {#if apiLoading.includes(item.idx)}
                                         <div 
                                             class="animate-spin rounded-full h-4 w-4 border-2 border-b-transparent border-orange-200"></div>
@@ -296,7 +296,7 @@
                                     {:else}
                                         <span class="">{item.name}</span>
                                     {/if}
-                                    {#if item.tickedBy}
+                                    {#if item instanceof GroceryListItem && item.tickedBy}
                                         <span class="ml-2 border-2 border-neutral-300 rounded-md text-neutral-400 text-sm px-1.5 py-0.5 flex gap-1">
                                             <span>
                                                 <FontAwesomeIcon
