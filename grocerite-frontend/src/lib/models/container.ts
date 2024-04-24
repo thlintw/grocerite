@@ -1,22 +1,18 @@
-import { ItemCategory } from "./item";
+import { Item, ItemCategory } from "./item";
 
-export class ContainerItem{
+export class ContainerItem extends Item{
     idx: number;
-    name: string;
     quantity: number;
-    comment: string;
     isRemoved: boolean;
     storeIdx: number;
-    category: ItemCategory;
 
     constructor({
         idx = -1,
         name = '',
         quantity = 0,
-        comment = '',
         isRemoved = false,
         storeIdx = -1,
-        category = ItemCategory.Other
+        ...itemProps
     } : {
         idx?: number,
         name?: string,
@@ -24,15 +20,12 @@ export class ContainerItem{
         comment?: string,
         isRemoved?: boolean,
         storeIdx?: number,
-        category?: ItemCategory
-    } = {}) {
+    } & Partial<Item> = {}) {
+        super({...itemProps, name})
         this.idx = idx;
-        this.name = name;
         this.quantity = quantity;
-        this.comment = comment;
         this.isRemoved = isRemoved;
         this.storeIdx = storeIdx;
-        this.category = category;
     }
 
     static fromJson(json: any): ContainerItem {
@@ -45,7 +38,6 @@ export class ContainerItem{
             comment: json.comment,
             isRemoved: json.isRemoved,
             storeIdx: json.storeIdx,
-            category: cate
         });
     }
 }

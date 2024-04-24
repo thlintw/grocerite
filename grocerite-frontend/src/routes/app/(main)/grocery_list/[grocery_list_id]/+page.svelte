@@ -13,6 +13,7 @@
     import ActionMenu from '$lib/components/ActionMenu.svelte';
     import { showLoadingOverlay } from '$lib/stores/general';
     import { dialog } from '$lib/stores/dialogStore';
+    import { getItemsCategoryOrder } from '$lib/utilities';
 
     onMount(() => {
         console.log('onMount');
@@ -106,19 +107,8 @@
             }),
         ]
     });
-    
-    const categoryOrder = Object.values(ItemCategory);
 
-    const getCategoryOrdinal = (category) => categoryOrder.indexOf(category);
-
-    let groupedItems = mockList.items.reduce((acc, item) => {
-        (acc[item.category] = acc[item.category] || []).push(item);
-        return acc;
-    }, {});
-
-    let sortedCategories = Object.keys(groupedItems).sort(
-        (a, b) => getCategoryOrdinal(a) - getCategoryOrdinal(b)
-    );
+    let groupedItems = getItemsCategoryOrder(mockList.items);
 
     let apiLoading: number[] = [];
 
@@ -273,53 +263,55 @@
         pb-32 lg:pb-3
         mt-2
     ">
-        {#each sortedCategories as category}
-            <div class="w-full bg-orange-50 px-3 lg:px-5 py-3 flex flex-col gap-3 rounded-xl shadow-grocerite-orange-200-sm">
-                <div class="flex items-center w-full gap-2 border-b-2 border-b-orange-100 pb-2">
-                    <h3 class="text-xl lg:text-2xl text-orange-500 {$lc.title}">{$_(`common_category_${category}`)}</h3>
-                    <img src={getItemCategoryIcon(category)} alt="{category}" class="ml-auto w-8 lg:w-10" />
-                </div>
-                <div class="flex flex-col gap-2 mb-2">
-                {#each groupedItems[category].sort((a, b) => a.idx - b.idx) as item}
-                    <div class="flex items-center text-neutral-700">
-                        <button type="button" class="relative border-2 bg-orange-100 border-orange-200 w-8 h-8 rounded-lg shrink-0
-                            flex justify-center items-center"
-                            on:click={() => tickingHandler(item)}>
-                            {#if apiLoading.includes(item.idx)}
-                                <div 
-                                    class="animate-spin rounded-full h-4 w-4 border-2 border-b-transparent border-orange-200"></div>
-                            {:else if tickedItemIdxs.includes(item.idx) && !apiLoading.includes(item.idx)}
-                                <div class="absolute -top-[2px] -left-[2px] w-9 h-9 text-emerald-600"
-                                transition:fade>
-                                    <FontAwesomeIcon 
-                                        icon={faCheck}
-                                        class="w-9 h-9"
-                                        />
-                                </div>
-                            {/if}
-                        </button>
-                        <div class="text-xl {$lc.text} font-mono text-center w-16 font-bold shrink-0">{item.quantity}</div>
-                        <div class="{$lc.text} text-base lg:text-lg overflow-hidden text-ellipsis text-nowrap pr-2 flex items-center">
-                            {#if tickedItemIdxs.includes(item.idx)}
-                                <span class="line-through text-neutral-400">{item.name}</span>
-                            {:else}
-                                <span class="">{item.name}</span>
-                            {/if}
-                            {#if item.tickedBy}
-                                <span class="ml-2 border-2 border-neutral-300 rounded-md text-neutral-400 text-sm px-1.5 py-0.5 flex gap-1">
-                                    <span>
-                                        <FontAwesomeIcon
-                                            icon={faCheck}
-                                        />
-                                    </span>
-                                    <span>{$_('common_by')} {item.tickedBy.name}</span>
-                                </span>
-                            {/if}
-                        </div>
+        {#each Object.values(ItemCategory) as category}
+            {#if groupedItems[category]}
+                <div class="w-full bg-orange-50 px-3 lg:px-5 py-3 flex flex-col gap-3 rounded-xl shadow-grocerite-orange-200-sm">
+                    <div class="flex items-center w-full gap-2 border-b-2 border-b-orange-100 pb-2">
+                        <h3 class="text-xl lg:text-2xl text-orange-500 {$lc.title}">{$_(`common_category_${category}`)}</h3>
+                        <img src={getItemCategoryIcon(category)} alt="{category}" class="ml-auto w-8 lg:w-10" />
                     </div>
-                {/each}
+                    <div class="flex flex-col gap-2 mb-2">
+                        {#each groupedItems[category] as item}
+                            <div class="flex items-center text-neutral-700">
+                                <button type="button" class="relative border-2 bg-orange-100 border-orange-200 w-8 h-8 rounded-lg shrink-0
+                                    flex justify-center items-center"
+                                    on:click={() => tickingHandler(item)}>
+                                    {#if apiLoading.includes(item.idx)}
+                                        <div 
+                                            class="animate-spin rounded-full h-4 w-4 border-2 border-b-transparent border-orange-200"></div>
+                                    {:else if tickedItemIdxs.includes(item.idx) && !apiLoading.includes(item.idx)}
+                                        <div class="absolute -top-[2px] -left-[2px] w-9 h-9 text-emerald-600"
+                                        transition:fade>
+                                            <FontAwesomeIcon 
+                                                icon={faCheck}
+                                                class="w-9 h-9"
+                                                />
+                                        </div>
+                                    {/if}
+                                </button>
+                                <div class="text-xl {$lc.text} font-mono text-center w-16 font-bold shrink-0">{item.quantity}</div>
+                                <div class="{$lc.text} text-base lg:text-lg overflow-hidden text-ellipsis text-nowrap pr-2 flex items-center">
+                                    {#if tickedItemIdxs.includes(item.idx)}
+                                        <span class="line-through text-neutral-400">{item.name}</span>
+                                    {:else}
+                                        <span class="">{item.name}</span>
+                                    {/if}
+                                    {#if item.tickedBy}
+                                        <span class="ml-2 border-2 border-neutral-300 rounded-md text-neutral-400 text-sm px-1.5 py-0.5 flex gap-1">
+                                            <span>
+                                                <FontAwesomeIcon
+                                                    icon={faCheck}
+                                                />
+                                            </span>
+                                            <span>{$_('common_by')} {item.tickedBy.name}</span>
+                                        </span>
+                                    {/if}
+                                </div>
+                            </div>
+                        {/each}
+                    </div>
                 </div>
-            </div>
+            {/if}
         {/each}
     </div>
 </div>

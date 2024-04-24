@@ -1,50 +1,41 @@
 import { Item } from './item';
 import { Member } from './household';
+import type { ContainerItem } from './container';
 
 export class GroceryListItem extends Item {
     idx: number;
-    label: string;
     quantity: number;
     ticked: boolean;
     tickedBy?: Member | null;
     storeIdx: number;
     targetContainerIdx: number;
-    iconIdx: number;
 
     constructor({
         idx = -1,
         name = '',
-        category = null,
-        icon = null,
-        label = '',
         quantity = 0,
         ticked = false,
         tickedBy = null,
         storeIdx = -1,
         targetContainerIdx = -1,
-        iconIdx = -1
+        ...itemProps
     } : {
         idx?: number,
         name?: string,
-        category?: any,
-        icon?: any,
-        label?: string,
         quantity?: number,
         ticked?: boolean,
         tickedBy?: Member | null,
         storeIdx?: number,
         targetContainerIdx?: number,
         iconIdx?: number
-    } = {}) {
-        super({name, category, icon});
+    } & Partial<Item> = {}) {
+        super({...itemProps, name});
         this.idx = idx;
-        this.label = label;
         this.quantity = quantity;
         this.ticked = ticked;
         this.tickedBy = tickedBy;
         this.storeIdx = storeIdx;
         this.targetContainerIdx = targetContainerIdx;
-        this.iconIdx = iconIdx;
     }
 
     static fromJson(json: any): GroceryListItem {
@@ -52,8 +43,6 @@ export class GroceryListItem extends Item {
             idx: json.idx,
             name: json.name,
             category: json.category,
-            icon: json.icon,
-            label: json.label,
             quantity: json.quantity,
             ticked: json.ticked,
             tickedBy: json.tickedBy,

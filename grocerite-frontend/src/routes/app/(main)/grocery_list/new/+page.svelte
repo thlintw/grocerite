@@ -16,6 +16,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
     import { onMount } from "svelte";
     import { _, locale } from "svelte-i18n";
+    import { getItemsCategoryOrder } from "$lib/utilities";
 
     let showIconDialog = false;
     const setIconDialog = (value: boolean) => showIconDialog = value;
@@ -38,6 +39,7 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     let listIconIdx: number = -1;
     let listAssignee: Member | null = null;
     let listDeadline: Date | null = null;
+    let listItems: GroceryListItem[] = [];
 
     onMount(() => {
         getLocalizedDefaultName();
@@ -212,6 +214,8 @@ import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
         };
     });
     $: availableStores = tempAvailableStores;
+
+    $: groupedListItems = getItemsCategoryOrder(tempAvailableItems);
 
 </script>
 

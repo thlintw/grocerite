@@ -40,34 +40,29 @@ export enum ItemIcon {
 }
 
 export class Item {
-    idx: number;
+    itemIdx: number;
     name: string;
     category: ItemCategory;
-    icon: ItemIcon | null;
 
     constructor({
-        idx = -1,
+        itemIdx = -1,
         name = '',
         category = ItemCategory.Other,
-        icon = null
     } : {
-        idx?: number,
+        itemIdx?: number,
         name?: string,
-        category?: ItemCategory,
-        icon?: ItemIcon | null
+        category?: ItemCategory
     } = {}) {
-        this.idx = idx;
+        this.itemIdx = itemIdx;
         this.name = name;
         this.category = category;
-        this.icon = icon;
     }
 
     static fromJson(json: any): Item {
         return new Item({
-            idx: json.idx,
+            itemIdx: json.idx,
             name: json.name,
             category: ItemCategory[json.category],
-            icon: null
         });
     }
 
