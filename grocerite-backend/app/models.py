@@ -57,6 +57,7 @@ class Member(TimestampMixin, db.Model):
     household = relationship('Household', back_populates='members')
     user_idx = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship('User', back_populates='households')
+    is_creator = Column(Boolean, default=False)
 
 class ContainerType(TimestampMixin, db.Model):
     __tablename__ = 'container_type'
