@@ -196,6 +196,9 @@
                         placeholder={$_('groceryList_addListItemsNamePlaceholder')}
                         bind:value={itemName}
                         candidates={availableItems}
+                        on:select={(e) => {
+                            itemName = e.detail[0].label;
+                        }}
                     />
                 </div>
                 <div class="w-full grid grid-cols-1 2xl:grid-cols-3 gap-3">

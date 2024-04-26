@@ -65,7 +65,7 @@
         selection = [...selection, selected];
         value = '';
         filteredCandidates = [];
-        dispatch('select', selected);
+        dispatch('select', selection);
     };
 
     const deselectSelf = (selected: SelectCandidate) => {

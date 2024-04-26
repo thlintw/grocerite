@@ -1,6 +1,6 @@
 <script lang="ts">
     import DateDialog from "$lib/components/DateDialog.svelte";
-import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
+    import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
     import NewGroceryListItemDialog from "$lib/components/NewGroceryListItemDialog.svelte";
     import PlusButton from "$lib/components/PlusButton.svelte";

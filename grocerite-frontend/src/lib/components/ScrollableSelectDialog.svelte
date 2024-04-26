@@ -126,8 +126,9 @@
                                                                 />
                                                         </div>
                                                     {:else}
-                                                        <div class="w-14 text-base text-orange-500 overflow-hidden"
-                                                            style={opt.iconBg ? `background-color: ${opt.iconBg} rounded-full` : ''}>
+                                                        <div class="w-14 text-base text-orange-500 overflow-hidden
+                                                            {opt.iconBg ? 'rounded-full' : ''}"
+                                                            style={opt.iconBg ? `background-color: ${opt.iconBg}` : ''}>
                                                             <img src={opt.iconPath} alt="icon" />
                                                         </div>
                                                     {/if}
