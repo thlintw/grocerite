@@ -38,6 +38,8 @@ class Household(TimestampMixin, db.Model):
     containers = relationship('Container', back_populates='household')
     grocery_lists = relationship('GroceryList', back_populates='household')
     stores = relationship('Store', back_populates='household')
+    creator_idx = Column(Integer, ForeignKey('user.id'), nullable=False)
+    creator = relationship('User', back_populates='households')
 
 class MemberPFP(TimestampMixin, db.Model):
     __tablename__ = 'member_pfp'
@@ -55,6 +57,7 @@ class Member(TimestampMixin, db.Model):
     household = relationship('Household', back_populates='members')
     user_idx = Column(Integer, ForeignKey('user.id'), nullable=False)
     user = relationship('User', back_populates='households')
+    is_creator = Column(Boolean, default=False)
 
 class ContainerType(TimestampMixin, db.Model):
     __tablename__ = 'container_type'
@@ -192,7 +195,6 @@ class ContainerItem(TimestampMixin, db.Model):
     container = relationship('Container', back_populates='items')
     store_idx = Column(Integer, ForeignKey('store.id'), nullable=True)
     store = relationship('Store', back_populates='container_items')
-    name = Column(Unicode(100), nullable=False)
     quantity = Column(Unicode(50))
     comment = Column(Text)
     is_removed = Column(Boolean, default=False)
@@ -208,7 +210,7 @@ class Store(TimestampMixin, db.Model):
     household = relationship('Household', back_populates='stores')
 
 
-class household_config(TimestampMixin, db.Model):
+class HouseholdConfig(TimestampMixin, db.Model):
     __tablename__ = 'household_config'
     id = Column(Integer, primary_key=True)
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
