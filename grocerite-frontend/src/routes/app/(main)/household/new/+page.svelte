@@ -7,6 +7,7 @@
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
     import PlusButton from "$lib/components/PlusButton.svelte";
     import { faComment, faSun } from "@fortawesome/free-solid-svg-icons";
+    import type { Container } from "$lib/models/container";
 
     $: showIconDialog = false;
     $: showHousholdNameDialog = false;
@@ -16,6 +17,7 @@
     let householdName = '';
     let householdIconPath = '';
     let householdIconIdx = 0;
+    let householdContainers: Container[] = [];
 
     
     const getHouseholdIcon = (iconPath: string) => {
@@ -71,7 +73,7 @@
     </div>
     <div class="grid gap-3 w-full grid-cols-2">
         <ListPropCardButton
-            onClick={() => setListNameDialog(true)}
+            onClick={() => setHousholdNameDialog(true)}
             icon={faComment}
             headerText={$_('groceryList_labelListName')}
             >
@@ -87,18 +89,18 @@
         </ListPropCardButton>
 
     </div>
-    <!-- <div class="flex-col w-full mt-5">
+    <div class="flex-col w-full mt-5">
         <div class="w-full flex items-center justify-start">
             <PlusButton
                 onClick={() => {
-                    setNewItemDialog(true);
+                    // setNewItemDialog(true);
                 }}
                 />
             <div class="text-orange-500 text-base font-normal ml-2 {$lc.text}">
-                {$_('groceryList_addListItems')}
+                {$_('household_addHouseholdContainers')}
             </div>
         </div>
-    </div> -->
+    </div>
 
     <!-- <div class="
         flex flex-col

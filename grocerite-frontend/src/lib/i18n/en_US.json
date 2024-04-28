@@ -112,6 +112,7 @@
     "groceryList_addListItemsContainerSelectPrompt": "Select a container",
     "common_noContainers": "No containers in this household",
     "common_addContainerCallToAction": "Add a container",
-    "household_createNewHousehold": "Create a new household"
+    "household_createNewHousehold": "Create a new household",
+    "household_addHouseholdContainers": "Containers"
 }
   
