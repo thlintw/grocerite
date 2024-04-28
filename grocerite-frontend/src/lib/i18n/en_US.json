@@ -110,9 +110,22 @@
     "groceryList_addListItemsQuantityPlaceholder": "Enter or select quantity",
     "groceryList_addListItemsContainerSelect": "Select container",
     "groceryList_addListItemsContainerSelectPrompt": "Select a container",
+    "groceryList_addListSave": "Save list",
+    "groceryList_addListCancel": "Cancel",
+    "groceryList_addListCancelWarning": "Are you sure you want to cancel? All changes will be lost.",
     "common_noContainers": "No containers in this household",
     "common_addContainerCallToAction": "Add a container",
     "household_createNewHousehold": "Create a new household",
-    "household_addHouseholdContainers": "Containers"
+    "household_addHouseholdContainers": "Containers",
+    "household_manageHousehold": "Manage household",
+    "household_householdName": "Name",
+    "household_householdNamePlaceholder": "Enter household name",
+    "household_householdIcon": "Icon",
+    "household_householdIconSelect": "Select an icon",
+    "household_householdMembers": "Members",
+    "household_householdMembersLater": "Members can be added after creating the household",
+    "household_containerWarning": "At least one container is required",
+    "household_saveAndCreate": "Save and create household",
+    "household_sureToCancel": "Are you sure you want to cancel?"
 }
   
