@@ -16,6 +16,7 @@
     import Button from './Button.svelte';
     import QuantitySelectionDialog from './QuantitySelectionDialog.svelte';
     import type { GroceryListItem } from '$lib/models/groceryList';
+    import FormInput from './FormInput.svelte';
 
     const dispatch = createEventDispatcher();
 
@@ -24,7 +25,7 @@
     export let availableItems: SelectCandidate[] = [];
     export let availableContainers: Container[] = [];
 
-    let itemName = '';
+    let containerName = '';
     let itemCategory: ItemCategory = ItemCategory.Vegetables;
     let itemQuantity = 1;
     let itemContainer: Container | null = null;
@@ -47,7 +48,7 @@
     const onAddItem = () => {
         const item: GroceryListItem = {
             idx: -1,
-            name: itemName,
+            name: containerName,
             category: itemCategory,
             quantity: itemQuantity,
             targetContainerIdx: itemContainer!.idx,
@@ -117,7 +118,7 @@
     let buttonLoading = false;
 
     const reset = () => {
-        itemName = '';
+        containerName = '';
         itemCategory = ItemCategory.Vegetables;
         itemQuantity = 1;
         itemContainer = null;
@@ -134,19 +135,6 @@
 
 {#if showDialog}
 
-    <QuantitySelectionDialog
-        showDialog={showQuantityDialog}
-        title="groceryList_addListItemsQuantityPlaceholder"
-        value={itemQuantity}
-        on:click:barrierDismiss={(e) => {
-            setQuantityDialog(false);
-        }}
-        on:click:minus={() => itemQuantityControl('-')}
-        on:click:doubleMinus={() => itemQuantityControl('--')}
-        on:click:plus={() => itemQuantityControl('+')}
-        on:click:doublePlus={() => itemQuantityControl('++')}
-        />
-
 
     <ScrollableSelectDialog 
         showDialog={showCategoryDialog}
@@ -161,19 +149,6 @@
         }}
     />
 
-
-    <ScrollableSelectDialog 
-        showDialog={showContainerDialog}
-        options={getContainerOptions()}
-        title="groceryList_addListItemsContainerSelect"
-        hasFilter={true}
-        on:click:selectOption={(e) => {
-            getContainer(e.detail.option.value);
-        }}
-        on:click:barrierDismiss={(e) => {
-            setContainerDialog(false);
-        }}
-    />
 
     <button transition:fade on:click={onBarrierDismiss} 
         class="fixed inset-0 left-0 top-0 w-full h-full z-[10008] bg-neutral-700/20"></button>
@@ -191,13 +166,12 @@
 
                 <div class="relative flex w-full">
 
-                    <SearchableFormInput 
+                    <FormInput 
                         label={$_('groceryList_addListItemsName')}
                         placeholder={$_('groceryList_addListItemsNamePlaceholder')}
-                        bind:value={itemName}
-                        candidates={availableItems}
+                        bind:value={containerName}
                         on:select={(e) => {
-                            itemName = e.detail[0].label;
+                            containerName = e.detail[0].label;
                         }}
                     />
                 </div>
