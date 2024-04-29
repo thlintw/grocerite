@@ -5,14 +5,18 @@
     import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import TextInputDialog from "$lib/components/TextInputDialog.svelte";
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
+    import ContainerDialog from "$lib/components/ContainerDialog.svelte";
     import PlusButton from "$lib/components/PlusButton.svelte";
     import { faComment, faSun } from "@fortawesome/free-solid-svg-icons";
     import type { Container } from "$lib/models/container";
+    import { onMount } from "svelte";
 
     $: showIconDialog = false;
     $: showHousholdNameDialog = false;
+    $: showContainerDialog = false;
     const setIconDialog = (value: boolean) => showIconDialog = value;
     const setHousholdNameDialog = (value: boolean) => showHousholdNameDialog = value;
+    const setContainerDialog = (value: boolean) => showContainerDialog = value;
 
     let householdName = '';
     let householdIconPath = '';
@@ -36,6 +40,12 @@
         }
     };
 
+    onMount(() => {
+        householdName = $_('household_newHouseholdDefaultName');
+        householdIconIdx = Math.floor(Math.random() * 9) + 1;
+        householdIconPath = `/icons/household/household-icon-${String(householdIconIdx).padStart(2, '0')}.png`;
+    });
+
 </script>
 
 
@@ -43,7 +53,7 @@
 
     <IconSelectionDialog
         showDialog={showIconDialog}
-        mode="groceryList"
+        mode="household"
         title="common_selectAnIcon"
         on:click:selectIcon={(e) => {
             getHouseholdIcon(e.detail.iconPath);
@@ -65,6 +75,28 @@
         on:keyup={handleHouseholdNameKeyUp}
         />
 
+        
+    <ContainerDialog
+        showDialog={showNewItemDialog}
+        availableItems={availableItems}
+        availableContainers={tempAvailableContainers}
+        on:click:barrierDismiss={(e) => {
+            setNewItemDialog(false);
+        }}
+        on:click:selectOption={(e) => {
+            console.log(e.detail.selected);
+        }}
+        title='groceryList_addListItemsDialogTitle'
+        on:click:addItem={(e) => {
+            console.log(e.detail.item);
+            listItems = [...listItems, e.detail.item];
+            console.log(listItems);
+            groupedListItems = getItemsCategoryOrder(listItems);
+            console.log(groupedListItems);
+            setNewItemDialog(false);
+        }}
+        />
+
 
     <div class="{$lc.title} text-2xl text-orange-500 flex items-center">
         <span class="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -77,7 +109,7 @@
             icon={faComment}
             headerText={$_('groceryList_labelListName')}
             >
-            <!-- <span class="text-neutral-700 font-normal">{listName}</span> -->
+            <span class="text-neutral-700 font-normal">{householdName}</span>
         </ListPropCardButton>
 
         <ListPropCardButton
@@ -85,7 +117,7 @@
             icon={faSun}
             headerText={$_('groceryList_labelListIcon')}
             >
-            <!-- <img src={listIconPath} alt="icon" class="w-20" /> -->
+            <img src={householdIconPath} alt="icon" class="w-20" />
         </ListPropCardButton>
 
     </div>

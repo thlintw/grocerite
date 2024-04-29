@@ -126,6 +126,7 @@
     "household_householdMembersLater": "Members can be added after creating the household",
     "household_containerWarning": "At least one container is required",
     "household_saveAndCreate": "Save and create household",
-    "household_sureToCancel": "Are you sure you want to cancel?"
+    "household_sureToCancel": "Are you sure you want to cancel?",
+    "household_newHouseholdDefaultName": "My Household"
 }
   

@@ -28,7 +28,7 @@
                         return Array.from({ length: 5 }, (_, i) => `/icons/avatar/nb/avatar-nb-${i + 1}.png`);
                 }
             case 'household':
-                return Array.from({ length: 7 }, (_, i) => `/icons/household/household-icon-${i + 1}.png`);
+                return Array.from({ length: 9 }, (_, i) => `/icons/household/household-icon-${String(i + 1).padStart(2, '0')}.png`);
             case 'container':
                 return Object.values(ContainerType).map((type) => `/icons/container/container-icon-${type}.png`);
             case 'groceryList':

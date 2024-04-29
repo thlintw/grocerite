@@ -2,7 +2,7 @@
     import DateDialog from "$lib/components/DateDialog.svelte";
     import IconSelectionDialog from "$lib/components/IconSelectionDialog.svelte";
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
-    import NewGroceryListItemDialog from "$lib/components/NewGroceryListItemDialog.svelte";
+    import GroceryListItemDialog from "$lib/components/GroceryListItemDialog.svelte";
     import PlusButton from "$lib/components/PlusButton.svelte";
     import ScrollableSelectDialog from "$lib/components/ScrollableSelectDialog.svelte";
     import TextInputDialog from "$lib/components/TextInputDialog.svelte";
@@ -279,7 +279,7 @@
         }}
         />
 
-    <NewGroceryListItemDialog
+    <GroceryListItemDialog
         showDialog={showNewItemDialog}
         availableItems={availableItems}
         availableContainers={tempAvailableContainers}
