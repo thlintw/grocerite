@@ -77,23 +77,21 @@
 
         
     <ContainerDialog
-        showDialog={showNewItemDialog}
-        availableItems={availableItems}
-        availableContainers={tempAvailableContainers}
+        showDialog={showContainerDialog}
         on:click:barrierDismiss={(e) => {
-            setNewItemDialog(false);
+            setContainerDialog(false);
         }}
         on:click:selectOption={(e) => {
             console.log(e.detail.selected);
         }}
-        title='groceryList_addListItemsDialogTitle'
+        title='common_addContainerCallToAction'
         on:click:addItem={(e) => {
-            console.log(e.detail.item);
-            listItems = [...listItems, e.detail.item];
-            console.log(listItems);
-            groupedListItems = getItemsCategoryOrder(listItems);
-            console.log(groupedListItems);
-            setNewItemDialog(false);
+            // console.log(e.detail.item);
+            // listItems = [...listItems, e.detail.item];
+            // console.log(listItems);
+            // groupedListItems = getItemsCategoryOrder(listItems);
+            // console.log(groupedListItems);
+            setContainerDialog(false);
         }}
         />
 
@@ -125,7 +123,7 @@
         <div class="w-full flex items-center justify-start">
             <PlusButton
                 onClick={() => {
-                    // setNewItemDialog(true);
+                    setContainerDialog(true);
                 }}
                 />
             <div class="text-orange-500 text-base font-normal ml-2 {$lc.text}">

@@ -101,7 +101,7 @@
     "groceryList_addListItemsName": "Name",
     "groceryList_addListItemsCategory": "Category",
     "groceryList_addListItemsQuantity": "Quantity",
-    "groceryList_addListItemsContainer": "Container",
+    "groceryList_addListItemsContainer": "Target container",
     "groceryList_addListItemsComment": "Notes",
     "groceryList_addListItemsNamePlaceholder": "Enter item name or select from existing",
     "groceryList_addListItemsCategorySelect": "Select category",
@@ -127,6 +127,14 @@
     "household_containerWarning": "At least one container is required",
     "household_saveAndCreate": "Save and create household",
     "household_sureToCancel": "Are you sure you want to cancel?",
-    "household_newHouseholdDefaultName": "My Household"
+    "household_newHouseholdDefaultName": "My Household",
+    "common_containerType_refrigerator": "Refrigerator",
+    "common_containerType_freezer": "Freezer",
+    "common_containerType_pantry": "Pantry",
+    "common_containerType_cupboard": "Cupboard",
+    "common_containerType_drawer": "Drawer",
+    "common_containerType_other": "Other",
+    "household_newHouseholdContanerType": "Type",
+    "household_newHouseholdContainerAdd": "Add container"
 }
   

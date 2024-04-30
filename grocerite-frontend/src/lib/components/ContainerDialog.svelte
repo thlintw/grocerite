@@ -26,7 +26,7 @@
     export let availableContainers: Container[] = [];
 
     let containerName = '';
-    let itemCategory: ItemCategory = ItemCategory.Vegetables;
+    let containerType: ContainerType = ContainerType.Refrigerator;
     let itemQuantity = 1;
     let itemContainer: Container | null = null;
 
@@ -46,41 +46,37 @@
     };
 
     const onAddItem = () => {
-        const item: GroceryListItem = {
-            idx: -1,
-            name: containerName,
-            category: itemCategory,
-            quantity: itemQuantity,
-            targetContainerIdx: itemContainer!.idx,
-            ticked: false,
-            storeIdx: -1,
-        };
-        dispatch('click:addItem', { item });
+        // const item: GroceryListItem = {
+        //     idx: -1,
+        //     name: containerName,
+        //     category: itemCategory,
+        //     quantity: itemQuantity,
+        //     targetContainerIdx: itemContainer!.idx,
+        //     ticked: false,
+        //     storeIdx: -1,
+        // };
+        // dispatch('click:addItem', { item });
     };
 
     const onBarrierDismiss = () => {
         dispatch('click:barrierDismiss');
     };
 
-    const getCategoryOptions = () => {
-        return Object.values(ItemCategory).map((category) => {
+    const getContainerTypeOptions = () => {
+        return Object.values(ContainerType).map((category) => {
             return {
                 value: category,
-                label: $_(`common_category_${category}`),
-                iconPath: `/icons/itemCategory/itemCategory-icon-${category}.png`,
+                label: $_(`common_containerType_${category}`),
+                iconPath: `/icons/container/container-icon-${category}.png`,
             };
         });
     };
 
-    const getItemCategory = (value: string) => {
-        itemCategory = value as ItemCategory;
+    const getContainerType = (value: string) => {
+        containerType = value as ContainerType;
         setCategoryDialog(false);
     };
 
-    const getContainer = (value: string) => {
-        itemContainer = availableContainers.find((container) => container.idx.toString() === value) || null;
-        setContainerDialog(false);
-    };
 
     const itemQuantityControl = (mode: '--' | '-' | '+' | '++') => {
         switch (mode) {
@@ -119,7 +115,7 @@
 
     const reset = () => {
         containerName = '';
-        itemCategory = ItemCategory.Vegetables;
+        containerType = ContainerType.Refrigerator;
         itemQuantity = 1;
         itemContainer = null;
     };
@@ -138,11 +134,11 @@
 
     <ScrollableSelectDialog 
         showDialog={showCategoryDialog}
-        options={getCategoryOptions()}
+        options={getContainerTypeOptions()}
         title="groceryList_addListItemsCategorySelect"
         hasFilter={true}
         on:click:selectOption={(e) => {
-            getItemCategory(e.detail.option.value);
+            getContainerType(e.detail.option.value);
         }}
         on:click:barrierDismiss={(e) => {
             setCategoryDialog(false);
@@ -179,58 +175,21 @@
                 
                     <div class="flex w-full flex-col">
                         <div class="text-lg text-emerald-700 font-bold">
-                            Category
+                            {$_('household_newHouseholdContanerType')}
                         </div>
                         <div class="px-3">
                             <button type="button" 
                                 class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
                                 on:click={() => setCategoryDialog(true)}>
                                 <div>
-                                    <img src="/icons/itemCategory/itemCategory-icon-{itemCategory}.png" 
+                                    <img src="/icons/container/container-icon-{containerType}.png" 
                                         alt="category icon" class="w-12" />
                                 </div>
-                                <div class="text-left text-neutral-700">{$_(`common_category_${itemCategory}`)}</div>
+                                <div class="text-left text-neutral-700">{$_(`common_containerType_${containerType}`)}</div>
                             </button>
                         </div>
                     </div>
 
-                    <div class="flex w-full flex-col">
-                        <div class="text-lg text-emerald-700 font-bold">
-                            Quantity
-                        </div>
-                        <div class="px-3">
-                            <button type="button" 
-                                class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
-                                on:click={() => setQuantityDialog(true)}>
-                                <div class="text-xl h-12 font-bold flex items-center justify-center">
-                                    {itemQuantity}
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="flex w-full flex-col">
-                        <div class="text-lg text-emerald-700 font-bold">
-                            Target Container
-                        </div>
-                        <div class="px-3">
-                            <button type="button" 
-                                class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
-                                on:click={() => setContainerDialog(true)}>
-                                <div class="flex items-center gap-2">
-                                    {#if !itemContainer}
-                                        <div class="h-12 font-normal text-base text-neutral-400 flex justify-center items-center ">{$_('groceryList_addListItemsContainerSelectPrompt')}</div>
-                                    {:else}
-                                    <div>
-                                        <img src="/icons/container/container-icon-{itemContainer.type}.png" 
-                                            alt="category icon" class="w-12" />
-                                    </div>
-                                    <div class="text-left text-neutral-700">{itemContainer.name}</div>
-                                    {/if}
-                                </div>
-                            </button>
-                        </div>
-                    </div>
 
 
                 </div>
@@ -238,7 +197,7 @@
                 <div>
                     <Button 
                         loading={buttonLoading}
-                        text="Add Item"
+                        text={$_('household_newHouseholdContainerAdd')}
                         on:click={onAddItem}
                     />
                 </div>

@@ -28,7 +28,7 @@
 
 <div class="w-full {$lc.text} flex flex-col gap-1">
     {#if label}
-        <label for={id} class="block text-lg text-neutral-700 { error? ' text-red-500' : '' }">
+        <label for={id} class="block text-lg text-emerald-700 font-bold { error? ' text-red-500' : '' }">
             {label}
         </label>
     {/if}

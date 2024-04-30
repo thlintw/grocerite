@@ -205,7 +205,7 @@
                 
                     <div class="flex w-full flex-col">
                         <div class="text-lg text-emerald-700 font-bold">
-                            Category
+                            {$_('groceryList_addListItemsCategory')}
                         </div>
                         <div class="px-3">
                             <button type="button" 
@@ -222,7 +222,7 @@
 
                     <div class="flex w-full flex-col">
                         <div class="text-lg text-emerald-700 font-bold">
-                            Quantity
+                            {$_('groceryList_addListItemsQuantity')}
                         </div>
                         <div class="px-3">
                             <button type="button" 
@@ -237,7 +237,7 @@
 
                     <div class="flex w-full flex-col">
                         <div class="text-lg text-emerald-700 font-bold">
-                            Target Container
+                            {$_('groceryList_addListItemsContainer')}
                         </div>
                         <div class="px-3">
                             <button type="button" 
@@ -264,7 +264,7 @@
                 <div>
                     <Button 
                         loading={buttonLoading}
-                        text="Add Item"
+                        text={$_('groceryList_addListItemsDialogTitle')}
                         on:click={onAddItem}
                     />
                 </div>

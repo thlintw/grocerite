@@ -43,7 +43,7 @@ export class ContainerItem extends Item{
 }
 
 export enum ContainerType {
-    Refridgerator = 'refridgerator',
+    Refrigerator = 'refrigerator',
     Freezer = 'freezer',
     Pantry = 'pantry',
     Cupboard = 'cupboard',
