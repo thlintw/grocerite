@@ -12,7 +12,6 @@ export class GroceryListItem extends Item {
 
     constructor({
         idx = -1,
-        name = '',
         quantity = 0,
         ticked = false,
         tickedBy = null,
@@ -28,7 +27,7 @@ export class GroceryListItem extends Item {
         storeIdx?: number,
         targetContainerIdx?: number,
     } & Partial<Item> = {}) {
-        super({...itemProps, name});
+        super({...itemProps});
         this.idx = idx;
         this.quantity = quantity;
         this.ticked = ticked;
@@ -40,6 +39,7 @@ export class GroceryListItem extends Item {
     static fromJson(json: any): GroceryListItem {
         return new GroceryListItem({
             idx: json.idx,
+            itemIdx: json.itemIdx,
             name: json.name,
             category: json.category,
             quantity: json.quantity,

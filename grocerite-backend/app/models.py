@@ -220,12 +220,13 @@ class GroceryListItem(TimestampMixin, db.Model):
     ticked_by = relationship('Member', backref='grocery_list_items')
     store_idx = Column(Integer, ForeignKey('store.id'), nullable=True) # to be implemented
     store = relationship('Store', backref='grocery_list_items')
-    target_container_idx = Column(Integer, ForeignKey('container.id'), nullable=True)
+    target_container_idx = Column(Integer, ForeignKey('container.id'), nullable=False)
     target_container = relationship('Container', backref='grocery_list_items')
 
     def get_api_data(self):
         return {
             'idx': self.id,
+            'name': self.item.name,
             'quantity': self.quantity,
             'ticked': self.ticked,
             'tickedBy': self.ticked_by.get_api_data() if self.ticked_by else None,

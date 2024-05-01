@@ -29,7 +29,7 @@ def list_households(user_id):
 # get
 @household_bp.route('/household/get/<string:household_id>', methods=['GET'])
 def get_household(household_id):
-    household = db.session.query(Household).filter(Household.id == household_id).first()
+    household = db.session.query(Household).filter(Household.household_id == household_id).first()
     if household is None:
         return api_response(status='F', message='Household not found', status_code=404)
     

@@ -55,6 +55,7 @@ export class Member {
 
 export class Household {
     idx: number;
+    householdId: string;
     name: string;
     members: Member[];
     containers: Container[];
@@ -64,6 +65,7 @@ export class Household {
 
     constructor({
         idx = -1,
+        householdId = 'H-',
         name = '',
         members = [],
         containers = [],
@@ -72,6 +74,7 @@ export class Household {
         stores = []
     } : {
         idx?: number,
+        householdId?: string,
         name?: string,
         members?: Member[],
         containers?: Container[],
@@ -80,6 +83,7 @@ export class Household {
         stores?: Store[]
     } = {}) {
         this.idx = idx;
+        this.householdId = householdId;
         this.name = name;
         this.members = members;
         this.containers = containers;
@@ -96,6 +100,7 @@ export class Household {
     static fromJson(json: any): Household {
         return new Household({
             idx: json.idx,
+            householdId: json.householdId,
             name: json.name,
             members: json.members.map((member: any) => Member.fromJson(member)),
             containers: json.containers.map((container: any) => Container.fromJson(container)),

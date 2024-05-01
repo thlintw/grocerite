@@ -18,9 +18,13 @@ main.register_blueprint(common_bp)
 main.register_blueprint(household_bp)
 main.register_blueprint(grocery_list_bp)
 
-
+import time
 
 @main.route('/test')
 def test():
-    uid = f'H-{get_id()}'
-    return api_response(data=[uid])
+    a = set([3, 5, 6, 7, 8, 9])
+    b = set([1, 2, 3, 4, 5])
+
+    print(3 in b-a)
+
+    return api_response(data=[list(a-b), list(b-a)])
