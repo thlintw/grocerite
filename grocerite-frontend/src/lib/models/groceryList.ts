@@ -27,7 +27,6 @@ export class GroceryListItem extends Item {
         tickedBy?: Member | null,
         storeIdx?: number,
         targetContainerIdx?: number,
-        iconIdx?: number
     } & Partial<Item> = {}) {
         super({...itemProps, name});
         this.idx = idx;
@@ -54,7 +53,6 @@ export class GroceryListItem extends Item {
 
 export class GroceryList {
     idx: number;
-    starred: boolean; // meaning asignee = currentUser
     name: string;
     description: string;
     asignee: Member | null;
@@ -66,7 +64,6 @@ export class GroceryList {
 
     constructor({
         idx = -1,
-        starred = false,
         name = '',
         description = '',
         asignee = null,
@@ -88,7 +85,6 @@ export class GroceryList {
         iconIdx?: number
     } = {}) {
         this.idx = idx;
-        this.starred = starred;
         this.name = name;
         this.description = description;
         this.asignee = asignee;
@@ -99,6 +95,11 @@ export class GroceryList {
         this.iconIdx = iconIdx;
     }
 
+    public get starred(): boolean {
+        // to be implemented
+        return false;
+    }
+
     public get icon(): string {
         const paddedIdx = this.iconIdx.toString().padStart(2, '0');
         return `/icons/groceryList/groceryList-icon-${paddedIdx}.png`;
@@ -107,7 +108,6 @@ export class GroceryList {
     static fromJson(json: any): GroceryList {
         return new GroceryList({
             idx: json.idx,
-            starred: json.starred,
             name: json.name,
             description: json.description,
             asignee: json.asignee,

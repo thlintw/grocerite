@@ -6,7 +6,6 @@ from flask.cli import with_appcontext
 from .db import db
 
 from .routes.main import main
-from .routes.household import household
 
 
 @click.command('init-db')

@@ -18,11 +18,11 @@ class User(TimestampMixin, db.Model):
     id = Column(Integer, primary_key=True)
     username = Column(String(100), nullable=False, unique=True)
     email = Column(String(100), nullable=False, unique=True)
-    f_uid = Column(String(100), nullable=False, unique=True)
-    u_uid = Column(String(100), nullable=False, unique=True)
+    fb_uid = Column(String(100), nullable=False, unique=True)
+    user_id = Column(String(100), nullable=False, unique=True)
     nickname = Column(String(100))
     picture = Column(String(255))    
-    households = relationship('Household', secondary='user_household', back_populates='users')    
+    households = relationship('Household', secondary='user_household', backref='users')
 
 household_member = Table('household_member', db.metadata,
     Column('household_idx', Integer, ForeignKey('household.id'), primary_key=True),
@@ -34,30 +34,63 @@ class Household(TimestampMixin, db.Model):
     id = Column(Integer, primary_key=True)
     household_id = Column(String(100), nullable=False, unique=True)
     name = Column(Unicode(100), nullable=False)
-    members = relationship('Member', secondary=household_member, back_populates='households')
+    members = relationship('Member', secondary=household_member, back_populates='household')
     containers = relationship('Container', back_populates='household')
     grocery_lists = relationship('GroceryList', back_populates='household')
     stores = relationship('Store', back_populates='household')
-    creator_idx = Column(Integer, ForeignKey('user.id'), nullable=False)
-    creator = relationship('User', back_populates='households')
+    icon_idx = Column(Integer) # not actually a reference... to be implemented
+    creator_idx = Column(Integer, ForeignKey('member.id'), nullable=False)
+    creator = relationship('Member', backref='created_household', foreign_keys=[creator_idx])
 
-class MemberPFP(TimestampMixin, db.Model):
-    __tablename__ = 'member_pfp'
-    id = Column(Integer, primary_key=True)
-    image_path = Column(String(255))
+    def get_api_data(self):
+        return {
+            'idx': self.id,
+            'name': self.name,
+            'iconIdx': self.icon_idx,
+            'householdId': self.household_id,
+            'creatorId': self.creator.get_api_data(),
+            'members': [
+                m.get_api_data() for m in self.members
+            ],
+            'containers': [
+                c.get_api_data() for c in self.containers
+            ],
+            'groceryLists': [
+                g.get_api_data() for g in self.grocery_lists
+            ],
+        }
+
+
+# class MemberPFP(TimestampMixin, db.Model):
+#     __tablename__ = 'member_pfp'
+#     id = Column(Integer, primary_key=True)
+#     image_path = Column(String(255))
 
 class Member(TimestampMixin, db.Model):
     __tablename__ = 'member'
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), nullable=False) # user-defined name
-    pfp_idx = Column(Integer, ForeignKey('member_pfp.id'), nullable=False)
-    pfp = relationship('MemberPFP', back_populates='members')
-    pfp_bg_color = Column(String(7), nullable=False)
+    pfp_idx = Column(Integer)
+    pfp_bg_color = Column(String(10))
+    pfp_presenting = Column(String(10))
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
-    household = relationship('Household', back_populates='members')
+    household = relationship('Household', back_populates='members', foreign_keys=[household_idx])
     user_idx = Column(Integer, ForeignKey('user.id'), nullable=False)
-    user = relationship('User', back_populates='households')
+    user = relationship('User', backref='member')
     is_creator = Column(Boolean, default=False)
+
+    def get_api_data(self):
+        return {
+            'idx': self.id,
+            'name': self.name,
+            'pfpIdx': self.pfp_idx,
+            'pfpBgColor': self.pfp_bg_color,
+            'pfpPresenting': self.pfp_presenting,
+            'householdIdx': self.household_idx,
+            'userId': self.user.user_id,
+            'isCreator': self.is_creator
+        }
+    
 
 class ContainerType(TimestampMixin, db.Model):
     __tablename__ = 'container_type'
@@ -70,11 +103,20 @@ class Container(TimestampMixin, db.Model):
     id = Column(Integer, primary_key=True)
     container_id = Column(String(100), nullable=False, unique=True)
     type_idx = Column(Integer, ForeignKey('container_type.id'), nullable=False)
-    type = relationship('ContainerType', back_populates='containers')
+    type = relationship('ContainerType', backref='containers')
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
     household = relationship('Household', back_populates='containers')
     name = Column(Unicode(100), nullable=False) # user-defined name
     comment = Column(Text)
+
+    def get_api_data(self):
+        return {
+            'idx': self.id,
+            'name': self.name,
+            'householdIdx': self.household_idx,
+            'comment': self.comment,
+            'type': self.type.name
+        }
 
 class ItemCategory(TimestampMixin, db.Model):
     __tablename__ = 'item_category'
@@ -88,7 +130,7 @@ class UserDefinedCategory(TimestampMixin, db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), nullable=False)
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
-    household = relationship('Household', back_populates='user_defined_categories')
+    household = relationship('Household', backref='user_defined_categories')
 
 class ItemIcon(TimestampMixin, db.Model):
     __tablename__ = 'item_icon'
@@ -100,20 +142,20 @@ class Item(TimestampMixin, db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), nullable=False)
     cate_idx = Column(Integer, ForeignKey('item_category.id'), nullable=False)
-    cate = relationship('ItemCategory', back_populates='items')
+    cate = relationship('ItemCategory', backref='items')
     icon_idx = Column(Integer, ForeignKey('item_icon.id'), nullable=False)
-    icon = relationship('ItemIcon', back_populates='items')
+    icon = relationship('ItemIcon', backref='items')
 
 class UserDefinedItem(TimestampMixin, db.Model):
     __tablename__ = 'user_defined_item'
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), nullable=False)
     cate_idx = Column(Integer, ForeignKey('user_defined_category.id'), nullable=True)
-    cate = relationship('UserDefinedCategory', back_populates='items')
+    cate = relationship('UserDefinedCategory', backref='items')
     user_defined_cate_idx = Column(Integer, ForeignKey('item_category.id'), nullable=True)
-    user_defined_cate = relationship('ItemCategory', back_populates='user_defined_items')
+    user_defined_cate = relationship('ItemCategory', backref='user_defined_items')
     icon_idx = Column(Integer, ForeignKey('item_icon.id'))
-    icon = relationship('ItemIcon', back_populates='user_defined_items')
+    icon = relationship('ItemIcon', backref='user_defined_items')
 
 
 class GroceryListIcon(TimestampMixin, db.Model):
@@ -126,41 +168,66 @@ class GroceryList(TimestampMixin, db.Model):
     __tablename__ = 'grocery_list'
     id = Column(Integer, primary_key=True)
     grocery_list_id = Column(String(100), nullable=False, unique=True)
-    starred = Column(Boolean, default=False)
     name = Column(Unicode(100), nullable=False) # user-defined name
     description = Column(Unicode(255))
     asignee_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True) # can be unassigned
-    asignee = relationship('Member', back_populates='grocery_lists')
+    asignee = relationship('Member', backref='grocery_lists')
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
     household = relationship('Household', back_populates='grocery_lists')
-    icon_idx = Column(Integer, ForeignKey('item_icon.id'), nullable=False)
-    icon = relationship('ItemIcon', back_populates='grocery_lists')
+    # icon_idx = Column(Integer, ForeignKey('item_icon.id'), nullable=False)
+    # icon = relationship('ItemIcon', backref='grocery_lists')
+    icon_idx= Column(Integer)
     items = relationship('GroceryListItem', back_populates='grocery_list')
-    is_important = Column(Boolean, default=False)
     deadline = Column(BigInteger)
     deadline_dt = Column(DateTime)
     
+    def get_api_data(self):
+        return {
+            'idx': self.id,
+            'name': self.name,
+            'iconIdx': self.icon_idx,
+            'description': self.description,
+            'asignee': self.asignee.get_api_data() if self.asignee else None,
+            'householdIdx': self.household_idx,
+            'iconIdx': self.icon_idx,
+            'items': [
+                i.get_api_data() for i in self.items
+            ],
+            'deadline': self.deadline,
+            'deadlineString': self.deadline_dt.strftime('%Y-%m-%d') if self.deadline_dt else None
+        }
+
 
 class GroceryListItem(TimestampMixin, db.Model):
     __tablename__ = 'grocery_list_item'
     id = Column(Integer, primary_key=True)
     item_idx = Column(Integer, ForeignKey('item.id'), nullable=True)
-    item = relationship('Item', back_populates='grocery_list_items')
-    user_defined_item_idx = Column(Integer, ForeignKey('user_defined_item.id'), nullable=True)
-    user_defined_item = relationship('UserDefinedItem', back_populates='grocery_list_items')
+    item = relationship('Item', backref='grocery_list_items')
+    user_defined_item_idx = Column(Integer, ForeignKey('user_defined_item.id'), nullable=True) # to be implemented
+    user_defined_item = relationship('UserDefinedItem', backref='grocery_list_items')
     grocery_list_idx = Column(Integer, ForeignKey('grocery_list.id'), nullable=False)
     grocery_list = relationship('GroceryList', back_populates='items')
-    label = Column(Unicode(100), nullable=False)
+    label = Column(Unicode(100), nullable=False) # to be implemented
     quantity = Column(Unicode(50))
-    unit = Column(Unicode(50))
+    unit = Column(Unicode(50)) # to be implemented
     ticked = Column(Boolean, default=False)
     ticked_time = Column(DateTime)
     ticked_by_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True)
-    ticked_by = relationship('Member', back_populates='grocery_list_items')
-    store_idx = Column(Integer, ForeignKey('store.id'), nullable=True)
-    store = relationship('Store', back_populates='grocery_list_items')
+    ticked_by = relationship('Member', backref='grocery_list_items')
+    store_idx = Column(Integer, ForeignKey('store.id'), nullable=True) # to be implemented
+    store = relationship('Store', backref='grocery_list_items')
     target_container_idx = Column(Integer, ForeignKey('container.id'), nullable=True)
-    target_container = relationship('Container', back_populates='grocery_list_items')
+    target_container = relationship('Container', backref='grocery_list_items')
+
+    def get_api_data(self):
+        return {
+            'idx': self.id,
+            'quantity': self.quantity,
+            'ticked': self.ticked,
+            'tickedBy': self.ticked_by.get_api_data() if self.ticked_by else None,
+            'targetContainer': self.target_container.name if self.target_container else None,
+            'category': self.item.cate.name,
+        }
 
 
 class GroceryListChangeType(TimestampMixin, db.Model):
@@ -173,13 +240,13 @@ class GroceryListChangeLog(TimestampMixin, db.Model):
     __tablename__ = 'grocery_list_change_log'
     id = Column(Integer, primary_key=True)
     grocery_list_idx = Column(Integer, ForeignKey('grocery_list.id'), nullable=False)
-    grocery_list = relationship('GroceryList', back_populates='change_logs')
+    grocery_list = relationship('GroceryList', backref='change_logs')
     member_idx = Column(Integer, ForeignKey('member.id'), nullable=False)
-    member = relationship('Member', back_populates='change_logs')
+    member = relationship('Member', backref='change_logs')
     change_type_idx = Column(Integer, ForeignKey('grocery_list_change_type.id'), nullable=False)
-    change_type = relationship('GroceryListChangeType', back_populates='change_logs')
+    change_type = relationship('GroceryListChangeType', backref='change_logs')
     grocery_list_item_idx = Column(Integer, ForeignKey('grocery_list_item.id'), nullable=True)
-    grocery_list_item = relationship('GroceryListItem', back_populates='change_logs')
+    grocery_list_item = relationship('GroceryListItem', backref='change_logs')
     value_before = Column(Integer)
     value_after = Column(Integer)
 
@@ -188,13 +255,13 @@ class ContainerItem(TimestampMixin, db.Model):
     __tablename__ = 'container_item'
     id = Column(Integer, primary_key=True)
     item_idx = Column(Integer, ForeignKey('item.id'), nullable=True)
-    item = relationship('Item', back_populates='container_items')
+    item = relationship('Item', backref='container_items')
     user_defined_item_idx = Column(Integer, ForeignKey('user_defined_item.id'), nullable=True)
-    user_defined_item = relationship('UserDefinedItem', back_populates='container_items')
+    user_defined_item = relationship('UserDefinedItem', backref='container_items')
     container_idx = Column(Integer, ForeignKey('container.id'), nullable=False)
-    container = relationship('Container', back_populates='items')
+    container = relationship('Container', backref='items')
     store_idx = Column(Integer, ForeignKey('store.id'), nullable=True)
-    store = relationship('Store', back_populates='container_items')
+    store = relationship('Store', backref='container_items')
     quantity = Column(Unicode(50))
     comment = Column(Text)
     is_removed = Column(Boolean, default=False)
@@ -214,6 +281,6 @@ class HouseholdConfig(TimestampMixin, db.Model):
     __tablename__ = 'household_config'
     id = Column(Integer, primary_key=True)
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
-    household = relationship('Household', back_populates='config')
+    household = relationship('Household', backref='config')
     key = Column(Unicode(100), nullable=False)
     value = Column(Unicode(255), nullable=False) 

@@ -10,3 +10,7 @@ def index():
 @main.route('/test')
 def t():
     return jsonify({"message": "Hello, World!"})
+
+from .household import household
+
+main.register_blueprint(household)

@@ -4,7 +4,7 @@ import { Container } from "./container";
 import { Store } from "./store";
 
 export interface Pfp {
-    presenting: string;
+    presenting: 'np' | 'fp' | 'nb';
     idx: number;
     bgColor: string;
 }
