@@ -2,6 +2,7 @@ from .db import db
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean, Table, Unicode, Text, BigInteger
 from sqlalchemy.orm import relationship
 from datetime import datetime
+from .utils import get_id
 
 class TimestampMixin:
     created_at = Column(BigInteger, default=int(datetime.utcnow().timestamp()), nullable=False)
@@ -19,7 +20,7 @@ class User(TimestampMixin, db.Model):
     username = Column(String(100), nullable=False, unique=True)
     email = Column(String(100), nullable=False, unique=True)
     fb_uid = Column(String(100), nullable=False, unique=True)
-    user_id = Column(String(100), nullable=False, unique=True)
+    user_id = Column(String(100), nullable=False, unique=True, default=f'U-{get_id(l=9)}')
     nickname = Column(String(100))
     picture = Column(String(255))    
     households = relationship('Household', secondary='user_household', backref='users')
@@ -32,7 +33,7 @@ household_member = Table('household_member', db.metadata,
 class Household(TimestampMixin, db.Model):
     __tablename__ = 'household'
     id = Column(Integer, primary_key=True)
-    household_id = Column(String(100), nullable=False, unique=True)
+    household_id = Column(String(100), nullable=False, unique=True, default=f'H-{get_id(l=9)}')
     name = Column(Unicode(100), nullable=False)
     members = relationship('Member', secondary=household_member, back_populates='household')
     containers = relationship('Container', back_populates='household')
@@ -167,7 +168,7 @@ class GroceryListIcon(TimestampMixin, db.Model):
 class GroceryList(TimestampMixin, db.Model):
     __tablename__ = 'grocery_list'
     id = Column(Integer, primary_key=True)
-    grocery_list_id = Column(String(100), nullable=False, unique=True)
+    grocery_list_id = Column(String(100), nullable=False, unique=True, default=f'GL-{get_id(l=12)}')
     name = Column(Unicode(100), nullable=False) # user-defined name
     description = Column(Unicode(255))
     asignee_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True) # can be unassigned
@@ -196,6 +197,9 @@ class GroceryList(TimestampMixin, db.Model):
             'deadline': self.deadline,
             'deadlineString': self.deadline_dt.strftime('%Y-%m-%d') if self.deadline_dt else None
         }
+    
+    def is_active(self):
+        return all([not i.ticked for i in self.items])
 
 
 class GroceryListItem(TimestampMixin, db.Model):
