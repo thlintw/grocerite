@@ -13,10 +13,12 @@ def index():
 from .household import household_bp
 from .common import common_bp
 from .grocery_list import grocery_list_bp
+from .user import user_bp
 
 main.register_blueprint(common_bp)
 main.register_blueprint(household_bp)
 main.register_blueprint(grocery_list_bp)
+main.register_blueprint(user_bp)
 
 import time
 
