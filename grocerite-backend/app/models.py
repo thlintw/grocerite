@@ -25,6 +25,17 @@ class User(TimestampMixin, db.Model):
     picture = Column(String(255))    
     households = relationship('Household', secondary='user_household', backref='users')
 
+    def get_api_data(self):
+        return {
+            'idx': self.id,
+            'username': self.username,
+            'email': self.email,
+            'fbUid': self.fb_uid,
+            'userId': self.user_id,
+            'nickname': self.nickname,
+            'picture': self.picture
+        }
+
 household_member = Table('household_member', db.metadata,
     Column('household_idx', Integer, ForeignKey('household.id'), primary_key=True),
     Column('member_idx', Integer, ForeignKey('member.id'), primary_key=True)

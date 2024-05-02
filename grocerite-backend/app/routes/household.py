@@ -1,7 +1,8 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from ..db import db
 from ..models import User, Member, Household, Container, ContainerType
 from ..api_utils import api_response
+import traceback
 
 household_bp = Blueprint('household', __name__)
 
@@ -120,6 +121,8 @@ def create_household(user_id):
         db.session.add(household)
         db.session.commit()
     except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
         return api_response(status='F', message='Household creation error', status_code=400)
     
     return api_response(data=[household.get_api_data()])
@@ -182,6 +185,8 @@ def update_household(household_id):
         db.session.commit()
         return api_response(data=[household.get_api_data()])
     except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
         return api_response(status='F', message='Household modification error', status_code=400)
 
 
@@ -198,6 +203,8 @@ def delete_household(household_id):
         db.session.commit()
         return api_response()
     except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
         return api_response(status='F', message='Household deletion error', status_code=400)
     
 
@@ -253,6 +260,8 @@ def add_household_member(household_id):
         db.session.commit()
         return api_response(data=[household.get_api_data()])
     except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
         return api_response(status='F', message='Member creation error', status_code=400)
     
 
@@ -276,4 +285,52 @@ def delete_household_member(household_id, member_idx):
         db.session.commit()
         return api_response(data=[household.get_api_data()])
     except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
         return api_response(status='F', message='Member deletion error', status_code=400)
+    
+
+# update container (single)
+@household_bp.route('/household/update_container/<string:household_id>/<int:container_idx>', methods=['PUT'])
+def update_household_container(household_id, container_idx):
+    if not request.is_json:
+        return api_response(status='F', message='Request is not JSON', status_code=400)
+    
+    household = db.session.query(Household).filter(Household.id == household_id).first()
+    if household is None:
+        return api_response(status='F', message='Household not found', status_code=404)
+    
+    container = db.session.query(Container).filter(Container.id == container_idx).first()
+    if container is None:
+        return api_response(status='F', message='Container not found', status_code=404)
+    
+    data = request.json
+
+    key_list = [
+        'name',
+        'type',
+    ]
+
+    if not all(k in data for k in key_list):
+        return api_response(status='F', message='Missing required fields', status_code=400)
+    
+    name = data.get('name', '')
+    type = db.session.query(ContainerType).filter(ContainerType.name == data['type']).first()
+    if type is None:
+        return api_response(status='F', message='Container type not found', status_code=404)
+    
+    container.name = name
+    container.type = type
+
+    try:
+        db.session.commit()
+        return api_response(data=[household.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Container modification error', status_code=400)
+    
+
+
+# todo:
+# manage container items

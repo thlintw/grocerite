@@ -1,8 +1,8 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from ..db import db
-from ..models import User, Member, Household, Container, GroceryList, Item, GroceryListItem, ItemCategory, GroceryListChangeLog, GroceryListChangeType
+from ..models import Member, Household, Container, GroceryList, Item, GroceryListItem, ItemCategory, GroceryListChangeLog, GroceryListChangeType
 from ..api_utils import api_response
-import time
+import time, traceback
 
 grocery_list_bp = Blueprint('grocery_list', __name__)
 
@@ -128,6 +128,8 @@ def create_grocery_list(household_id):
         db.session.add(grocery_list)
         db.session.commit()
     except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
         return api_response(status='F', message='Error creating grocery list', status_code=400)
         
     return api_response(data=[grocery_list.get_api_data()])
@@ -244,6 +246,8 @@ def update_grocery_list(grocery_list_id):
         db.session.commit()
         return api_response(data=[grocery_list.get_api_data()])
     except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
         return api_response(status='F', message='Error updating grocery list', status_code=400)
     
 
@@ -260,6 +264,8 @@ def delete_grocery_list(grocery_list_id):
         db.session.commit()
         return api_response()
     except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
         return api_response(status='F', message='Error deleting grocery list', status_code=400)
     
 
@@ -311,6 +317,8 @@ def tick_grocery_list_item(grocery_item_idx):
         db.session.commit()
         return api_response(data=[grocery_item.get_api_data()])
     except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
         return api_response(status='F', message='Error ticking grocery item', status_code=400)
     
 
@@ -363,4 +371,6 @@ def untick_grocery_list_item(grocery_item_idx):
         db.session.commit()
         return api_response(data=[grocery_item.get_api_data()])
     except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
         return api_response(status='F', message='Error unticking grocery item', status_code=400)

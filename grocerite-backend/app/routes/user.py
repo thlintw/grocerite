@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from ..db import db
-from ..models import User, Member, Household, Container, GroceryList, Item, GroceryListItem, ItemCategory, GroceryListChangeLog, GroceryListChangeType
+from ..models import User
 from ..api_utils import api_response
 import time
 
@@ -36,3 +36,23 @@ def create_profile():
     if not all([username, email, fb_uid]):
         return api_response(status='F', message='Missing required fields', status_code=400)
     
+    user = User(
+        username=username,
+        email=email,
+        fb_uid=fb_uid
+    )
+
+    try:
+        db.session.add(user)
+        db.session.commit()
+        return api_response(data=[user.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        return api_response(status='F', message='Failed to create user', status_code=500)
+    
+
+# update user profile
+# to be implemented
+
+
+

@@ -196,7 +196,7 @@
             name: 'Fridge',
             idx: 0,
             iconIdx: 1,
-            type: ContainerType.Refridgerator
+            type: ContainerType.Refrigerator
         }),
         new Container({
             name: 'Pantry',
