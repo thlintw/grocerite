@@ -143,7 +143,7 @@ def update_household(household_id):
 
     key_list = [
         'name',
-        'containers',
+        # 'containers',
         'iconIdx',
     ]
 
@@ -164,24 +164,101 @@ def update_household(household_id):
     household.name = name
     household.icon_idx = icon_idx
 
-    try:
-        for old_container in household.containers:
-            db.session.delete(old_container)
-        for raw_container in raw_containers:
-            type = db.session.query(ContainerType).filter(ContainerType.name == raw_container['type']).first()
-            if type is None:
-                return api_response(status='F', message='Container type not found', status_code=404)
-            container = Container(
-                name=raw_container['name'],
-                type=type,
-                household=household,                
-            )
-            db.session.add(container)
-            household.containers.append(container)
-    except Exception as e:
-        return api_response(status='F', message='Container modification error', status_code=400)
+    # try:
+    #     for old_container in household.containers:
+    #         db.session.delete(old_container)
+    #     for raw_container in raw_containers:
+    #         type = db.session.query(ContainerType).filter(ContainerType.name == raw_container['type']).first()
+    #         if type is None:
+    #             return api_response(status='F', message='Container type not found', status_code=404)
+    #         container = Container(
+    #             name=raw_container['name'],
+    #             type=type,
+    #             household=household,                
+    #         )
+    #         db.session.add(container)
+    #         household.containers.append(container)
+    # except Exception as e:
+    #     return api_response(status='F', message='Container modification error', status_code=400)
     
     try:
+        db.session.merge(household)
+        db.session.commit()
+        return api_response(data=[household.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Household modification error', status_code=400)
+    
+
+
+# update name only
+@household_bp.route('/household/update_name/<string:household_id>', methods=['PUT'])
+def update_household_name(household_id):
+    if not request.is_json:
+        return api_response(status='F', message='Request is not JSON', status_code=400)
+
+    household = db.session.query(Household).filter(Household.id == household_id).first()
+    if household is None:
+        return api_response(status='F', message='Household not found', status_code=404)
+    
+    data = request.json
+
+    key_list = [
+        'name',
+    ]
+
+    if not all(k in data for k in key_list):
+        return api_response(status='F', message='Missing required fields', status_code=400)
+    
+    name = data.get('name', '')
+
+    if not name:
+        return api_response(status='F', message='Missing name field', status_code=400)
+    
+    household.name = name
+
+    try:
+        db.session.merge(household)
+        db.session.commit()
+        return api_response(data=[household.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Household modification error', status_code=400)
+    
+
+
+
+
+# update icon only
+@household_bp.route('/household/update_icon/<string:household_id>', methods=['PUT'])
+def update_household_icon(household_id):
+    if not request.is_json:
+        return api_response(status='F', message='Request is not JSON', status_code=400)
+
+    household = db.session.query(Household).filter(Household.id == household_id).first()
+    if household is None:
+        return api_response(status='F', message='Household not found', status_code=404)
+    
+    data = request.json
+
+    key_list = [
+        'iconIdx',
+    ]
+
+    if not all(k in data for k in key_list):
+        return api_response(status='F', message='Missing required fields', status_code=400)
+    
+    icon_idx = data.get('iconIdx', None)
+
+    if icon_idx is None:
+        return api_response(status='F', message='Missing iconIdx field', status_code=400)
+    
+    household.icon_idx = icon_idx
+
+    try:
+        db.session.merge(household)
         db.session.commit()
         return api_response(data=[household.get_api_data()])
     except Exception as e:
