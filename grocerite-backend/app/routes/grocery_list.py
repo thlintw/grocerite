@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from ..db import db
-from ..models import Member, Household, Container, GroceryList, Item, GroceryListItem, ItemCategory, GroceryListChangeLog, GroceryListChangeType
+from ..models import Member, Household, Container, GroceryList, Item, GroceryListItem, ItemCategory, GroceryListChangeLog, GroceryListChangeType, ContainerItem
 from ..api_utils import api_response
 import time, traceback
 
@@ -302,13 +302,27 @@ def tick_grocery_list_item(grocery_item_idx):
     grocery_item.ticked_by = member
     grocery_item.ticked_time = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time()))
 
+    target_item = filter(lambda t: t.id == grocery_item.item.id, grocery_item.target_container.items)
+
+    if len(target_item) == 0:
+        target_item = ContainerItem(
+            item_idx=grocery_item.item.id,
+            quantity=grocery_item.quantity,
+            container=grocery_item.target_container
+        )
+        db.session.add(target_item)
+    else:
+        target_item = target_item[0]
+        target_item.quantity += grocery_item.quantity
+        db.session.merge(target_item)
+
     change_log = GroceryListChangeLog(
         grocery_list=grocery_list,
         grocery_list_item=grocery_item,
         member=member,
         change_type=db.session.query(GroceryListChangeType).filter(GroceryListChangeType.name == 'TICKED').first(),
-        value_before=0,
-        value_after=1,
+        value_before='0',
+        value_after='1',
     )
 
     try:
@@ -356,13 +370,20 @@ def untick_grocery_list_item(grocery_item_idx):
     grocery_item.ticked_by = None
     grocery_item.ticked_time = None
 
+    target_item = filter(lambda t: t.id == grocery_item.item.id, grocery_item.target_container.items)
+
+    if len(target_item) > 0:
+        target_item = target_item[0]
+        target_item.quantity -= grocery_item.quantity
+        db.session.merge(target_item)
+
     change_log = GroceryListChangeLog(
-        grocery_list=grocery_list,
+        grocery_listß=grocery_list,
         grocery_list_item=grocery_item,
         member=member,
         change_type=db.session.query(GroceryListChangeType).filter(GroceryListChangeType.name == 'UNTICKED').first(),
-        value_before=1,
-        value_after=0,
+        value_before='1',
+        value_after='0',
     )
 
     try:
@@ -374,3 +395,128 @@ def untick_grocery_list_item(grocery_item_idx):
         db.session.rollback()
         traceback.print_exc()
         return api_response(status='F', message='Error unticking grocery item', status_code=400)
+    
+
+
+
+# edit single grocery item
+@grocery_list_bp.route('/grocery_list/edit_item/<string:grocery_list_id>/<string:grocery_item_idx>', methods=['PUT'])
+def edit_grocery_list_item(grocery_list_id, grocery_item_idx):
+    if not request.is_json:
+        return api_response(status='F', message='Request is not JSON', status_code=400)
+    
+    data = request.json
+
+    key_list = [
+        'member_idx',
+        'quantity',
+        'name',
+        'target_container_idx'
+    ]
+
+    if not all(k in data for k in key_list):
+        return api_response(status='F', message='Missing required fields', status_code=400)
+    
+    member = db.session.query(Member).filter(Member.id == data['member_idx']).first()
+    if member is None:
+        return api_response(status='F', message='Member not found', status_code=404)
+    
+    grocery_item = db.session.query(GroceryListItem).\
+        filter(
+            GroceryListItem.id == grocery_item_idx,
+            GroceryListItem.grocery_list.grocery_list_id == grocery_list_id
+        ).first()
+    
+    if grocery_item is None:
+        return api_response(status='F', message='Grocery item not found', status_code=404)
+    
+    snapshot = f'name:{grocery_item.item.name}|quantity:{grocery_item.quantity}|container:{grocery_item.target_container.id}'
+    
+    new_quantity = data.get('quantity', 1)
+    new_target_container_idx = data.get('containerIdx', None)
+
+    new_name = data.get('name', None)
+    if new_name != grocery_item.item.name:
+        item = grocery_item.item
+        item.name = new_name
+        db.session.merge(item)
+
+    if new_target_container_idx != grocery_item.target_container.id:
+        new_container = db.session.query(Container).filter(Container.id == new_target_container_idx).first()
+        if new_container is None:
+            db.session.rollback()
+            return api_response(status='F', message='Target container not found', status_code=404)
+        grocery_item.target_container = new_container
+
+    grocery_item.quantity = new_quantity
+
+    new_snapshot = f'name:{grocery_item.item.name}|quantity:{grocery_item.quantity}|container:{grocery_item.target_container.id}'
+    
+    change_log = GroceryListChangeLog(
+        grocery_list=grocery_item.grocery_list,
+        grocery_list_item=grocery_item,
+        member=member,
+        change_type=db.session.query(GroceryListChangeType).filter(GroceryListChangeType.name == 'EDITED').first(),
+        value_before=snapshot,
+        value_after=new_snapshot,
+    )
+
+    try:
+        db.session.add(change_log)
+        db.session.merge(grocery_item)
+        db.session.commit()
+        return api_response(data=[grocery_item.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Error editing grocery item', status_code=400)
+
+
+
+
+# delete single grocery item
+@grocery_list_bp.route('/grocery_list/delete_item/<string:grocery_list_id>/<string:grocery_item_idx>', methods=['DELETE'])
+def delete_grocery_list_item(grocery_list_id, grocery_item_idx):
+    if not request.is_json:
+        return api_response(status='F', message='Request is not JSON', status_code=400)
+    
+    data = request.json
+
+    key_list = [
+        'member_idx'
+    ]
+
+    if not all(k in data for k in key_list):
+        return api_response(status='F', message='Missing required fields', status_code=400)
+    
+    member = db.session.query(Member).filter(Member.id == data['member_idx']).first()
+    if member is None:
+        return api_response(status='F', message='Member not found', status_code=404)
+    
+    grocery_item = db.session.query(GroceryListItem).\
+        filter(
+            GroceryListItem.id == grocery_item_idx,
+            GroceryListItem.grocery_list.grocery_list_id == grocery_list_id
+        ).first()
+    
+    if grocery_item is None:
+        return api_response(status='F', message='Grocery item not found', status_code=404)
+    
+    change_log = GroceryListChangeLog(
+        grocery_list=grocery_item.grocery_list,
+        grocery_list_item=grocery_item,
+        member=member,
+        change_type=db.session.query(GroceryListChangeType).filter(GroceryListChangeType.name == 'DELETED').first(),
+        value_before='',
+        value_after='',
+    )
+
+    try:
+        db.session.add(change_log)
+        db.session.delete(grocery_item)
+        db.session.commit()
+        return api_response()
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Error deleting grocery item', status_code=400)

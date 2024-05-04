@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from ..db import db
-from ..models import User, Member, Household, Container, ContainerType
+from ..models import User, Member, Household, Container, ContainerType, ContainerItem, GroceryList, GroceryListItem
 from ..api_utils import api_response
 import traceback
 
@@ -367,6 +367,8 @@ def delete_household_member(household_id, member_idx):
         return api_response(status='F', message='Member deletion error', status_code=400)
     
 
+
+
 # update container (single)
 @household_bp.route('/household/update_container/<string:household_id>/<int:container_idx>', methods=['PUT'])
 def update_household_container(household_id, container_idx):
@@ -409,5 +411,141 @@ def update_household_container(household_id, container_idx):
     
 
 
-# todo:
-# manage container items
+
+
+# manage container item
+@household_bp.route('/household/manage_item/<string:household_id>/<int:container_idx>/<string:container_item_idx>', methods=['POST'])
+def manage_household_container_item(household_id, container_idx, container_item_idx):
+    if not request.is_json:
+        return api_response(status='F', message='Request is not JSON', status_code=400)
+    
+    keylist = [
+        'name',
+        'quantity',
+    ]
+
+    data = request.json
+
+    if not all(k in data for k in keylist):
+        return api_response(status='F', message='Missing required fields', status_code=400)
+    
+    container_item = db.session.query(ContainerItem).\
+        filter(
+            ContainerItem.container.household.household_id == household_id,
+            ContainerItem.container.id == container_idx,
+            ContainerItem.id == container_item_idx
+        ).first()
+    
+    if container_item is None:
+        return api_response(status='F', message='Container item not found', status_code=404)
+    
+    name = data['name']
+
+    if name != container_item.item.name:
+        item = container_item.item
+        item.name = name
+        db.session.merge(item)
+
+    container_item.quantity = data['quantity']
+
+    db.session.merge(container_item)
+
+    try:
+        db.session.commit()
+        return api_response(data=[container_item.container.household.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Container item modification error', status_code=400)
+
+
+
+
+
+
+
+
+
+# delete container
+@household_bp.route('/household/delete_container/<string:household_id>/<int:container_idx>', methods=['DELETE'])
+def delete_household_container(household_id, container_idx):
+    container = db.session.query(Container).\
+        filter(
+            Container.household.household_id == household_id,
+            Container.id == container_idx
+        ).first()
+    
+    if container is None:
+        return api_response(status='F', message='Container not found', status_code=404)
+    
+    for item in container.items:
+        db.session.delete(item)
+
+    db.session.delete(container)
+    
+    try:
+        db.session.commit()
+        return api_response(data=[container.household.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Container deletion error', status_code=400)
+    
+
+
+
+
+# bulk add item to grocery list
+@household_bp.route('/household/bulk_add_item_to_list/<string:household_id>/<int:container_idx>', methods=['POST'])
+def bulk_add_item_to_list(household_id, container_idx):
+    if not request.is_json:
+        return api_response(status='F', message='Request is not JSON', status_code=400)
+    
+    data = request.json
+
+    key_list = [
+        'items',
+        'target_list_idx'
+    ]
+
+    if not all(k in data for k in key_list):
+        return api_response(status='F', message='Missing required fields', status_code=400)
+
+    target_list = db.session.query(GroceryList).\
+        filter(
+            GroceryList.household.household_id == household_id,
+            GroceryList.id == data['target_list_idx']
+        ).first()
+    
+    if target_list is None:
+        return api_response(status='F', message='Target list not found', status_code=404)
+    
+    items = db.session.query(ContainerItem).\
+        filter(
+            ContainerItem.container.id == container_idx,
+            ContainerItem.id.in_([int(c_item['idx']) for c_item in data['items']])
+        ).all()
+    
+    if len(items) == 0:
+        return api_response(status='F', message='No items found', status_code=404)
+    
+    for c_item in data['items']:
+        idx = int(c_item['idx'])
+        quantity = int(c_item['quantity'])
+
+        new_grocery_item = GroceryListItem(
+            item_idx=idx,
+            quantity=quantity,
+            grocery_list=target_list,
+            target_container_idx=container_idx
+        )
+
+        db.session.add(new_grocery_item)
+
+    try:
+        db.session.commit()
+        return api_response(data=[target_list.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Grocery list item addition error', status_code=400)

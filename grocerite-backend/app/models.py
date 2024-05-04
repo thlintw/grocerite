@@ -233,6 +233,7 @@ class GroceryListItem(TimestampMixin, db.Model):
     store = relationship('Store', backref='grocery_list_items')
     target_container_idx = Column(Integer, ForeignKey('container.id'), nullable=False)
     target_container = relationship('Container', backref='grocery_list_items')
+    
 
     def get_api_data(self):
         return {
@@ -263,8 +264,8 @@ class GroceryListChangeLog(TimestampMixin, db.Model):
     change_type = relationship('GroceryListChangeType', backref='change_logs')
     grocery_list_item_idx = Column(Integer, ForeignKey('grocery_list_item.id'), nullable=True)
     grocery_list_item = relationship('GroceryListItem', backref='change_logs')
-    value_before = Column(Integer)
-    value_after = Column(Integer)
+    value_before = Column(String(255))
+    value_after = Column(String(255))
 
 
 class ContainerItem(TimestampMixin, db.Model):
