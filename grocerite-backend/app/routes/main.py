@@ -1,8 +1,9 @@
-from flask import Blueprint, jsonify
+from apiflask import APIBlueprint
+from flask import jsonify
 from ..api_utils import api_response
 from ..utils import get_id
 
-main = Blueprint('main', __name__)
+main = APIBlueprint('main', __name__)
 
 @main.route('/')
 def index():

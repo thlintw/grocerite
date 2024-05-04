@@ -1,9 +1,10 @@
-from flask import Blueprint, request, jsonify
+from apiflask import APIBlueprint
+from flask import request, jsonify
 from ..db import db
 from ..models import User, Member, Household
 from ..api_utils import api_response
 
-common_bp = Blueprint('common', __name__)
+common_bp = APIBlueprint('common', __name__)
 
 
 @common_bp.route('/dashboard/<string:user_id>', methods=['GET'])

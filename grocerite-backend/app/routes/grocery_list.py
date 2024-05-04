@@ -1,10 +1,11 @@
-from flask import Blueprint, request
+from apiflask import APIBlueprint
+from flask import request
 from ..db import db
 from ..models import Member, Household, Container, GroceryList, Item, GroceryListItem, ItemCategory, GroceryListChangeLog, GroceryListChangeType, ContainerItem
 from ..api_utils import api_response
 import time, traceback
 
-grocery_list_bp = Blueprint('grocery_list', __name__)
+grocery_list_bp = APIBlueprint('grocery_list', __name__)
 
 
 
@@ -104,7 +105,8 @@ def create_grocery_list(household_id):
                 cate = db.session.query(ItemCategory).filter(ItemCategory.name == category).first()
                 item = Item(
                     name=name,
-                    category=cate
+                    category=cate,
+                    household=household
                 )
                 db.session.add(item)
 
@@ -212,7 +214,8 @@ def update_grocery_list(grocery_list_id):
                     cate = db.session.query(ItemCategory).filter(ItemCategory.name == category).first()
                     item = Item(
                         name=name,
-                        category=cate
+                        category=cate,
+                        household=grocery_list.household
                     )
                     db.session.add(item)
 
@@ -520,3 +523,25 @@ def delete_grocery_list_item(grocery_list_id, grocery_item_idx):
         db.session.rollback()
         traceback.print_exc()
         return api_response(status='F', message='Error deleting grocery item', status_code=400)
+    
+
+
+
+# get available items and containers
+@grocery_list_bp.route('/grocery_list/available_items/<string:household_id>', methods=['GET'])
+def get_available_items(household_id):
+    available_items = db.session.query(Item).filter(Item.household_idx == household_id).all()
+    
+    data = [{
+        'availableItems': [
+            i.get_api_data() for i in available_items
+        ],
+        'availableContainers': [
+            c.get_api_data() for c in db.session.query(Container).filter(Container.household_idx == household_id).all()
+        ]
+    }]
+
+    return api_response(data=data)
+
+
+

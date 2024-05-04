@@ -1,10 +1,11 @@
-from flask import Blueprint, request
+from apiflask import APIBlueprint
+from flask import request
 from ..db import db
 from ..models import User, Member, Household, Container, ContainerType, ContainerItem, GroceryList, GroceryListItem
 from ..api_utils import api_response
 import traceback
 
-household_bp = Blueprint('household', __name__)
+household_bp = APIBlueprint('household', __name__)
 
 # household CRUD routes
 
@@ -549,3 +550,47 @@ def bulk_add_item_to_list(household_id, container_idx):
         db.session.rollback()
         traceback.print_exc()
         return api_response(status='F', message='Grocery list item addition error', status_code=400)
+
+
+
+
+
+# create container
+@household_bp.route('/household/create_container/<string:household_id>', methods=['POST'])
+def create_container(household_id):
+    if not request.is_json:
+        return api_response(status='F', message='Request is not JSON', status_code=400)
+    
+    household = db.session.query(Household).filter(Household.household_id == household_id).first()
+    if household is None:
+        return api_response(status='F', message='Household not found', status_code=404)
+    
+    data = request.json
+
+    key_list = [
+        'name',
+        'type',
+    ]
+
+    if not all(k in data for k in key_list):
+        return api_response(status='F', message='Missing required fields', status_code=400)
+    
+    name = data.get('name', '')
+    type = db.session.query(ContainerType).filter(ContainerType.name == data['type']).first()
+    if type is None:
+        return api_response(status='F', message='Container type not found', status_code=404)
+    
+    container = Container(
+        name=name,
+        type=type,
+        household=household
+    )
+
+    try:
+        db.session.add(container)
+        db.session.commit()
+        return api_response(data=[household.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Container creation error', status_code=400)

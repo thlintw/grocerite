@@ -1,10 +1,11 @@
-from flask import Blueprint, request, jsonify
+from apiflask import APIBlueprint
+from flask import request, jsonify
 from ..db import db
 from ..models import User
 from ..api_utils import api_response
 import time
 
-user_bp = Blueprint('user', __name__)
+user_bp = APIBlueprint('user', __name__)
 
 
 # get self profile

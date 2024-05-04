@@ -1,4 +1,4 @@
-from flask import Flask
+from apiflask import APIFlask
 from flask_sqlalchemy import SQLAlchemy
 from config import DevelopmentConfig
 import click
@@ -15,7 +15,7 @@ def init_db_command():
     click.echo('Initialized the database.')
 
 def create_app(config_class=DevelopmentConfig):
-    app = Flask(__name__)
+    app = APIFlask(__name__)
     app.config.from_object(config_class)
     app.register_blueprint(main)
 

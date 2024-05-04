@@ -153,10 +153,21 @@ class Item(TimestampMixin, db.Model):
     __tablename__ = 'item'
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), nullable=False)
+    household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
+    household = relationship('Household', backref='items')
     cate_idx = Column(Integer, ForeignKey('item_category.id'), nullable=False)
     cate = relationship('ItemCategory', backref='items')
     icon_idx = Column(Integer, ForeignKey('item_icon.id'), nullable=False)
     icon = relationship('ItemIcon', backref='items')
+
+    def get_api_data(self):
+        cq = sum([i.quantity for i in self.container_items if not i.is_removed])
+        return {
+            'idx': self.id,
+            'name': self.name,
+            'currentQuantity': cq
+        }
+
 
 class UserDefinedItem(TimestampMixin, db.Model):
     __tablename__ = 'user_defined_item'
