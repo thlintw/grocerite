@@ -384,17 +384,18 @@ def tick_all_grocery_list_items(grocery_list_id):
             target_item.quantity += grocery_item.quantity
             db.session.merge(target_item)
 
-        change_log = GroceryListChangeLog(
-            grocery_list=grocery_list,
-            grocery_list_item=grocery_item,
-            member=member,
-            change_type=db.session.query(GroceryListChangeType).filter(GroceryListChangeType.name == 'TICKED').first(),
-            value_before='0',
-            value_after='1',
-        )
 
-        db.session.add(change_log)
         db.session.merge(grocery_item)
+
+    change_log = GroceryListChangeLog(
+        grocery_list=grocery_list,
+        grocery_list_item=grocery_item,
+        member=member,
+        change_type=db.session.query(GroceryListChangeType).filter(GroceryListChangeType.name == 'BATCH_TICK').first(),
+        value_before='BATCH',
+        value_after='BATCH',
+    )
+    db.session.add(change_log)
 
     try:
         db.session.commit()
