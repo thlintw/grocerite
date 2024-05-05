@@ -4,6 +4,10 @@ from config import DevelopmentConfig
 import click
 from flask.cli import with_appcontext
 from .db import db
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+import firebase_admin
+from firebase_admin import auth, credentials
+
 
 from .routes.main import main
 
@@ -18,6 +22,11 @@ def create_app(config_class=DevelopmentConfig):
     app = APIFlask(__name__)
     app.config.from_object(config_class)
     app.register_blueprint(main)
+
+    jwt = JWTManager(app)
+
+    cred = credentials.Certificate(app.config['FIREBASE_ADMIN_SERVICE_ACCOUNT'])
+    firebase_admin.initialize_app(cred)
 
     db.init_app(app)
 
