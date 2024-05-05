@@ -13,10 +13,6 @@
 	});
 	
 	
-	$: l = $locale;
-
-	$: fontFamilyCls = l == 'ja-JP' || l == 'zh-TW' ? 'font-sans text-2xl font-bold -top-5' : 'font-berkshire text-3xl -top-6';
-	$: normalTextCls = l == 'ja-JP' || l == 'zh-TW' ? 'font-sans' : 'font-serif';
 
 	const mockActiveLists = [
 		new GroceryList({

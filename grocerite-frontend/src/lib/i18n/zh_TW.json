@@ -134,7 +134,9 @@
     "common_containerType_drawer": "抽屜",
     "common_containerType_other": "其他",
     "household_newHouseholdContanerType": "類型",
-    "household_newHouseholdContainerAdd": "新增容器"
-
+    "household_newHouseholdContainerAdd": "新增容器",
+    "common_navGroceryList": "採買清單",
+    "common_navHousehold": "家庭",
+    "common_navSettings": "設定"
 }
   

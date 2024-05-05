@@ -7,6 +7,8 @@
 	import { scaleFade } from '$lib/transitions';
 	import LoadingOverlay from '$lib/components/LoadingOverlay.svelte';
 	import Dialogue from '$lib/components/Dialogue.svelte';
+	import { lc } from '$lib/stores/general';
+	import { _ } from 'svelte-i18n';
 
 	export async function preload() {
 		return waitLocale()
@@ -62,11 +64,26 @@
 
 	<div class="
 		hidden lg:flex
-		nav-menu-lg flex-col items-center gap-5  p-4
+		nav-menu-lg flex-col items-end gap-5  p-4
 	">
-		<div class="">
-			<img src='/image/logo-full.png' alt="Logo" class="max-h-16 mr-4" />
-		</div>
+		<a class="" href="/app">
+			<img src='/image/logo-full.png' alt="Logo" class="max-h-16" />
+		</a>
+		<a class="{$lc.title} text-base text-orange-300 
+		hover:text-orange-500
+		pr-2" href="/grocery_list">
+			{$_('common_navGroceryList')}
+		</a>
+		<a class="{$lc.title} text-base text-orange-300 
+		hover:text-orange-500
+		pr-2" href="/household">
+			{$_('common_navHousehold')}
+		</a>
+		<a class="{$lc.title} text-base text-orange-300 
+		hover:text-orange-500
+		pr-2" href="/settings">
+			{$_('common_navSettings')}
+		</a>
 	</div>
 	
 	<LocaleSwitch

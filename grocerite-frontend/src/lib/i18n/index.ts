@@ -10,7 +10,22 @@ register('zh-TW', () => import('./zh_TW.json'));
 
 const defaultLocale = 'en-US';
 
+console.log('browser', browser);
+if (browser) console.log('window.navigator.language', window.navigator.language);
+
+const getLocaleWithRegion = (language) => {
+    const languageMap = {
+        'sv': 'sv-SE',
+        'fr': 'fr-FR',
+        'ja': 'ja-JP',
+        'zh': 'zh-TW',
+        'en': 'en-US'
+    };
+    return languageMap[language] || language;
+};
+
+
 init({
     fallbackLocale: defaultLocale,
-    initialLocale: 'en-US',
+    initialLocale: browser ? getLocaleWithRegion(window.navigator.language.split('-')[0]) : defaultLocale
 });

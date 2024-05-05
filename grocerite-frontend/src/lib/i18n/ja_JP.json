@@ -135,6 +135,9 @@
     "common_containerType_drawer": "引き出し",
     "common_containerType_other": "その他",
     "household_newHouseholdContanerType": "タイプ",
-    "household_newHouseholdContainerAdd": "容器を追加"
+    "household_newHouseholdContainerAdd": "容器を追加",
+    "common_navGroceryList": "買い物リスト",
+    "common_navHousehold": "家庭",
+    "common_navSettings": "設定"
 }
 

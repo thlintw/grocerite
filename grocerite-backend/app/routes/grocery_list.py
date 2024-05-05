@@ -168,8 +168,10 @@ def update_grocery_list(grocery_list_id):
     description = data.get('description', '')
     asignee_member_idx = data.get('asigneeMemberIdx', None)
     grocery_items_raw = data.get('items', [])
-    deadline = data.get('deadline', None)
-    deadline_dt = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(deadline / 1000))
+    deadline = data.get('deadline', -1)
+    deadline_dt = None
+    if deadline:
+        deadline_dt = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(deadline / 1000))
 
     if any([
         not name,
@@ -198,7 +200,7 @@ def update_grocery_list(grocery_list_id):
             if idx in items_to_delete:
                 db.session.delete(g_item)
 
-            itemIdx = g_item.get('itemIdx', None)
+            item_idx = g_item.get('itemIdx', None)
             name = g_item.get('name', '')
             quantity = g_item.get('quantity', 1)
             category = g_item.get('category', '')
@@ -208,8 +210,8 @@ def update_grocery_list(grocery_list_id):
                 item = None
                 container = None
 
-                if itemIdx:
-                    item = db.session.query(Item).filter(Item.id == itemIdx).first()
+                if item_idx:
+                    item = db.session.query(Item).filter(Item.id == item_idx).first()
                 else:
                     cate = db.session.query(ItemCategory).filter(ItemCategory.name == category).first()
                     item = Item(
@@ -338,6 +340,69 @@ def tick_grocery_list_item(grocery_item_idx):
         traceback.print_exc()
         return api_response(status='F', message='Error ticking grocery item', status_code=400)
     
+
+
+# tick all items
+@grocery_list_bp.route('/grocery_list/tick_all_items/<string:grocery_list_id>', methods=['PUT'])
+def tick_all_grocery_list_items(grocery_list_id):
+    if not request.is_json:
+        return api_response(status='F', message='Request is not JSON', status_code=400)
+    
+    data = request.json
+
+    key_list = [
+        'member_idx'
+    ]
+
+    if not all(k in data for k in key_list):
+        return api_response(status='F', message='Missing required fields', status_code=400)
+    
+    grocery_list = db.session.query(GroceryList).filter(GroceryList.grocery_list_id == grocery_list_id).first()
+    if grocery_list is None:
+        return api_response(status='F', message='Grocery list not found', status_code=404)
+    
+    member = db.session.query(Member).filter(Member.id == data['member_idx']).first()
+    if member is None:
+        return api_response(status='F', message='Member not found', status_code=404)
+    
+    for grocery_item in grocery_list.items:
+        grocery_item.ticked = True
+        grocery_item.ticked_by = member
+        grocery_item.ticked_time = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time()))
+
+        target_item = filter(lambda t: t.id == grocery_item.item.id, grocery_item.target_container.items)
+
+        if len(target_item) == 0:
+            target_item = ContainerItem(
+                item_idx=grocery_item.item.id,
+                quantity=grocery_item.quantity,
+                container=grocery_item.target_container
+            )
+            db.session.add(target_item)
+        else:
+            target_item = target_item[0]
+            target_item.quantity += grocery_item.quantity
+            db.session.merge(target_item)
+
+        change_log = GroceryListChangeLog(
+            grocery_list=grocery_list,
+            grocery_list_item=grocery_item,
+            member=member,
+            change_type=db.session.query(GroceryListChangeType).filter(GroceryListChangeType.name == 'TICKED').first(),
+            value_before='0',
+            value_after='1',
+        )
+
+        db.session.add(change_log)
+        db.session.merge(grocery_item)
+
+    try:
+        db.session.commit()
+        return api_response(data=[grocery_list.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Error ticking grocery items', status_code=400)
 
 
 

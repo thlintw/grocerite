@@ -135,6 +135,9 @@
     "common_containerType_drawer": "Låda",
     "common_containerType_other": "Annat",
     "household_newHouseholdContanerType": "Typ",
-    "household_newHouseholdContainerAdd": "Lägg till behållare"
+    "household_newHouseholdContainerAdd": "Lägg till behållare",
+    "common_navGroceryList": "Matlistor",
+    "common_navHousehold": "Hushåll",
+    "common_navSettings": "Inställningar"
 }
   

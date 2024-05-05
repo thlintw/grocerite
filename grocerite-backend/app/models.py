@@ -35,6 +35,15 @@ class User(TimestampMixin, db.Model):
             'nickname': self.nickname,
             'picture': self.picture
         }
+    
+class UserPreference(TimestampMixin, db.Model):
+    __tablename__ = 'user_preference'
+    id = Column(Integer, primary_key=True)
+    user_idx = Column(Integer, ForeignKey('user.id'), nullable=False)
+    user = relationship('User', backref='preferences')
+    key = Column(Unicode(100), nullable=False)
+    value = Column(Unicode(255), nullable=False)
+
 
 household_member = Table('household_member', db.metadata,
     Column('household_idx', Integer, ForeignKey('household.id'), primary_key=True),

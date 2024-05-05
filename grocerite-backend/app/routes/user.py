@@ -1,7 +1,7 @@
 from apiflask import APIBlueprint
 from flask import request, jsonify
 from ..db import db
-from ..models import User
+from ..models import User, UserPreference
 from ..api_utils import api_response
 import time
 
@@ -57,3 +57,61 @@ def create_profile():
 
 
 
+user_pref_keys = [
+    'PREFERRED_LOCALE',
+]
+
+# get user preferences
+@user_bp.route('/preferences/<string:user_id>', methods=['GET'])
+def get_preferences(user_id):
+
+    prefs = {
+        key: '' for key in user_pref_keys
+    }
+
+    try:
+        user_prefs = db.session.query(UserPreference).\
+            filter(UserPreference.user.user_id == user_id).all()
+        for p in user_prefs:
+            prefs[p.pref_key] = p.pref_value
+    except Exception as e:
+        return api_response(status='F', message='Failed to get preferences', status_code=500)
+    
+    return api_response(data=[prefs])
+
+
+
+# set user preferences
+@user_bp.route('/preferences/set/<string:user_id>', methods=['POST'])
+def set_preferences(user_id):
+    if not request.is_json:
+        return api_response(status='F', message='Request is not JSON', status_code=400)
+    
+    data = request.json
+    prefs = data.get('preferences', {})
+
+    current_prefs = db.session.query(UserPreference).\
+        filter(UserPreference.user.user_id == user_id).all()
+    
+    user = db.session.query(User).filter(User.user_id == user_id).first()
+
+    try:
+        for key, value in prefs.items():
+            user_pref_row = filter(lambda p: p.key == key, current_prefs)
+            if user_pref_row:
+                user_pref_row.value = value
+                db.session.merge(user_pref_row)
+            else:
+                user_pref_row = UserPreference(
+                    user=user,
+                    key=key,
+                    value=value
+                )
+                db.session.add(user_pref_row)
+            prefs[key] = user_pref_row.value
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return api_response(status='F', message='Failed to set preferences', status_code=500)
+    
+    return api_response(data=[prefs])

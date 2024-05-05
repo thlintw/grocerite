@@ -134,5 +134,8 @@
     "common_containerType_drawer": "Tiroir",
     "common_containerType_other": "Autre",
     "household_newHouseholdContanerType": "Type",
-    "household_newHouseholdContainerAdd": "Ajouter un conteneur"
+    "household_newHouseholdContainerAdd": "Ajouter un conteneur",
+    "common_navGroceryList": "Listes d'épicerie",
+    "common_navHousehold": "Ménages",
+    "common_navSettings": "Paramètres"
 }

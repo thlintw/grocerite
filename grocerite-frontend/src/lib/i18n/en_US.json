@@ -135,6 +135,9 @@
     "common_containerType_drawer": "Drawer",
     "common_containerType_other": "Other",
     "household_newHouseholdContanerType": "Type",
-    "household_newHouseholdContainerAdd": "Add container"
+    "household_newHouseholdContainerAdd": "Add container",
+    "common_navGroceryList": "Grocery Lists",
+    "common_navHousehold": "Households",
+    "common_navSettings": "Settings"
 }
   
