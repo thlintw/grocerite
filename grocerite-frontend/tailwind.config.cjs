@@ -2,7 +2,7 @@
 const plugin = require('tailwindcss/plugin');
 
 export default {
-  purge: ['./src/**/*.svelte', './src/**/*.html'],
+  purge: ['./src/**/*.svelte', './src/**/*.html', './src/**/*.ts'],
   content: [],
   darkMode: 'class',
   important: true,

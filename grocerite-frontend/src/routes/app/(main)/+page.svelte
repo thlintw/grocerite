@@ -72,7 +72,7 @@
 		w-full flex-col bg-orange-50 mt-8 rounded-[3rem] shadow-grocerite-orange-200-md
 	">
 		<div class="
-			{$lc.title} text-orange-500 drop-shadow-grocerite-orange-100-md relative pl-5
+			{$lc.title} text-orange-500 drop-shadow-grocerite-orange-100-md relative pl-5 -top-6
 		">
 			{$_('home_activeList')}
 		</div>
@@ -145,10 +145,10 @@
 	</div>
 	<div class="
 		flex relative
-		w-full flex-col bg-orange-50 mt-8 rounded-3xl shadow-grocerite-orange-200-md
+		w-full flex-col bg-orange-50 mt-8 rounded-3xl shadow-grocerite-orange-200-md 
 	">
 		<div class="
-			{$lc.title} text-orange-500 drop-shadow-grocerite-orange-100-md relative pl-5
+			{$lc.title} text-orange-500 drop-shadow-grocerite-orange-100-md relative pl-5  -top-6
 		">
 			{$_('home_householdList')}
 		</div>

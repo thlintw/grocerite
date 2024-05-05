@@ -8,7 +8,7 @@ export const darkMode = writable(false);
 export const lc = derived(locale, $locale => {
     const isJPorTW = $locale === 'ja-JP' || $locale === 'zh-TW';
     return {
-        title: isJPorTW ? 'font-sans text-2xl font-bold -top-5' : 'font-berkshire text-3xl -top-6',
+        title: isJPorTW ? 'font-sans text-2xl font-bold' : 'font-berkshire text-3xl',
         text: isJPorTW ? 'font-sans' : 'font-sans'
     };
 });

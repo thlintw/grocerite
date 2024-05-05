@@ -65,8 +65,8 @@
 			<div class="flex flex-col items-center">
 				<div class="relative">
 					<img src={logoFull} alt="logo" class="w-[22rem]"/>
-					<div class="text-2xl font-bold mt-8 
-						absolute bottom-0 w-full h-full flex items-end justify-end
+					<div class="text-[1.4rem] mt-8 
+						absolute bottom-0 w-full h-full flex items-end justify-end -top-5
 						{$lc.title} text-orange-500">
 						{$_('login_catchPhrase')}
 					</div>
