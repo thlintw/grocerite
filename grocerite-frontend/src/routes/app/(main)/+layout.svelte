@@ -71,17 +71,17 @@
 		</a>
 		<a class="{$lc.title} text-base text-orange-300 
 		hover:text-orange-500
-		pr-2" href="/grocery_list">
+		pr-2" href="/app/grocery_list">
 			{$_('common_navGroceryList')}
 		</a>
 		<a class="{$lc.title} text-base text-orange-300 
 		hover:text-orange-500
-		pr-2" href="/household">
+		pr-2" href="/app/household">
 			{$_('common_navHousehold')}
 		</a>
 		<a class="{$lc.title} text-base text-orange-300 
 		hover:text-orange-500
-		pr-2" href="/settings">
+		pr-2" href="/app/settings">
 			{$_('common_navSettings')}
 		</a>
 	</div>

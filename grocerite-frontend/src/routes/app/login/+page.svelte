@@ -17,11 +17,18 @@
 	import { AuthService } from '$lib/services/auth';
 	import LocaleSwitch from '$lib/components/LocaleSwitch.svelte';
 	import { lc } from '$lib/stores/general';
+	import { authStore } from '$lib/stores/authStore';
+    import { onMount } from 'svelte';
 
 
 	const loginGoogle = async () => {
-		await AuthService.getInstance().signInWithGoogle();
+		await AuthService.getInstance().signInWithGoogle()
 	};
+
+	onMount(() => {
+		
+		console.log($authStore.user)
+	});
 
 </script>
 

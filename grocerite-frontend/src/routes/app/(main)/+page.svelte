@@ -8,8 +8,12 @@
 	import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
   	import { faAsterisk, faUser, faCalendar, faBagShopping } from '@fortawesome/free-solid-svg-icons';
 	import { lc } from '$lib/stores/general';
+    import { goto } from "$app/navigation";
+	import { authStore } from "$lib/stores/authStore";
 
-	onMount(() => {
+	onMount(async () => {
+		// console.log(await $authStore.user?.getIdToken())
+		
 	});
 	
 	
@@ -140,7 +144,7 @@
 					</div>
 				</div>
 			{/each}
-			<PlusButton cls="mt-2" onClick={() => console.log('134')} />
+			<PlusButton cls="mt-2" onClick={() => goto('/app/grocery_list/new')} />
 		</div>
 	</div>
 	<div class="
