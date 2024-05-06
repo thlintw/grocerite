@@ -47,6 +47,7 @@ class TestingConfig(Config):
     # }
 
 class ProductionConfig(Config):
+    pass
     # SQLALCHEMY_ENGINE_OPTIONS = {
     #     'connect_args': {
     #         'options': '-csearch_path=public'

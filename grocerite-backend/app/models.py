@@ -33,9 +33,23 @@ class User(TimestampMixin, db.Model):
             'fbUid': self.fb_uid,
             'userId': self.user_id,
             'nickname': self.nickname,
-            'picture': self.picture
+            'picture': self.picture,
+            'preferences': self.get_preferences()
         }
     
+    def get_preferences(self):
+        prefs = {
+            key: '' for key in user_pref_keys
+        }
+        for p in self.preferences:
+            prefs[p.key] = p.value
+        return prefs
+    
+
+user_pref_keys = [
+    'PREFERRED_LOCALE',
+]
+
 class UserPreference(TimestampMixin, db.Model):
     __tablename__ = 'user_preference'
     id = Column(Integer, primary_key=True)

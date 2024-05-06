@@ -1,13 +1,12 @@
-from apiflask import APIFlask
-from flask_sqlalchemy import SQLAlchemy
-from config import DevelopmentConfig
 import click
+from apiflask import APIFlask
+from flask_cors import CORS
+from config import DevelopmentConfig
 from flask.cli import with_appcontext
 from .db import db
-from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
-import firebase_admin
-from firebase_admin import auth, credentials
 
+import firebase_admin
+from firebase_admin import credentials
 
 from .routes.main import main
 
@@ -22,8 +21,8 @@ def create_app(config_class=DevelopmentConfig):
     app = APIFlask(__name__)
     app.config.from_object(config_class)
     app.register_blueprint(main)
+    CORS(app)
 
-    jwt = JWTManager(app)
 
     cred = credentials.Certificate(app.config['FIREBASE_ADMIN_SERVICE_ACCOUNT'])
     firebase_admin.initialize_app(cred)

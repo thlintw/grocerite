@@ -32,7 +32,7 @@ export class AuthService {
             authStore.setUser(result.user);
             authStore.setError(null);
         } catch (error) {
-            if (error instanceof Error) { // TypeScript type guard
+            if (error instanceof Error) { 
                 authStore.setError(error.message);
             } else {
                 console.error("An unexpected error occurred", error);
@@ -49,7 +49,7 @@ export class AuthService {
             authStore.setUser(null);
             authStore.setError(null);
         } catch (error) {
-            if (error instanceof Error) { // TypeScript type guard
+            if (error instanceof Error) {
                 authStore.setError(error.message);
             } else {
                 console.error("An unexpected error occurred", error);

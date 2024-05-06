@@ -415,7 +415,7 @@ def update_household_container(household_id, container_idx):
 
 
 # manage container item
-@household_bp.route('/household/manage_item/<string:household_id>/<int:container_idx>/<string:container_item_idx>', methods=['POST'])
+@household_bp.route('/household/manage_item/<string:household_id>/<int:container_idx>/<string:container_item_idx>', methods=['PUT'])
 def manage_household_container_item(household_id, container_idx, container_item_idx):
     if not request.is_json:
         return api_response(status='F', message='Request is not JSON', status_code=400)

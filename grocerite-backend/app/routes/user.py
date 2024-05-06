@@ -1,7 +1,7 @@
 from apiflask import APIBlueprint
 from flask import request, jsonify
 from ..db import db
-from ..models import User, UserPreference
+from ..models import User, UserPreference, user_pref_keys
 from ..api_utils import api_response
 import time
 
@@ -10,16 +10,18 @@ user_bp = APIBlueprint('user', __name__)
 
 # get self profile
 @user_bp.route('/profile/<string:user_id>', methods=['GET'])
-def get_profile(user_id):
+def get_user_profile(user_id):
     user = db.session.query(User).filter(User.user_id == user_id).first()
     if user is None:
-        return api_response(404, 'User not found')
-    return api_response(200, 'Success', user.to_dict())
+        return api_response(status='F', message='User not found', status_code=404)
+    return api_response(data=[user.get_api_data()])
+
+
 
 
 # create user profile
 @user_bp.route('/profile/create', methods=['POST'])
-def create_profile():
+def create_user_profile():
     if not request.is_json:
         return api_response(status='F', message='Request is not JSON', status_code=400)
     
@@ -57,13 +59,9 @@ def create_profile():
 
 
 
-user_pref_keys = [
-    'PREFERRED_LOCALE',
-]
-
 # get user preferences
-@user_bp.route('/preferences/<string:user_id>', methods=['GET'])
-def get_preferences(user_id):
+@user_bp.route('/profile/preferences/<string:user_id>', methods=['GET'])
+def get_user_preferences(user_id):
 
     prefs = {
         key: '' for key in user_pref_keys
@@ -82,8 +80,8 @@ def get_preferences(user_id):
 
 
 # set user preferences
-@user_bp.route('/preferences/set/<string:user_id>', methods=['POST'])
-def set_preferences(user_id):
+@user_bp.route('/profile/preferences/set/<string:user_id>', methods=['POST'])
+def set_user_preferences(user_id):
     if not request.is_json:
         return api_response(status='F', message='Request is not JSON', status_code=400)
     

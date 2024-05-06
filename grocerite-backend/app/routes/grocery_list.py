@@ -2,7 +2,7 @@ from apiflask import APIBlueprint
 from flask import request
 from ..db import db
 from ..models import Member, Household, Container, GroceryList, Item, GroceryListItem, ItemCategory, GroceryListChangeLog, GroceryListChangeType, ContainerItem
-from ..api_utils import api_response
+from ..api_utils import api_response, needs_firebase_auth
 import time, traceback
 
 grocery_list_bp = APIBlueprint('grocery_list', __name__)
@@ -276,22 +276,19 @@ def delete_grocery_list(grocery_list_id):
 
 
 # tick list item
-@grocery_list_bp.route('/grocery_list/tick_item/<string:grocery_item_idx>', methods=['PUT'])
-def tick_grocery_list_item(grocery_item_idx):
+@grocery_list_bp.route('/grocery_list/tick_item/<string:grocery_list_id>/<string:grocery_item_idx>', methods=['PUT'])
+def tick_grocery_list_item(grocery_list_id, grocery_item_idx):
     if not request.is_json:
         return api_response(status='F', message='Request is not JSON', status_code=400)
     
     data = request.json
 
     key_list = [
-        'member_idx',
-        'grocery_list_id'
+        'member_idx'
     ]
 
     if not all(k in data for k in key_list):
         return api_response(status='F', message='Missing required fields', status_code=400)
-    
-    grocery_list_id = data.get('grocery_list_id', None)
 
     grocery_list = db.session.query(GroceryList).filter(GroceryList.grocery_list_id == grocery_list_id).first()
     if grocery_list is None:
@@ -408,22 +405,19 @@ def tick_all_grocery_list_items(grocery_list_id):
 
 
 # untick list item
-@grocery_list_bp.route('/grocery_list/untick_item/<string:grocery_item_idx>', methods=['PUT'])
-def untick_grocery_list_item(grocery_item_idx):
+@grocery_list_bp.route('/grocery_list/untick_item/<string:grocery_list_id>/<string:grocery_item_idx>', methods=['PUT'])
+def untick_grocery_list_item(grocery_list_id, grocery_item_idx):
     if not request.is_json:
         return api_response(status='F', message='Request is not JSON', status_code=400)
     
     data = request.json
 
     key_list = [
-        'member_idx',
-        'grocery_list_id'
+        'member_idx'
     ]
 
     if not all(k in data for k in key_list):
         return api_response(status='F', message='Missing required fields', status_code=400)
-    
-    grocery_list_id = data.get('grocery_list_id', None)
 
     grocery_list = db.session.query(GroceryList).filter(GroceryList.grocery_list_id == grocery_list_id).first()
     if grocery_list is None:

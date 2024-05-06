@@ -1,14 +1,80 @@
 import axios from 'axios';
+import { authStore } from '$lib/stores/authStore';
+import { get } from 'svelte/store';
 
 export enum Endpoints {
-    HouseholdsList = '/households',
-    HouseholdsAdd = '/households/add',
-    HouseholdsUpdate = '/households/{id}/update',
-    HouseholdsDelete = '/households/{id}/delete',
+    // home
+    HomeDashboard = '/dashboard/$userId',
+    // household
+    ListHouseholds = '/household/$userId',
+    GetHousehold = '/household/get/$householdId',
+    CreateHousehold = '/household/create/$userId',
+    UpdateHousehold = '/household/update/$householdId',
+    UpdateHouseholdName = '/household/update_name/$householdId',
+    UpdateHouseholdIcon = '/household/update_icon/$householdId',
+    DeleteHousehold = '/household/delete/$householdId',
+    AddHouseholdMember = '/household/add_member/$householdId',
+    DeleteHouseholdMember = '/household/delete_member/$householdId/$memberIdx',
+    UpdateHouseholdContainer = '/household/update_container/$householdId/$containerIdx',
+    ManageHouseholdContainerItem = '/household/manage_item/$householdId/$containerIdx/$containerItemIdx',
+    DeleteContainer = '/household/delete_container/$householdId/$containerIdx',
+    BulkAddItemToList = '/household/bulk_add_item_to_list/$householdId/$containerIdx',
+    CreateContainer = '/household/create_container/$householdId',
+    // grocery list
+    ListGroceryLists = '/grocery_list/$householdId',
+    GetGroceryList = '/grocery_list/get/$groceryListId',
+    CreateGroceryList = '/grocery_list/create/$householdId',
+    UpdateGroceryList = '/grocery_list/update/$groceryListId',
+    DeleteGroceryList = '/grocery_list/delete/$groceryListId',
+    TickGroceryListItem = '/grocery_list/tick_item/$groceryListId/$groceryListItemIdx',
+    TickAllGroceryListItems = '/grocery_list/tick_all_items/$groceryListId',
+    UntickGroceryListItem = '/grocery_list/untick_item/$groceryListId/$groceryListItemIdx',
+    EditGroceryListItem = '/grocery_list/edit_item/$groceryListId/$groceryListItemIdx',
+    DeleteGroceryListItem = '/grocery_list/delete_item/$groceryListId/$groceryListItemIdx',
+    GetAvailableItems = '/grocery_list/available_items/$householdId',
+    // user
+    GetUserProfile = '/profile/$userId',
+    CreateUserProfile = '/profile/create',
+    GetUserPreferences = '/profile/preferences/$userId',
+    SetUserPreferences = '/profile/preferences/set/$userId',
+}
+
+export const EndpointMethods = {
+    [Endpoints.HomeDashboard]: 'GET',
+    [Endpoints.ListHouseholds]: 'GET',
+    [Endpoints.GetHousehold]: 'GET',
+    [Endpoints.CreateHousehold]: 'POST',
+    [Endpoints.UpdateHousehold]: 'PUT',
+    [Endpoints.UpdateHouseholdName]: 'PUT',
+    [Endpoints.UpdateHouseholdIcon]: 'PUT',
+    [Endpoints.DeleteHousehold]: 'DELETE',
+    [Endpoints.AddHouseholdMember]: 'POST',
+    [Endpoints.DeleteHouseholdMember]: 'DELETE',
+    [Endpoints.UpdateHouseholdContainer]: 'PUT',
+    [Endpoints.ManageHouseholdContainerItem]: 'PUT',
+    [Endpoints.DeleteContainer]: 'DELETE',
+    [Endpoints.BulkAddItemToList]: 'POST',
+    [Endpoints.CreateContainer]: 'POST',
+    [Endpoints.ListGroceryLists]: 'GET',
+    [Endpoints.GetGroceryList]: 'GET',
+    [Endpoints.CreateGroceryList]: 'POST',
+    [Endpoints.UpdateGroceryList]: 'PUT',
+    [Endpoints.DeleteGroceryList]: 'DELETE',
+    [Endpoints.TickGroceryListItem]: 'PUT',
+    [Endpoints.TickAllGroceryListItems]: 'PUT',
+    [Endpoints.UntickGroceryListItem]: 'PUT',
+    [Endpoints.EditGroceryListItem]: 'PUT',
+    [Endpoints.DeleteGroceryListItem]: 'DELETE',
+    [Endpoints.GetAvailableItems]: 'GET',
+    [Endpoints.GetUserProfile]: 'GET',
+    [Endpoints.CreateUserProfile]: 'POST',
+    [Endpoints.GetUserPreferences]: 'GET',
+    [Endpoints.SetUserPreferences]: 'PUT',
 }
 
 export interface RequestOptions {
     method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+    needAuth?: boolean;
     headers?: Record<string, string>;
     data?: any; 
 }
@@ -22,16 +88,46 @@ export class ApiService {
 
     private resolveUrl(url: Endpoints, params?: Record<string, string>): string {
         let resolvedUrl = url as string;
-        if (params) {
-            for (const key in params) {
-                resolvedUrl = resolvedUrl.replace(`{${key}}`, encodeURIComponent(params[key]));
-            }
+        const placeholderRegex = /\$[a-zA-Z0-9_]+/g;
+        const matches = resolvedUrl.match(placeholderRegex);
+
+        if (matches && params) {
+            matches.forEach(match => {
+                const paramName = match.slice(1);
+                const paramValue = params[paramName];
+                if (paramValue === undefined || paramValue === null) {
+                    throw new Error(`Parameter "${paramName}" is required`);
+                }
+                resolvedUrl = resolvedUrl.replace(match, encodeURIComponent(String(paramValue)));
+            });
+        } else if (matches) {
+            throw new Error('Parameters are required but not provided');
+        } else if (params) {
+            throw new Error('No parameters are required but provided');
         }
+
         return resolvedUrl;
     }
 
+    private makeAuthHeader(): Record<string, string> {
+        const user = get(authStore).user;
+        if (!user) {
+            throw new Error('User is not authenticated');
+        }
+        return {
+            Authorization: `Bearer ${user.getIdToken()}`,
+        };
+    }
+        
+
     async request<T>(endpoint: Endpoints, options: RequestOptions, params?: Record<string, string>): Promise<T> {
         const resolvedUrl = this.resolveUrl(endpoint, params);
+        if (options.needAuth) {
+            options.headers = {
+                ...options.headers,
+                ...this.makeAuthHeader(),
+            };
+        }
         try {
             const response = await axios({
                 method: options.method,

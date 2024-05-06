@@ -2,12 +2,13 @@ from apiflask import APIBlueprint
 from flask import request, jsonify
 from ..db import db
 from ..models import User, Member, Household
-from ..api_utils import api_response
+from ..api_utils import api_response, needs_firebase_auth
 
 common_bp = APIBlueprint('common', __name__)
 
 
 @common_bp.route('/dashboard/<string:user_id>', methods=['GET'])
+@needs_firebase_auth
 def home_dashboard(user_id):
     user = db.session.query(User).filter(User.user_id == user_id).first()
     if user is None:
