@@ -32,9 +32,23 @@ class Config:
     
 class DevelopmentConfig(Config):
     DEBUG = True
+    # SQLALCHEMY_ENGINE_OPTIONS = {
+    #     'connect_args': {
+    #         'options': '-csearch_path=dev'
+    #     }
+    # }
 
 class TestingConfig(Config):
     TESTING = True
+    # SQLALCHEMY_ENGINE_OPTIONS = {
+    #     'connect_args': {
+    #         'options': '-csearch_path=dev'
+    #     }
+    # }
 
 class ProductionConfig(Config):
-    pass
+    # SQLALCHEMY_ENGINE_OPTIONS = {
+    #     'connect_args': {
+    #         'options': '-csearch_path=public'
+    #     }
+    # }
