@@ -245,6 +245,14 @@ class GroceryList(TimestampMixin, db.Model):
     
     def is_active(self):
         return all([not i.ticked for i in self.items])
+    
+
+class Currency(TimestampMixin, db.Model):
+    __tablename__ = 'currency'
+    id = Column(Integer, primary_key=True)
+    name = Column(Unicode(50), nullable=False)
+    symbol = Column(Unicode(10), nullable=False)
+    code = Column(Unicode(10), nullable=False)
 
 
 class GroceryListItem(TimestampMixin, db.Model):
@@ -267,6 +275,9 @@ class GroceryListItem(TimestampMixin, db.Model):
     store = relationship('Store', backref='grocery_list_items')
     target_container_idx = Column(Integer, ForeignKey('container.id'), nullable=False)
     target_container = relationship('Container', backref='grocery_list_items')
+    currency_idx = Column(Integer, ForeignKey('currency.id'), nullable=True) # premium?
+    currency = relationship('Currency', backref='grocery_list_items')
+    price = Column(Unicode(50)) # premium?
     
 
     def get_api_data(self):
@@ -316,6 +327,7 @@ class ContainerItem(TimestampMixin, db.Model):
     quantity = Column(Unicode(50))
     comment = Column(Text)
     is_removed = Column(Boolean, default=False)
+    
 
 
 class Store(TimestampMixin, db.Model):
