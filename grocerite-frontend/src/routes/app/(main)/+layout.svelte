@@ -9,18 +9,29 @@
 	import Dialogue from '$lib/components/Dialogue.svelte';
 	import { lc } from '$lib/stores/general';
 	import { _ } from 'svelte-i18n';
-    import { ApiService, Endpoints } from '$lib/services/api';
+	import { wakeUp, dashboard } from '$lib/api/home';
+	import { toast } from '@zerodevx/svelte-toast';
+
 
 	let serverWokeUp = false;
+	let dashData = null;
 
 	export async function preload() {
 		return waitLocale()
 	}
 
 	onMount(async () => {
-		const greet = await ApiService.getInstance().get(Endpoints.WakeUp);
-		if (greet.status === 'S') {
-			serverWokeUp = true;
+		try {
+			const greet = await wakeUp();
+			if (greet.status === 'S') {
+				serverWokeUp = true;
+				const dashRes = await dashboard();
+				if (dashRes.status === 'S') {
+					dashData = dashRes.data[0];
+				}
+			}
+		} catch (e) {
+			toast.push('failed to wake up server', {duration: 99999});
 		}
 	})
 

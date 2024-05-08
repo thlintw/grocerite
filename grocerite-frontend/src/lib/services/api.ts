@@ -83,6 +83,13 @@ export interface RequestOptions {
 }
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL as string;
+
+export interface RES {
+    status: 'S' | 'F';
+    message: string;
+    data: [any];
+}
+
   
 export class ApiService {
     private baseUrl: string;

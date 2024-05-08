@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { AuthService } from '$lib/services/auth';
 	import { authStore } from '$lib/stores/authStore';
+	import { SvelteToast } from '@zerodevx/svelte-toast'
 	import '@fortawesome/fontawesome-svg-core/styles.css';
 
 
@@ -24,9 +25,12 @@
 		// });
 	});
 
+	const options = {
+  	}
+
 </script>
   
-  
+<SvelteToast {options} />
 <div class="min-h-[calc(100dvh)] bg-orange-50 flex dark:bg-neutral-900 w-full">
     <slot></slot>
 </div>

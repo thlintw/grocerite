@@ -17,6 +17,25 @@
 	font-family: var(--font-body);
 	color: var(--color-text);
 } */
+:root {
+    --toastBackground: theme('colors.orange.50');
+	--toastColor: theme('colors.neutral.600');
+	--toastBorderRadius: 0 0 1.2rem 1.2rem;
+	--toastBarBackground: theme('colors.orange.500');
+	--toastWidth: 100vw;
+	--toastPadding: .5rem;
+	--toastContainerRight: 0;
+	--toastContainerTop: 0;
+}
+
+@media (min-width: 1024px) {
+	:root {
+		--toastWidth: 20rem;
+		--toastContainerRight: 2rem;
+		--toastContainerTop: 1.5rem;
+	}
+
+}
 
 @layer utilities {
 	.no-scrollbar::-webkit-scrollbar {

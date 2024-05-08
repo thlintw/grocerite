@@ -1,16 +1,17 @@
 import type { User } from "firebase/auth";
 import { writable } from 'svelte/store';
+import type { UserProfile } from "firebase/auth";
 
 interface AuthState {
     user: User | null; 
-    groceriteProfile: any;
+    userProfile: UserProfile | null;
     error: string | null;
     loading: boolean;
 }
 
 const initialState: AuthState = {
     user: null,
-    groceriteProfile: null,
+    userProfile: null,
     error: null,
     loading: false,
 };
