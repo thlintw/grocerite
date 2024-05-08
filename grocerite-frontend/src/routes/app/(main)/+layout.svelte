@@ -9,10 +9,20 @@
 	import Dialogue from '$lib/components/Dialogue.svelte';
 	import { lc } from '$lib/stores/general';
 	import { _ } from 'svelte-i18n';
+    import { ApiService, Endpoints } from '$lib/services/api';
+
+	let serverWokeUp = false;
 
 	export async function preload() {
 		return waitLocale()
 	}
+
+	onMount(async () => {
+		const greet = await ApiService.getInstance().get(Endpoints.WakeUp);
+		if (greet.status === 'S') {
+			serverWokeUp = true;
+		}
+	})
 
 	let showMobileMenu = false;
 </script>

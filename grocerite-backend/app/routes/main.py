@@ -9,6 +9,10 @@ main = APIBlueprint('main', __name__)
 def index():
     return api_response(data=['OK'])
 
+@main.route('/wake_up')
+def wake_up():
+    return api_response(data=['god morgon!'])
+
 
 
 from .household import household_bp

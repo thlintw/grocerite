@@ -3,6 +3,8 @@ import { authStore } from '$lib/stores/authStore';
 import { get } from 'svelte/store';
 
 export enum Endpoints {
+    // misc
+    WakeUp = '/wake_up',
     // home
     HomeDashboard = '/dashboard/$userId',
     // household
@@ -40,6 +42,7 @@ export enum Endpoints {
 }
 
 export const EndpointMethods = {
+    [Endpoints.WakeUp]: 'GET',
     [Endpoints.HomeDashboard]: 'GET',
     [Endpoints.ListHouseholds]: 'GET',
     [Endpoints.GetHousehold]: 'GET',
@@ -78,12 +81,18 @@ export interface RequestOptions {
     headers?: Record<string, string>;
     data?: any; 
 }
+
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL as string;
   
 export class ApiService {
     private baseUrl: string;
 
     constructor(baseUrl: string) {
         this.baseUrl = baseUrl;
+    }
+
+    static getInstance(): ApiService {
+        return new ApiService(apiBaseUrl);
     }
 
     private resolveUrl(url: Endpoints, params?: Record<string, string>): string {
