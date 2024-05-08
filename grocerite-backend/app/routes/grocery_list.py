@@ -1,5 +1,6 @@
 from apiflask import APIBlueprint
-from flask import request
+from flask import request, Response
+import app
 from ..db import db
 from ..models import Member, Household, Container, GroceryList, Item, GroceryListItem, ItemCategory, GroceryListChangeLog, GroceryListChangeType, ContainerItem
 from ..api_utils import api_response, needs_firebase_auth
@@ -274,6 +275,18 @@ def delete_grocery_list(grocery_list_id):
         return api_response(status='F', message='Error deleting grocery list', status_code=400)
     
 
+connected_clients = []
+
+# @grocery_list_bp.route('/grocery_list/tick_notif/<string:grocery_list_id>')
+# def tick_grocery_list_notif(grocery_list_id):
+#     def event_stream():
+#         connected_clients.append(request.sid)
+
+#     return Response(event_stream(), content_type='text/event-stream')
+
+# def send_sse_update():
+#     for client in connected_clients:
+#         app.extensions['socketio'].emit('update', {'message': 'Grocery list updated'}, room=client)
 
 # tick list item
 @grocery_list_bp.route('/grocery_list/tick_item/<string:grocery_list_id>/<string:grocery_item_idx>', methods=['PUT'])
@@ -331,6 +344,7 @@ def tick_grocery_list_item(grocery_list_id, grocery_item_idx):
         db.session.add(change_log)
         db.session.merge(grocery_item)
         db.session.commit()
+        # send_sse_update({'message': f'itemIdx:{grocery_item_idx}|memberIdx:{data["member_idx"]}'})
         return api_response(data=[grocery_item.get_api_data()])
     except Exception as e:
         db.session.rollback()
