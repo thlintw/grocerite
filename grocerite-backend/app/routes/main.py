@@ -2,6 +2,7 @@ from apiflask import APIBlueprint
 from flask import jsonify
 from ..api_utils import api_response
 from ..utils import get_id
+from firebase_admin import firestore
 
 main = APIBlueprint('main', __name__)
 
@@ -25,13 +26,16 @@ main.register_blueprint(household_bp)
 main.register_blueprint(grocery_list_bp)
 main.register_blueprint(user_bp)
 
-import time
 
 @main.route('/test')
 def test():
-    a = set([3, 5, 6, 7, 8, 9])
-    b = set([1, 2, 3, 4, 5])
+    data = {
+        'a': [1, 2, 3, 4, 5],
+        'b': [4, 5, 6, 7, 8]
+    }
 
-    print(3 in b-a)
+    fb = firestore.client()
+    doc_ref = fb.collection('test')
+    doc_ref.set(data)
 
-    return api_response(data=[list(a-b), list(b-a)])
+    return api_response(data=['OK'])
