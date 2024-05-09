@@ -3,9 +3,12 @@ import '$lib/i18n' // Import to initialize. Important :)
 import { locale, waitLocale } from 'svelte-i18n'
 import type { LayoutLoad } from './$types'
 
-export const load: LayoutLoad = async () => {
+export const load: LayoutLoad = async ({ url }) => {
 	if (browser) {
 		locale.set(window.navigator.language)
 	}
 	await waitLocale()
+	return {
+		pathname: url.pathname
+	}
 }

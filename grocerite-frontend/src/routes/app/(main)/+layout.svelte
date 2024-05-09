@@ -14,6 +14,11 @@
   	import { db } from '$lib/firebaseConfig';
 	import { doc, onSnapshot } from 'firebase/firestore';
     import { AuthService } from '$lib/services/auth';
+	import { fade } from 'svelte/transition';
+	import { cubicIn, cubicOut } from 'svelte/easing';
+
+	export let data;
+
 
 	let serverWokeUp = false;
 	let dashData = null;
@@ -144,6 +149,10 @@
 		lg:overflow-y-auto lg:max-h-full no-scrollbar
 		lg:border-4 border-orange-100
 	">
-		<slot></slot>
+	{#key data.pathname}
+		<div in:fade={{ easing: cubicOut, duration: 200, delay: 200 }} out:fade={{ easing: cubicIn, duration: 200 }}>
+			<slot />
+		</div>
+	{/key}
 	</div>
 </main>

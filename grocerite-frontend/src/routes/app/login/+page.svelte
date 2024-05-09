@@ -85,9 +85,10 @@
 					<img src={google} alt="google" class="w-6 h-6"/>
 					<span class="text-neutral-500 font-bold ml-4 text-base">{$_('login_continueWithGoogle')}</span>
 				</button>
-				<div class="bg-orange-100/50 lg:bg-transparent border-2 border-orange-500 w-72 py-3 rounded-lg flex items-center justify-center">
+				<a class="bg-orange-100/50 lg:bg-transparent border-2 border-orange-500 w-72 py-3 rounded-lg flex items-center justify-center"
+					href="/app">
 					<span class="text-orange-500 font-bold text-base">{$_('login_lookingAround')}</span>
-				</div>
+				</a>
 			</div>
 		</div>
 	</div>

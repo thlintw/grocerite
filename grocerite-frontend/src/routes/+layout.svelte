@@ -7,6 +7,10 @@
 	import { authStore } from '$lib/stores/authStore';
 	import { SvelteToast } from '@zerodevx/svelte-toast'
 	import '@fortawesome/fontawesome-svg-core/styles.css';
+	import { fade } from 'svelte/transition';
+	import { cubicIn, cubicOut } from 'svelte/easing';
+
+	export let data;
 
 
 	export async function preload() {
@@ -31,6 +35,9 @@
 </script>
   
 <SvelteToast {options} />
-<div class="min-h-[calc(100dvh)] bg-orange-50 flex dark:bg-neutral-900 w-full">
-    <slot></slot>
-</div>
+{#key data.pathname}
+	<div class="min-h-[calc(100dvh)] bg-orange-50 flex dark:bg-neutral-900 w-full"
+		in:fade={{ duration: 200, delay: 200 }} out:fade={{ duration: 200 }}>
+		<slot></slot>
+	</div>
+{/key}
