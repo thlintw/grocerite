@@ -1,7 +1,5 @@
-import { ApiService, type RES, Endpoints, EndpointMethods } from "$lib/services/api";
-import { authStore } from "$lib/stores/authStore";
-import { get } from "svelte/store";
-
+import { ApiService, type RES, Endpoints } from "$lib/services/api";
+import { userAuthHelper } from "./_helper";
 
 export const wakeUp = async (): Promise<RES> => {
     const apiService = ApiService.getInstance();
@@ -10,9 +8,13 @@ export const wakeUp = async (): Promise<RES> => {
 
 export const dashboard = async (): Promise<RES> => {
     const apiService = ApiService.getInstance();
-    const userProfile = get(authStore).userProfile;
-    if (!userProfile) {
-        throw new Error('user not authenticated');
-    }
-    return apiService.get(Endpoints.HomeDashboard);
+    const userProfile = await userAuthHelper();
+    return await apiService.get(
+        Endpoints.HomeDashboard, 
+        { 
+            params: {
+                userId: userProfile!.uid
+            } 
+        }
+    )
 }

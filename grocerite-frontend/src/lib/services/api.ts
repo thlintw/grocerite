@@ -102,7 +102,7 @@ export class ApiService {
         return new ApiService(apiBaseUrl);
     }
 
-    private resolveUrl(url: Endpoints, params?: Record<string, string>): string {
+    private resolveUrl(url: Endpoints, params?: Record<string, string | number>): string {
         let resolvedUrl = url as string;
         const placeholderRegex = /\$[a-zA-Z0-9_]+/g;
         const matches = resolvedUrl.match(placeholderRegex);
@@ -118,7 +118,7 @@ export class ApiService {
             });
         } else if (matches) {
             throw new Error('Parameters are required but not provided');
-        } else if (params) {
+        } else if (params && params.length as number > 0) {
             throw new Error('No parameters are required but provided');
         }
 
@@ -136,9 +136,19 @@ export class ApiService {
     }
         
 
-    async request<T>(endpoint: Endpoints, options: RequestOptions, params?: Record<string, string>): Promise<T> {
+    async request<T>(
+        endpoint: Endpoints,
+        {
+            options,
+            params
+        }: 
+        {
+            options: RequestOptions,
+            params?: Record<string, string | number>
+        }
+    ): Promise<T> {
         const resolvedUrl = this.resolveUrl(endpoint, params);
-        if (options.needAuth) {
+        if (options && options.needAuth) {
             options.headers = {
                 ...options.headers,
                 ...this.makeAuthHeader(),
@@ -146,7 +156,7 @@ export class ApiService {
         }
         try {
             const response = await axios({
-                method: options.method,
+                method: options!.method,
                 url: `${this.baseUrl}${resolvedUrl}`,
                 headers: options.headers,
                 data: options.data,
@@ -161,20 +171,60 @@ export class ApiService {
         }
     }
 
-    async get<T>(endpoint: Endpoints, headers?: Record<string, string>, params?: Record<string, string>): Promise<T> {
-        return this.request<T>(endpoint, { method: 'GET', headers }, params);
+    async get<T>(
+        endpoint: Endpoints,
+        {
+            headers = {},
+            params = {},
+        }: 
+        {
+            headers?: Record<string, string>,
+            params?: Record<string, string | number>
+        } = {}
+    ): Promise<T> {
+        return this.request<T>(endpoint, { options: { method: 'GET', headers: headers }, params });
     }
 
-    async post<T>(endpoint: Endpoints, data: any, headers?: Record<string, string>, params?: Record<string, string>): Promise<T> {
-        return this.request<T>(endpoint, { method: 'POST', headers, data }, params);
+    async post<T>(
+        endpoint: Endpoints,
+        {
+            headers = {},
+            params = {},
+        }:
+        {
+            headers?: Record<string, string>,
+            params?: Record<string, string | number>
+        } = {}
+    ): Promise<T> {
+        return this.request<T>(endpoint, { options: { method: 'GET', headers }, params });
     }
 
-    async put<T>(endpoint: Endpoints, data: any, headers?: Record<string, string>, params?: Record<string, string>): Promise<T> {
-        return this.request<T>(endpoint, { method: 'PUT', headers, data }, params);
+    async put<T>(
+        endpoint: Endpoints,
+        {
+            headers = {},
+            params = {},
+        }:
+        {
+            headers?: Record<string, string>,
+            params?: Record<string, string | number>
+        } = {}
+    ): Promise<T> {
+        return this.request<T>(endpoint, { options: { method: 'GET', headers }, params });
     }
 
-    async delete<T>(endpoint: Endpoints, headers?: Record<string, string>, params?: Record<string, string>): Promise<T> {
-        return this.request<T>(endpoint, { method: 'DELETE', headers }, params);
+    async delete<T>(
+        endpoint: Endpoints,
+        {
+            headers = {},
+            params = {},
+        }:
+        {
+            headers?: Record<string, string>,
+            params?: Record<string, string | number>
+        } = {}
+    ): Promise<T> {
+        return this.request<T>(endpoint, { options: { method: 'GET', headers }, params });
     }
 }
   

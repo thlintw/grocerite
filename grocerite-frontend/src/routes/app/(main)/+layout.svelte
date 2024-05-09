@@ -1,7 +1,7 @@
 <script>
 	import '../../styles.css';
   	import { waitLocale } from 'svelte-i18n';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import LocaleSwitch from '$lib/components/LocaleSwitch.svelte';
 	import { scaleFade } from '$lib/transitions';
@@ -11,28 +11,49 @@
 	import { _ } from 'svelte-i18n';
 	import { wakeUp, dashboard } from '$lib/api/home';
 	import { toast } from '@zerodevx/svelte-toast';
-
+  	import { db } from '$lib/firebaseConfig';
+	import { doc, onSnapshot } from 'firebase/firestore';
+    import { AuthService } from '$lib/services/auth';
 
 	let serverWokeUp = false;
 	let dashData = null;
+	let docRef = null;
+	let unsubscribe = null;
 
 	export async function preload() {
 		return waitLocale()
 	}
 
 	onMount(async () => {
+		let authService = AuthService.getInstance();
+		console.log(authService);
 		try {
 			const greet = await wakeUp();
 			if (greet.status === 'S') {
-				serverWokeUp = true;
-				const dashRes = await dashboard();
-				if (dashRes.status === 'S') {
-					dashData = dashRes.data[0];
+				try {
+					console.log('dashboard');
+					serverWokeUp = true;
+					const dashRes = await dashboard();
+					// if (dashRes.status === 'S') {
+					// 	dashData = dashRes.data[0];
+					// }
+				} catch (e) {
+					console.error(e);
+					toast.push('failed to fetch dashboard data', {duration: 9999});
 				}
 			}
 		} catch (e) {
-			toast.push('failed to wake up server', {duration: 99999});
+			console.error(e);
+			toast.push('failed to wake up server', {duration: 9999});
 		}
+		docRef = doc(db, 'test', 'wfiQlTREK4Z0LVbWm9E6');
+		unsubscribe = onSnapshot(docRef, (doc) => {
+			console.log('Current data: ', doc.data());
+		});
+	})
+
+	onDestroy(() => {
+		if (unsubscribe) unsubscribe();
 	})
 
 	let showMobileMenu = false;

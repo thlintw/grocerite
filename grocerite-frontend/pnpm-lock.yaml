@@ -35,9 +35,15 @@ dependencies:
   firebase-admin:
     specifier: ^12.0.0
     version: 12.0.0
+  html5-qrcode:
+    specifier: ^2.3.8
+    version: 2.3.8
   jsqr:
     specifier: ^1.4.0
     version: 1.4.0
+  qr-code-styling:
+    specifier: 1.6.0-rc.1
+    version: 1.6.0-rc.1
   svelte-i18n:
     specifier: ^4.0.0
     version: 4.0.0(svelte@4.2.12)
@@ -67,9 +73,6 @@ devDependencies:
   autoprefixer:
     specifier: ^10.4.19
     version: 10.4.19(postcss@8.4.38)
-  html5-qrcode:
-    specifier: ^2.3.8
-    version: 2.3.8
   postcss:
     specifier: ^8.4.38
     version: 8.4.38
@@ -2723,7 +2726,7 @@ packages:
 
   /html5-qrcode@2.3.8:
     resolution: {integrity: sha512-jsr4vafJhwoLVEDW3n1KvPnCCXWaQfRng0/EEYk1vNcQGcG/htAdhJX0be8YyqMoSz7+hZvOZSTAepsabiuhiQ==}
-    dev: true
+    dev: false
 
   /http-parser-js@0.5.8:
     resolution: {integrity: sha512-SGeBX54F94Wgu5RH3X5jsDtf4eHyRogWX1XGT3b4HuW3tQPM4AaBzoUji/4AAJNXCEOWZ5O0DgZmJw1947gD5Q==}
@@ -3580,6 +3583,16 @@ packages:
       glob: 7.2.3
       postcss: 7.0.32
       postcss-selector-parser: 6.0.16
+    dev: false
+
+  /qr-code-styling@1.6.0-rc.1:
+    resolution: {integrity: sha512-ModRIiW6oUnsP18QzrRYZSc/CFKFKIdj7pUs57AEVH20ajlglRpN3HukjHk0UbNMTlKGuaYl7Gt6/O5Gg2NU2Q==}
+    dependencies:
+      qrcode-generator: 1.4.4
+    dev: false
+
+  /qrcode-generator@1.4.4:
+    resolution: {integrity: sha512-HM7yY8O2ilqhmULxGMpcHSF1EhJJ9yBj8gvDEuZ6M+KGJ0YY2hKpnXvRD+hZPLrDVck3ExIGhmPtSdcjC+guuw==}
     dev: false
 
   /queue-microtask@1.2.3:

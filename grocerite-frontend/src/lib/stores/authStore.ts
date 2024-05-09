@@ -16,7 +16,7 @@ const initialState: AuthState = {
     loading: false,
 };
 
-function createUserStore() {
+const createUserStore = () => {
     const { subscribe, set, update } = writable<AuthState>(initialState);
 
     return {

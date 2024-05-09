@@ -7,7 +7,7 @@ from .db import db
 from dotenv import load_dotenv, find_dotenv
 
 import firebase_admin
-from firebase_admin import credentials
+from firebase_admin import credentials, firestore
 
 from .routes.main import main
 
@@ -48,6 +48,7 @@ def create_app():
     db.init_app(app)
 
     app.cli.add_command(init_db_command)
+    app.fs = firestore.client()
 
     return app
 

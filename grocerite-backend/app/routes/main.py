@@ -30,12 +30,20 @@ main.register_blueprint(user_bp)
 @main.route('/test')
 def test():
     data = {
-        'a': [1, 2, 3, 4, 5],
-        'b': [4, 5, 6, 7, 8]
+        'items': [
+            {
+                'name': 'apple',
+                'quantity': 5
+            },
+            {
+                'name': 'banana',
+                'quantity': 9
+            }
+        ],
     }
 
     fb = firestore.client()
-    doc_ref = fb.collection('test')
+    doc_ref = fb.collection('test').document('wfiQlTREK4Z0LVbWm9E6')
     doc_ref.set(data)
 
     return api_response(data=['OK'])

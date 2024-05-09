@@ -4,21 +4,34 @@ import { GoogleAuthProvider, signInWithPopup, OAuthProvider, signOut, onAuthStat
 
 export class AuthService {
     static instance: AuthService | null = null;
+    authenticated: boolean = false;
 
-    constructor() {
-        if (AuthService.instance) {
-            return AuthService.instance;
+    private constructor() {
+        this.initializeAuthListener();
+    }
+
+    static getInstance(): AuthService {
+        if (!AuthService.instance) {
+            AuthService.instance = new AuthService();
         }
-        AuthService.instance = this;
+        return AuthService.instance;
+    }
 
+    private initializeAuthListener() {
+        
         onAuthStateChanged(auth, (user) => {
+            console.log('user')
+            console.log(user);
             if (user) {
                 // User is signed in
                 authStore.setUser(user);
                 authStore.setError(null);
+                this.authenticated = true;
             } else {
                 // User is signed out
                 authStore.setUser(null);
+                authStore.setError(null);
+                this.authenticated = false;
             }
             authStore.setLoading(false);
         });
@@ -57,14 +70,6 @@ export class AuthService {
         } finally {
             authStore.setLoading(false);
         }
-    }
-
-    
-    static getInstance() {
-        if (!AuthService.instance) {
-            AuthService.instance = new AuthService();
-        }
-        return AuthService.instance;
     }
 }
   
