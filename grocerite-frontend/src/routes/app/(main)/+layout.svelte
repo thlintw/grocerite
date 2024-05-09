@@ -34,9 +34,9 @@
 					console.log('dashboard');
 					serverWokeUp = true;
 					const dashRes = await dashboard();
-					// if (dashRes.status === 'S') {
-					// 	dashData = dashRes.data[0];
-					// }
+					if (dashRes.status === 'S') {
+						dashData = dashRes.data[0];
+					}
 				} catch (e) {
 					console.error(e);
 					toast.push('failed to fetch dashboard data', {duration: 9999});
