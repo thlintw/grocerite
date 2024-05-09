@@ -20,15 +20,11 @@ export class AuthService {
     private initializeAuthListener() {
         
         onAuthStateChanged(auth, (user) => {
-            console.log('user')
-            console.log(user);
             if (user) {
-                // User is signed in
                 authStore.setUser(user);
                 authStore.setError(null);
                 this.authenticated = true;
             } else {
-                // User is signed out
                 authStore.setUser(null);
                 authStore.setError(null);
                 this.authenticated = false;

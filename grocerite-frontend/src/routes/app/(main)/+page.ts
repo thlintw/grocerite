@@ -1,7 +1,7 @@
-/** @type {import('./$types').PageLoad} */
+// /** @type {import('./$types').PageLoad} */
 
-export async function load({ params, fetch }) {
+// export async function load({ params, fetch }) {
 	
-	return {
-	};
-}
+// 	return {
+// 	};
+// }

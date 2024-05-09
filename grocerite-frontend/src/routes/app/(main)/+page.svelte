@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 	import { _, locale, locales } from 'svelte-i18n';
 	import { GroceryList } from "$lib/models/groceryList";
 	import { Household } from "$lib/models/household";
@@ -10,6 +10,9 @@
 	import { lc } from '$lib/stores/general';
     import { goto } from "$app/navigation";
 	import { authStore } from "$lib/stores/authStore";
+    import { AuthService } from "$lib/services/auth";
+    import { toast } from "@zerodevx/svelte-toast";
+    import { dashboard, wakeUp } from "$lib/api/home";
 
 	onMount(async () => {
 		// console.log(await $authStore.user?.getIdToken())
@@ -62,6 +65,42 @@
 	// 		],
 	// 	}),
 	// ]
+
+	let unsubscribe = null;
+	let serverWokeUp = false;
+	let dashData = null;
+	
+	onMount(async () => {
+		// let authService = AuthService.getInstance();
+		// console.log(authService);
+		// try {
+		// 	const greet = await wakeUp();
+		// 	if (greet.status === 'S') {
+		// 		try {
+		// 			console.log('dashboard');
+		// 			serverWokeUp = true;
+		// 			const dashRes = await dashboard();
+		// 			if (dashRes.status === 'S') {
+		// 				dashData = dashRes.data[0];
+		// 			}
+		// 		} catch (e) {
+		// 			console.error(e);
+		// 			toast.push('failed to fetch dashboard data', {duration: 9999});
+		// 		}
+		// 	}
+		// } catch (e) {
+		// 	console.error(e);
+		// 	toast.push('failed to wake up server', {duration: 9999});
+		// }
+		// docRef = doc(db, 'test', 'wfiQlTREK4Z0LVbWm9E6');
+		// unsubscribe = onSnapshot(docRef, (doc) => {
+		// 	console.log('Current data: ', doc.data());
+		// });
+	})
+
+	onDestroy(() => {
+		// if (unsubscribe) unsubscribe();
+	})
 
 </script>
 

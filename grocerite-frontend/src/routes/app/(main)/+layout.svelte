@@ -9,57 +9,14 @@
 	import Dialogue from '$lib/components/Dialogue.svelte';
 	import { lc } from '$lib/stores/general';
 	import { _ } from 'svelte-i18n';
-	import { wakeUp, dashboard } from '$lib/api/home';
-	import { toast } from '@zerodevx/svelte-toast';
-  	import { db } from '$lib/firebaseConfig';
-	import { doc, onSnapshot } from 'firebase/firestore';
-    import { AuthService } from '$lib/services/auth';
 	import { fade } from 'svelte/transition';
 	import { cubicIn, cubicOut } from 'svelte/easing';
 
 	export let data;
-
-
-	let serverWokeUp = false;
-	let dashData = null;
-	let docRef = null;
-	let unsubscribe = null;
-
 	export async function preload() {
 		return waitLocale()
 	}
 
-	onMount(async () => {
-		let authService = AuthService.getInstance();
-		console.log(authService);
-		try {
-			const greet = await wakeUp();
-			if (greet.status === 'S') {
-				try {
-					console.log('dashboard');
-					serverWokeUp = true;
-					const dashRes = await dashboard();
-					if (dashRes.status === 'S') {
-						dashData = dashRes.data[0];
-					}
-				} catch (e) {
-					console.error(e);
-					toast.push('failed to fetch dashboard data', {duration: 9999});
-				}
-			}
-		} catch (e) {
-			console.error(e);
-			toast.push('failed to wake up server', {duration: 9999});
-		}
-		docRef = doc(db, 'test', 'wfiQlTREK4Z0LVbWm9E6');
-		unsubscribe = onSnapshot(docRef, (doc) => {
-			console.log('Current data: ', doc.data());
-		});
-	})
-
-	onDestroy(() => {
-		if (unsubscribe) unsubscribe();
-	})
 
 	let showMobileMenu = false;
 </script>
