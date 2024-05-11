@@ -14,6 +14,7 @@
     import { showLoadingOverlay } from '$lib/stores/general';
     import { dialog } from '$lib/stores/dialogStore';
     import { getItemsCategoryOrder } from '$lib/utilities';
+    import GroceryListCategoryPlaceholder from '$lib/components/GroceryListCategoryPlaceholder.svelte';
 
     onMount(() => {
         console.log('onMount');
@@ -262,7 +263,8 @@
         w-full h-full gap-5
         pb-32 lg:pb-3
         mt-2
-    ">
+    "> 
+        <GroceryListCategoryPlaceholder />
         {#each Object.values(ItemCategory) as category}
             {#if groupedItems[category]}
                 <div class="w-full bg-orange-50 px-3 lg:px-5 py-3 flex flex-col gap-3 rounded-xl shadow-grocerite-orange-200-sm">
