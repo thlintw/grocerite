@@ -66,7 +66,7 @@ def create_grocery_list(household_id):
     name = data.get('name', '')
     icon_idx = data.get('iconIdx', 0)
     description = data.get('description', '')
-    asignee_member_idx = data.get('asigneeMemberIdx', None)
+    assignee_member_idx = data.get('assigneeMemberIdx', None)
     grocery_items_raw = data.get('items', [])
     deadline = data.get('deadline', None)
     deadline_dt = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(deadline / 1000))
@@ -82,7 +82,7 @@ def create_grocery_list(household_id):
         name=name,
         icon_idx=icon_idx,
         description=description,
-        asignee_member_idx=asignee_member_idx,
+        assignee_member_idx=assignee_member_idx,
         deadline=deadline,
         deadline_dt=deadline_dt,
         household=household
@@ -156,7 +156,7 @@ def update_grocery_list(grocery_list_id):
         'name',
         'iconIdx',
         'description',
-        'asigneeMemberIdx',
+        'assigneeMemberIdx',
         'items',
         'deadline'
     ]
@@ -167,7 +167,7 @@ def update_grocery_list(grocery_list_id):
     name = data.get('name', '')
     icon_idx = data.get('iconIdx', 0)
     description = data.get('description', '')
-    asignee_member_idx = data.get('asigneeMemberIdx', None)
+    assignee_member_idx = data.get('assigneeMemberIdx', None)
     grocery_items_raw = data.get('items', [])
     deadline = data.get('deadline', -1)
     deadline_dt = None
@@ -184,7 +184,7 @@ def update_grocery_list(grocery_list_id):
     grocery_list.name = name
     grocery_list.icon_idx = icon_idx
     grocery_list.description = description
-    grocery_list.asignee_member_idx = asignee_member_idx
+    grocery_list.assignee_member_idx = assignee_member_idx
     grocery_list.deadline = deadline
     grocery_list.deadline_dt = deadline_dt
 
