@@ -75,6 +75,7 @@ export const EndpointMethods = {
     [Endpoints.SetUserPreferences]: 'PUT',
 }
 
+
 export interface RequestOptions {
     method: 'GET' | 'POST' | 'PUT' | 'DELETE';
     needAuth?: boolean;
@@ -140,11 +141,13 @@ export class ApiService {
         endpoint: Endpoints,
         {
             options,
-            params
+            params,
+            data
         }: 
         {
             options: RequestOptions,
-            params?: Record<string, string | number>
+            params?: Record<string, string | number>,
+            data?: Record<string, any>
         }
     ): Promise<T> {
         const resolvedUrl = this.resolveUrl(endpoint, params);
@@ -176,13 +179,15 @@ export class ApiService {
         {
             headers = {},
             params = {},
+            needAuth = false
         }: 
         {
             headers?: Record<string, string>,
-            params?: Record<string, string | number>
+            params?: Record<string, string | number>,
+            needAuth?: boolean
         } = {}
     ): Promise<T> {
-        return this.request<T>(endpoint, { options: { method: 'GET', headers: headers }, params });
+        return this.request<T>(endpoint, { options: { method: 'GET', headers, needAuth }, params });
     }
 
     async post<T>(
@@ -190,13 +195,17 @@ export class ApiService {
         {
             headers = {},
             params = {},
+            data = {},
+            needAuth = false
         }:
         {
             headers?: Record<string, string>,
-            params?: Record<string, string | number>
+            params?: Record<string, string | number>,
+            data?: Record<string, any>,
+            needAuth?: boolean
         } = {}
     ): Promise<T> {
-        return this.request<T>(endpoint, { options: { method: 'GET', headers }, params });
+        return this.request<T>(endpoint, { options: { method: 'GET', headers, needAuth, data }, params });
     }
 
     async put<T>(
@@ -204,13 +213,17 @@ export class ApiService {
         {
             headers = {},
             params = {},
+            needAuth = false,
+            data = {}
         }:
         {
             headers?: Record<string, string>,
-            params?: Record<string, string | number>
+            params?: Record<string, string | number>,
+            needAuth?: boolean,
+            data?: Record<string, any>
         } = {}
     ): Promise<T> {
-        return this.request<T>(endpoint, { options: { method: 'GET', headers }, params });
+        return this.request<T>(endpoint, { options: { method: 'GET', headers, needAuth, data }, params });
     }
 
     async delete<T>(
@@ -218,13 +231,17 @@ export class ApiService {
         {
             headers = {},
             params = {},
+            needAuth = false,
+            data = {}
         }:
         {
             headers?: Record<string, string>,
-            params?: Record<string, string | number>
+            params?: Record<string, string | number>,
+            needAuth?: boolean,
+            data?: Record<string, any>
         } = {}
     ): Promise<T> {
-        return this.request<T>(endpoint, { options: { method: 'GET', headers }, params });
+        return this.request<T>(endpoint, { options: { method: 'GET', headers, needAuth, data }, params });
     }
 }
   

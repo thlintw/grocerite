@@ -14,7 +14,8 @@ export const dashboard = async (): Promise<RES> => {
         { 
             params: {
                 userId: userProfile!.uid
-            } 
+            },
+            needAuth: true
         }
     )
 }

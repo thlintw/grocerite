@@ -51,7 +51,7 @@ def create_grocery_list(household_id):
         'name',
         'iconIdx',
         'description',
-        'asigneeMemberIdx',
+        'assigneeMemberIdx',
         'items',
         'deadline'
     ]

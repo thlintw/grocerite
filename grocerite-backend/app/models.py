@@ -216,8 +216,8 @@ class GroceryList(TimestampMixin, db.Model):
     grocery_list_id = Column(String(100), nullable=False, unique=True, default=f'GL-{get_id(l=12)}')
     name = Column(Unicode(100), nullable=False) # user-defined name
     description = Column(Unicode(255))
-    asignee_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True) # can be unassigned
-    asignee = relationship('Member', backref='grocery_lists')
+    assignee_member_idx = Column(Integer, ForeignKey('member.id'), nullable=True) # can be unassigned
+    assignee = relationship('Member', backref='grocery_lists')
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
     household = relationship('Household', back_populates='grocery_lists')
     # icon_idx = Column(Integer, ForeignKey('item_icon.id'), nullable=False)
@@ -233,7 +233,7 @@ class GroceryList(TimestampMixin, db.Model):
             'name': self.name,
             'iconIdx': self.icon_idx,
             'description': self.description,
-            'asignee': self.asignee.get_api_data() if self.asignee else None,
+            'assignee': self.assignee.get_api_data() if self.assignee else None,
             'householdIdx': self.household_idx,
             'iconIdx': self.icon_idx,
             'items': [
