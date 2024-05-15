@@ -4,6 +4,7 @@ import { GoogleAuthProvider, signInWithPopup, OAuthProvider, signOut, onAuthStat
 import { getUserProfileFromFbUid, createUserProfile } from '$lib/api/user';
 import type { RES } from './api';
 import { UserProfile } from '$lib/models/userProfile';
+import { toast } from '@zerodevx/svelte-toast';
 
 export class AuthService {
     static instance: AuthService | null = null;
@@ -24,11 +25,18 @@ export class AuthService {
         
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                console.log('User is signed in');
+                console.log(user);
                 authStore.setUser(user);
                 authStore.setError(null);
                 const userProfileRes: RES = await getUserProfileFromFbUid(user);
-                const userProfile = UserProfile.fromJson(userProfileRes.data[0]);
-                authStore.setUserProfile(userProfile);
+                try {
+                    const userProfile = UserProfile.fromJson(userProfileRes.data[0]);
+                    authStore.setUserProfile(userProfile);
+                } catch (error) {
+                    toast.push('Failed to fetch user profile')
+                    await this.signOutUser();
+                }
                 this.authenticated = true;
             } else {
                 authStore.setUser(null);

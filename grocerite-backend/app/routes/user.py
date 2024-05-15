@@ -3,7 +3,7 @@ from flask import request, jsonify
 from ..db import db
 from ..models import User, UserPreference, user_pref_keys
 from ..api_utils import api_response
-import time
+import time, traceback
 
 user_bp = APIBlueprint('user', __name__)
 
@@ -58,6 +58,7 @@ def create_user_profile():
         db.session.commit()
         return api_response(data=[user.get_api_data()])
     except Exception as e:
+        print(traceback.format_exc())
         db.session.rollback()
         return api_response(status='F', message='Failed to create user', status_code=500)
     

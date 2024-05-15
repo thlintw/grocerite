@@ -26,7 +26,13 @@
 	};
 
 	onMount(() => {
-		if ($authStore.user) goto('/app');
+		const unsubscribe = authStore.subscribe(async ($authStore) => {
+			const userProfile = $authStore.userProfile;
+			if (userProfile) {
+				unsubscribe();
+				goto('/app');
+			}
+		});
 	});
 
 </script>

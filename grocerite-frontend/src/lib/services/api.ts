@@ -165,6 +165,7 @@ export class ApiService {
                 headers: options.headers,
                 data: options.data,
             });
+            console.log(response);
             return response.data as T;
         } catch (error) {
             if (axios.isAxiosError(error)) {
