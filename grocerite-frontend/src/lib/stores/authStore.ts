@@ -1,6 +1,6 @@
 import type { User } from "firebase/auth";
 import { writable } from 'svelte/store';
-import type { UserProfile } from "firebase/auth";
+import type { UserProfile } from '$lib/models/userProfile';
 
 interface AuthState {
     user: User | null; 
@@ -22,6 +22,7 @@ const createUserStore = () => {
     return {
         subscribe,
         setUser: (user: User | null) => update((state) => ({ ...state, user })),
+        setUserProfile: (userProfile: UserProfile | null) => update((state) => ({ ...state, userProfile })),
         setError: (error: string | null) => update((state) => ({ ...state, error })),
         setLoading: (loading: boolean) => update((state) => ({ ...state, loading })),
         reset: () => set(initialState),
