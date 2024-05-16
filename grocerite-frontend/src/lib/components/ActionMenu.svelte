@@ -39,18 +39,18 @@
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
                 { $_(menuTitle) }
             </div>
-            <div class="bg-orange-50 rounded-xl flex flex-col gap-3 px-3 py-3 pt-4
+            <div class="bg-orange-50 rounded-xl flex flex-col gap-5 px-3 py-3 pt-6 pb-5
                 shadow-grocerite-orange-200-sm items-start">
                 {#each actionMenuItems as item}
                     <div class="hover:bg-orange-100 rounded-md flex pr-2">
-                        <button type="button" class="w-full flex  {$lc.text} text-lg items-center"
+                        <button type="button" class="w-full flex  {$lc.text} text-lg items-center gap-3"
                             on:click={item.action}>
                             <div class="w-8 text-base text-orange-500">
                                 {#if item.icon}
-                                    <FontAwesomeIcon icon={item.icon} />
+                                    <FontAwesomeIcon icon={item.icon} class="text-2xl" />
                                 {/if}
                             </div>
-                            <span class="text-neutral-700 hover:text-orange-500">{ $_(item.title) }</span>
+                            <span class="text-neutral-700 hover:text-orange-500 text-sm font-bold">{ $_(item.title) }</span>
                         </button>
                     </div>
                 {/each}
