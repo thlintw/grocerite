@@ -44,6 +44,7 @@ export class AuthService {
                 this.authenticated = false;
             }
             authStore.setLoading(false);
+            authStore.setAuthStateChecked(true);
         });
     }
   

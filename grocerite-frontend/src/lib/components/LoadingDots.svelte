@@ -4,7 +4,7 @@
     const sizes = {
         sm: 'w-3',
         md: 'w-4',
-        lg: 'w-8'
+        lg: 'w-6'
     }
 </script>
 

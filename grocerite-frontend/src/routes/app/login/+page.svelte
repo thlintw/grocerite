@@ -1,6 +1,6 @@
 <svelte:head>
 	<title>{$_('login_pageTitle')} - {$_('common_appName')}</title>
-	<meta name="description" content="household" />
+	<meta name="description" content="login" />
 </svelte:head>
 
 <script lang="ts">

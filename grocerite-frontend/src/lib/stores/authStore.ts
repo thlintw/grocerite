@@ -7,6 +7,7 @@ interface AuthState {
     userProfile: UserProfile | null;
     error: string | null;
     loading: boolean;
+    authStateChecked: boolean;
 }
 
 const initialState: AuthState = {
@@ -14,6 +15,7 @@ const initialState: AuthState = {
     userProfile: null,
     error: null,
     loading: false,
+    authStateChecked: false
 };
 
 const createUserStore = () => {
@@ -25,6 +27,7 @@ const createUserStore = () => {
         setUserProfile: (userProfile: UserProfile | null) => update((state) => ({ ...state, userProfile })),
         setError: (error: string | null) => update((state) => ({ ...state, error })),
         setLoading: (loading: boolean) => update((state) => ({ ...state, loading })),
+        setAuthStateChecked: (authStateChecked: boolean) => update((state) => ({ ...state, authStateChecked })),
         reset: () => set(initialState),
     };
 }

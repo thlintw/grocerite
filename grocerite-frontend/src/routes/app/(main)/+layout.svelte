@@ -20,16 +20,24 @@
 		return waitLocale()
 	}
 
-	// onMount(() => {
-	// 	if (!$authStore.user) goto('/app/login');
-	// });
+	onMount(() => {
+		if (!$authStore.user) {
+			authStore.subscribe(async ($authStore) => {
+				if ($authStore.authStateChecked) {
+					if (!$authStore.user) {
+						goto('/app/login');
+					}
+				}
+			});
 
+		}
+	});
 
 	let showMobileMenu = false;
 </script>
   
 
-{#if $authStore.userProfile}
+{#if $authStore.userProfile && $authStore.authStateChecked}
 <div in:fade={{ duration: 400, delay: 400 }} out:fade={{ duration: 400 }}
 	class="w-full h-full flex absolute left-0 top-0">
 
@@ -113,7 +121,7 @@
 			lg:border-4 border-orange-100
 		">
 		{#key data.pathname}
-			<div in:fade={{ easing: cubicOut, duration: 200, delay: 200 }} out:fade={{ easing: cubicIn, duration: 200 }}>
+			<div in:fade={{ easing: cubicOut, duration: 200, delay: 200 }} out:fade={{ easing: cubicIn, duration: 200 }} class="w-full h-full">
 				<slot />
 			</div>
 		{/key}

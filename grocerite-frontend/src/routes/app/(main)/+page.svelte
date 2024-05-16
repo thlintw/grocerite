@@ -20,32 +20,32 @@
 		
 	});
 	
-	const dashboardGroceryLists = [];
+	// const dashboardGroceryLists = [];
 	const dashboardHouseholds = [];
 	
 
-	const mockActiveLists = [
-		// new GroceryList({
-		// 	idx: 1,
-		// 	name: 'starving to death im  so hunnnngry oh my  god',
-		// 	householdIdx: 1,
-		// 	iconIdx: 2,
-		// 	starred: true,
-		// 	asignee: new Member({
-		// 		userIdx: 1,
-		// 		name: 'You',
-		// 	}),
-		// }),
-		// new GroceryList({
-		// 	idx: 1,
-		// 	name: 'Baking supplies',
-		// 	householdIdx: 1,
-		// 	iconIdx: 12,
-		// 	asignee: new Member({
-		// 		userIdx: 1,
-		// 		name: 'Jeanne',
-		// 	}),
-		// }),
+	const dashboardGroceryLists = [
+		new GroceryList({
+			idx: 1,
+			name: 'starving to death im  so hunnnngry oh my  god',
+			householdIdx: 1,
+			iconIdx: 2,
+			starred: true,
+			asignee: new Member({
+				userIdx: 1,
+				name: 'You',
+			}),
+		}),
+		new GroceryList({
+			idx: 1,
+			name: 'Baking supplies',
+			householdIdx: 1,
+			iconIdx: 12,
+			asignee: new Member({
+				userIdx: 1,
+				name: 'Jeanne',
+			}),
+		}),
 	];
 
 	// const mockHouseholds = [
@@ -105,7 +105,7 @@
 </script>
 
 <svelte:head>
-	<title>{$_('home_metaTitle')}</title>
+	<title>{$_('home_metaTitle')} - {$_('common_appName')}</title>
 	<meta name="description" content="{$_('home_metaDescription')}" />
 </svelte:head>
 

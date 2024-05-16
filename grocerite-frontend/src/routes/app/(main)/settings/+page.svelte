@@ -1,3 +1,8 @@
+<svelte:head>
+	<title>{$_('settings_pageTitle')} - {$_('common_appName')}</title>
+	<meta name="description" content="login" />
+</svelte:head>
+
 <script lang="ts">
     import { goto } from '$app/navigation';
     import Button from '$lib/components/Button.svelte';
