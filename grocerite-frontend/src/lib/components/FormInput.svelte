@@ -11,6 +11,7 @@
     export let error: string | null = "";
     export let placeholder: string | null = "";
     export let value: string | null = "";
+    export let textAlign: string = "text-left";
 
     
     const onKeyDown = (event: KeyboardEvent) => {
@@ -41,6 +42,7 @@
                 bg-orange-50
                 w-full px-3 py-2 border-2 border-neutral-300 rounded-xl
                 focus:outline-none focus:ring focus:ring-orange-300 focus:border-orange-500
+                { textAlign }
             "
             placeholder={placeholder}
             bind:value={value}
@@ -51,7 +53,7 @@
 
     </div>
     {#if error}
-        <div class="text-red-500 text-sm ml-2">
+        <div class="text-red-500 text-sm ml-2 px-3">
             {error}
         </div>
     {/if}

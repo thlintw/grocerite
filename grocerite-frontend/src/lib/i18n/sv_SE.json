@@ -138,6 +138,22 @@
     "household_newHouseholdContainerAdd": "Lägg till behållare",
     "common_navGroceryList": "Matlistor",
     "common_navHousehold": "Hushåll",
-    "common_navSettings": "Inställningar"
+    "common_navSettings": "Inställningar",
+    "settings_pageTitle": "Inställningar",
+    "settings_appLanguage": "Appspråk",
+    "settings_termsAndConditions": "Villkor och bestämmelser",
+    "settings_privacyPolicy": "Integritetspolicy",
+    "settings_signOut": "Logga ut",
+    "settings_deleteAccount": "Radera konto",
+    "settings_confirmDeleteAccountTitle1": "Bekräftelse av radering",
+    "settings_confirmDeleteAccountMessage1": "Är du säker på att du vill radera ditt konto?<br><br>All data från hushåll som du har skapat, inklusive inköpslistor, hushållsbehållare och deras föremål kommer att raderas!",
+    "settings_confirmDeleteAccountTitle2": "Bekräftelse av radering",
+    "settings_confirmDeleteAccountMessage2": "Är du verkligen säker på att du vill radera ditt konto?<br><br>All data från hushåll som du har skapat, inklusive inköpslistor, hushållsbehållare och deras föremål kommer att raderas!",
+    "settings_confirmDeleteAccountTitle3": "Slutgiltig bekräftelse",
+    "settings_confirmDeleteAccountMessage3": "Är du verkligen säker på att du vill radera ditt konto?<br><br>All data från hushåll som du har skapat, inklusive inköpslistor, hushållsbehållare och deras föremål kommer att raderas!",
+    "settings_confirmDeleteAccountMessageEnterCode": "Ange koden ovan och klicka på knappen för att bekräfta raderingen av ditt konto.",
+    "settings_confirmDeleteCodeMismatch": "Koden du angav matchar inte koden ovan",
+    "settings_confirmDeleteCodeNotEntered": "Vänligen ange koden ovan",
+    "settings_confirmDeleteAccount": "Radera mitt konto"
 }
   

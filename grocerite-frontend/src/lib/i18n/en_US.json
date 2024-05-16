@@ -138,6 +138,22 @@
     "household_newHouseholdContainerAdd": "Add container",
     "common_navGroceryList": "Grocery Lists",
     "common_navHousehold": "Households",
-    "common_navSettings": "Settings"
+    "common_navSettings": "Settings",
+    "settings_pageTitle": "Settings",
+    "settings_appLanguage": "App Language",
+    "settings_termsAndConditions": "Terms and Conditions",
+    "settings_privacyPolicy": "Privacy Policy",
+    "settings_signOut": "Sign Out",
+    "settings_deleteAccount": "Delete Account",
+    "settings_confirmDeleteAccountTitle1": "Delete Confirmation",
+    "settings_confirmDeleteAccountMessage1": "Are you sure you want to delete your account?<br><br>All data from households that you created, including grocery lists, household container and their items will be deleted!",
+    "settings_confirmDeleteAccountTitle2": "Delete Confirmation",
+    "settings_confirmDeleteAccountMessage2": "Are you really sure you want to delete your account?<br><br>All data from households that you created, including grocery lists, household container and their items will be deleted!",
+    "settings_confirmDeleteAccountTitle3": "Final Confirmation",
+    "settings_confirmDeleteAccountMessage3": "Are you really sure you want to delete your account?<br><br>All data from households that you created, including grocery lists, household container and their items will be deleted!",
+    "settings_confirmDeleteAccountMessageEnterCode": "Please enter the code above, and click on the button to confirm the deletion of your account.",
+    "settings_confirmDeleteCodeMismatch": "The code you entered does not match the code above.",
+    "settings_confirmDeleteCodeNotEntered": "Please enter the code above.",
+    "settings_confirmDeleteAccount": "Delete My Account"
 }
   

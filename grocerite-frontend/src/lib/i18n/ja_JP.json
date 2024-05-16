@@ -138,6 +138,22 @@
     "household_newHouseholdContainerAdd": "容器を追加",
     "common_navGroceryList": "買い物リスト",
     "common_navHousehold": "家庭",
-    "common_navSettings": "設定"
+    "common_navSettings": "設定",
+    "settings_pageTitle": "設定",
+    "settings_appLanguage": "アプリの言語",
+    "settings_termsAndConditions": "利用規約",
+    "settings_privacyPolicy": "プライバシーポリシー",
+    "settings_signOut": "ログアウト",
+    "settings_deleteAccount": "アカウントを削除",
+    "settings_confirmDeleteAccountTitle1": "削除の確認",
+    "settings_confirmDeleteAccountMessage1": "本当にアカウントを削除しますか？<br><br>あなたが作成した家庭のデータ（買い物リスト、家庭用コンテナとそのアイテムを含む）がすべて削除されます！",
+    "settings_confirmDeleteAccountTitle2": "削除の確認",
+    "settings_confirmDeleteAccountMessage2": "本当にアカウントを削除することを確認しますか？<br><br>あなたが作成した家庭のデータ（買い物リスト、家庭用コンテナとそのアイテムを含む）がすべて削除されます！",
+    "settings_confirmDeleteAccountTitle3": "最終確認",
+    "settings_confirmDeleteAccountMessage3": "本当にアカウントを削除することを確認しますか？<br><br>あなたが作成した家庭のデータ（買い物リスト、家庭用コンテナとそのアイテムを含む）がすべて削除されます！",
+    "settings_confirmDeleteAccountMessageEnterCode": "上記のコードを入力し、アカウント削除を確認するボタンをクリックしてください",
+    "settings_confirmDeleteCodeMismatch": "入力したコードが上記のコードと一致しません",
+    "settings_confirmDeleteCodeNotEntered": "上記のコードを入力してください",
+    "settings_confirmDeleteAccount": "アカウントを削除する"
 }
 

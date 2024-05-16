@@ -8,6 +8,7 @@ const createDialogStore = () => {
         confirmText: 'common_yes',
         cancelText: 'common_no',
         barrierDismiss: true,
+        messageTextAlign: 'text-center',
         onConfirm: () => {},
         onCancel: () => {}
     });
@@ -25,6 +26,7 @@ const createDialogStore = () => {
                 confirmText = 'common_yes',
                 cancelText = 'common_no',
                 barrierDismiss = true,
+                messageTextAlign = 'text-center',
                 onConfirm = () => {},
                 onCancel = onCancelDefault 
             } = {}) => {
@@ -36,6 +38,7 @@ const createDialogStore = () => {
                 confirmText,
                 cancelText,
                 barrierDismiss,
+                messageTextAlign,
                 onConfirm,
                 onCancel
             }));
@@ -48,6 +51,7 @@ const createDialogStore = () => {
                 confirmText: 'common_yes',
                 cancelText: 'common_no',
                 barrierDismiss: true,
+                messageTextAlign: 'text-center',
                 onConfirm: () => {},
                 onCancel: () => {}
             });

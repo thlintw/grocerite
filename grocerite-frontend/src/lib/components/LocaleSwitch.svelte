@@ -6,6 +6,9 @@
 	import flagZhTw from '$lib/images/flag-zh-TW.png';
 	import flagFrFr from '$lib/images/flag-fr-FR.png';
 	import { scaleFade } from '$lib/transitions';
+    import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
 
 	$: l = $locale;
     
@@ -28,7 +31,7 @@
 		}
 	};
 
-	const getLocaleName = (locale: string) => {
+	const getLocaleName = (locale: string | null | undefined) => {
 		switch (locale) {
 			case 'en-US':
 				return 'English';
@@ -47,20 +50,33 @@
 
 	const setLocale = (lString: string) => {
 		locale.set(lString);
+		dispatchSelection(lString);
 		showLocaleDropdown = false;
 	};
 
     export let cls = '';
 
     export let leftMenu = false;
+
+	export let wide = false;
+
+	const dispatchSelection = (locale: string) => {
+		dispatch('localeSelected', { locale });
+	};
 </script>
 
 <div class="
     {cls} w-12 h-12 bg-orange-200 rounded-full z-30
-	flex items-center justify-center cursor-pointer">
+	flex cursor-pointer relative items-center justify-center
+	{wide ? 'w-32 h-12' : 'w-12 h-12'}
+	">
 
-	<button type="button" on:click={() => showLocaleDropdown = !showLocaleDropdown}>
-		<img src={getLocaleFlag(l)} alt={l} class="w-8 opacity-50"/>
+	<button type="button" on:click={() => showLocaleDropdown = !showLocaleDropdown}
+		class="flex items-center gap-2">
+		<img src={getLocaleFlag(l)} alt={l} class="w-8 opacity-50 "/>
+		{#if wide}
+			<div class="text-neutral-800 text-sm">{getLocaleName(l)}</div>
+		{/if}
 	</button>
 
 	{#if showLocaleDropdown}
