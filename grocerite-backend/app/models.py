@@ -22,7 +22,9 @@ class User(TimestampMixin, db.Model):
     fb_uid = Column(String(100), nullable=False, unique=True)
     user_id = Column(String(100), nullable=False, unique=True, default=f'U-{get_id(l=9)}')
     nickname = Column(String(100))
-    picture = Column(String(255))    
+    picture = Column(String(255))
+    last_used_household_idx = Column(Integer, ForeignKey('household.id'))
+    last_used_household = relationship('Household', backref='last_used_users', foreign_keys=[last_used_household_idx])
     households = relationship('Household', secondary='user_household', backref='users')
 
     def get_api_data(self):
