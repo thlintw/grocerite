@@ -30,9 +30,9 @@
 </script>
   
 <SvelteToast {options} />
-<!-- {#key data.pathname} -->
+{#key data.pathname === '/app/login' ? data.pathname : ''}
 	<div class="min-h-[calc(100dvh)] bg-orange-50 flex dark:bg-neutral-900 w-full"
-		in:fade={{ duration: 200, delay: 200 }} out:fade={{ duration: 200 }}>
+		in:fade={{ duration: 300, delay: 300 }} out:fade={{ duration: 300 }}>
 		<slot></slot>
 	</div>
-<!-- {/key} -->
+{/key}
