@@ -14,9 +14,9 @@
             ">
             <!-- <div class="border-4 w-10 h-10 border-b-transparent border-orange-500 rounded-full animate-spin"></div> -->
             <div class="flex gap-2">
-                <img src="/image/leaf.png" alt="spin-leaf" class="w-5 animate-b0"/>
-                <img src="/image/leaf.png" alt="spin-leaf" class="w-5 animate-b1"/>
-                <img src="/image/leaf.png" alt="spin-leaf" class="w-5 animate-b2"/>
+                <img src="/image/leaf.png" alt="jump-leaf" class="w-5 animate-b0"/>
+                <img src="/image/leaf.png" alt="jump-leaf" class="w-5 animate-b1"/>
+                <img src="/image/leaf.png" alt="jump-leaf" class="w-5 animate-b2"/>
             </div>
             {#if $overlayText}
                 <div class="text-orange-500 text-2xl mt-5">

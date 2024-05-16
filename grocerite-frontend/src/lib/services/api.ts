@@ -35,7 +35,8 @@ export enum Endpoints {
     DeleteGroceryListItem = '/grocery_list/delete_item/$groceryListId/$groceryListItemIdx',
     GetAvailableItems = '/grocery_list/available_items/$householdId',
     // user
-    GetUserProfile = '/profile/$userId',
+    GetUserProfileFromFbUid = '/profile_from_fb/$fbUid',
+    GetUserProfile = '/profile/get/$userId',
     CreateUserProfile = '/profile/create',
     GetUserPreferences = '/profile/preferences/$userId',
     SetUserPreferences = '/profile/preferences/set/$userId',
@@ -88,7 +89,7 @@ const apiBaseUrl = import.meta.env.VITE_API_BASE_URL as string;
 export interface RES {
     status: 'S' | 'F';
     message: string;
-    data: [any];
+    data: any[];
 }
 
   
@@ -164,6 +165,7 @@ export class ApiService {
                 headers: options.headers,
                 data: options.data,
             });
+            console.log(response);
             return response.data as T;
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -205,7 +207,7 @@ export class ApiService {
             needAuth?: boolean
         } = {}
     ): Promise<T> {
-        return this.request<T>(endpoint, { options: { method: 'GET', headers, needAuth, data }, params });
+        return this.request<T>(endpoint, { options: { method: 'POST', headers, needAuth, data }, params });
     }
 
     async put<T>(
@@ -223,7 +225,7 @@ export class ApiService {
             data?: Record<string, any>
         } = {}
     ): Promise<T> {
-        return this.request<T>(endpoint, { options: { method: 'GET', headers, needAuth, data }, params });
+        return this.request<T>(endpoint, { options: { method: 'PUT', headers, needAuth, data }, params });
     }
 
     async delete<T>(
@@ -241,7 +243,7 @@ export class ApiService {
             data?: Record<string, any>
         } = {}
     ): Promise<T> {
-        return this.request<T>(endpoint, { options: { method: 'GET', headers, needAuth, data }, params });
+        return this.request<T>(endpoint, { options: { method: 'DELETE', headers, needAuth, data }, params });
     }
 }
   

@@ -3,13 +3,22 @@ from flask import request, jsonify
 from ..db import db
 from ..models import User, UserPreference, user_pref_keys
 from ..api_utils import api_response
-import time
+import time, traceback
 
 user_bp = APIBlueprint('user', __name__)
 
 
+# get profile
+@user_bp.route('/profile_from_fb/<string:fb_uid>', methods=['GET'])
+def get_user_profile_from_fb_uid(fb_uid):
+    user = db.session.query(User).filter(User.fb_uid == fb_uid).first()
+    if user is None:
+        return api_response(data=[])
+    return api_response(data=[user.get_api_data()])
+
+
 # get self profile
-@user_bp.route('/profile/<string:user_id>', methods=['GET'])
+@user_bp.route('/profile/get/<string:user_id>', methods=['GET'])
 def get_user_profile(user_id):
     user = db.session.query(User).filter(User.user_id == user_id).first()
     if user is None:
@@ -26,14 +35,13 @@ def create_user_profile():
         return api_response(status='F', message='Request is not JSON', status_code=400)
     
     data = request.json    
-    email = data.get('email')
+    email = data.get('email', '')
 
     existing_user = db.session.query(User).filter(User.email == email).first()
     if existing_user:
         return api_response(status='F', message='User already exists', status_code=400)
     
     username = data.get('username', '')
-    email = data.get('password', '')
     fb_uid = data.get('fb_uid', '')
 
     if not all([username, email, fb_uid]):
@@ -50,6 +58,7 @@ def create_user_profile():
         db.session.commit()
         return api_response(data=[user.get_api_data()])
     except Exception as e:
+        print(traceback.format_exc())
         db.session.rollback()
         return api_response(status='F', message='Failed to create user', status_code=500)
     

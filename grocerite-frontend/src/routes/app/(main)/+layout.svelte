@@ -11,11 +11,16 @@
 	import { _ } from 'svelte-i18n';
 	import { fade } from 'svelte/transition';
 	import { cubicIn, cubicOut } from 'svelte/easing';
+	import { authStore } from '$lib/stores/authStore';
 
 	export let data;
 	export async function preload() {
 		return waitLocale()
 	}
+
+	onMount(() => {
+		if (!$authStore.user) goto('/app/login');
+	});
 
 
 	let showMobileMenu = false;
