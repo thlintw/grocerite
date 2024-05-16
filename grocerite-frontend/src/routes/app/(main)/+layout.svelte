@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '../../styles.css';
   	import { waitLocale } from 'svelte-i18n';
 	import { onDestroy, onMount } from 'svelte';
@@ -14,6 +14,7 @@
 	import { authStore } from '$lib/stores/authStore';
     import { faClose } from '@fortawesome/free-solid-svg-icons';
     import LoadingDots from '$lib/components/LoadingDots.svelte';
+	import { getUserProfileFromFbUid } from '$lib/api/user';
 
 	export let data;
 	export async function preload() {
@@ -33,13 +34,21 @@
 		}
 	});
 
+	const getRes = async () => {
+		const res = await getUserProfileFromFbUid($authStore.user!);
+		console.log(res);
+	}
+
 	let showMobileMenu = false;
 </script>
   
 
-{#if $authStore.userProfile && $authStore.authStateChecked}
+<!-- {#if $authStore.userProfile && $authStore.authStateChecked} -->
 <div in:fade={{ duration: 400, delay: 400 }} out:fade={{ duration: 400 }}
 	class="w-full h-full flex absolute left-0 top-0">
+	{$authStore.user?.email}
+	{$authStore.userProfile}
+	{$authStore.authStateChecked}
 
 	<LoadingOverlay />
 	<Dialogue />
@@ -129,10 +138,10 @@
 	</main>
 
 </div>
-{:else}
+<!-- {:else}
 <div in:fade={{ duration: 400, delay: 400 }} out:fade={{ duration: 400 }}
 class="w-full h-screen flex justify-center items-center absolute left-0 top-0">
 	<LoadingDots size="lg" />
 </div>
-{/if}
+{/if} -->
   

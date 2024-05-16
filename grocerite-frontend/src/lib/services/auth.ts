@@ -1,6 +1,6 @@
 import { auth } from '../firebaseConfig'; // Adjust the path as needed
 import { authStore } from '../stores/authStore';
-import { GoogleAuthProvider, signInWithPopup, OAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, OAuthProvider, signOut, onAuthStateChanged, browserSessionPersistence, setPersistence, browserLocalPersistence } from "firebase/auth";
 import { getUserProfileFromFbUid, createUserProfile } from '$lib/api/user';
 import type { RES } from './api';
 import { UserProfile } from '$lib/models/userProfile';
