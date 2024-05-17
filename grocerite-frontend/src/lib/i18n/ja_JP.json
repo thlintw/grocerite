@@ -154,6 +154,9 @@
     "settings_confirmDeleteAccountMessageEnterCode": "上記のコードを入力し、アカウント削除を確認するボタンをクリックしてください",
     "settings_confirmDeleteCodeMismatch": "入力したコードが上記のコードと一致しません",
     "settings_confirmDeleteCodeNotEntered": "上記のコードを入力してください",
-    "settings_confirmDeleteAccount": "アカウントを削除する"
+    "settings_confirmDeleteAccount": "アカウントを削除する","settings_signOutTitle": "ログアウト",
+    "settings_signOutMessage": "本当にログアウトしますか？",
+    "settings_signOutConfirm": "ログアウト",
+    "groceryList_pageTitle": "Grocery List"
 }
 

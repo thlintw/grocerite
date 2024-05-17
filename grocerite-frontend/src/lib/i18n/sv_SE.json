@@ -154,6 +154,10 @@
     "settings_confirmDeleteAccountMessageEnterCode": "Ange koden ovan och klicka på knappen för att bekräfta raderingen av ditt konto.",
     "settings_confirmDeleteCodeMismatch": "Koden du angav matchar inte koden ovan",
     "settings_confirmDeleteCodeNotEntered": "Vänligen ange koden ovan",
-    "settings_confirmDeleteAccount": "Radera mitt konto"
+    "settings_confirmDeleteAccount": "Radera mitt konto",
+    "settings_signOutTitle": "Loggar ut",
+    "settings_signOutMessage": "Är du säker på att du vill logga ut?",
+    "settings_signOutConfirm": "Logga ut",
+    "groceryList_pageTitle": "Grocery List"
 }
   

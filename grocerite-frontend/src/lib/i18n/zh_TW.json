@@ -153,6 +153,10 @@
     "settings_confirmDeleteAccountMessageEnterCode": "請輸入上方的代碼，然後點擊按鈕以確認刪除您的帳戶。",
     "settings_confirmDeleteCodeMismatch": "您輸入的代碼與上方的代碼不符",
     "settings_confirmDeleteCodeNotEntered": "請輸入上方的代碼",
-    "settings_confirmDeleteAccount": "刪除我的帳戶"
+    "settings_confirmDeleteAccount": "刪除我的帳戶",
+    "settings_signOutTitle": "登出",
+    "settings_signOutMessage": "您確定要登出嗎？",
+    "settings_signOutConfirm": "登出",
+    "groceryList_pageTitle": "Grocery List"
 }
   

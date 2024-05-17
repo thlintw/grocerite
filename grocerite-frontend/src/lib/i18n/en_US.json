@@ -154,6 +154,10 @@
     "settings_confirmDeleteAccountMessageEnterCode": "Please enter the code above, and click on the button to confirm the deletion of your account.",
     "settings_confirmDeleteCodeMismatch": "The code you entered does not match the code above.",
     "settings_confirmDeleteCodeNotEntered": "Please enter the code above.",
-    "settings_confirmDeleteAccount": "Delete My Account"
+    "settings_confirmDeleteAccount": "Delete My Account",
+    "settings_signOutTitle": "Signing Out",
+    "settings_signOutMessage": "Are you sure you want to sign out?",
+    "settings_signOutConfirm": "Sign Out",
+    "groceryList_pageTitle": "Grocery List"
 }
   

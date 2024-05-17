@@ -40,9 +40,9 @@
 
     const signOut = async () => {
         dialog.openDialog({
-            title: 'Signing Out',
-            message: 'Are you sure you want to sign out?',
-            confirmText: 'Sign Out',
+            title: $_('settings_signOutTitle'),
+            message: $_('settings_signOutMessage'),
+            confirmText: $_('settings_signOutConfirm'),
             onConfirm: async () => {
                 await AuthService.getInstance().signOutUser();
                 goto('/app/login');

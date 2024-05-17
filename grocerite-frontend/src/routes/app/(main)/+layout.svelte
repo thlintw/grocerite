@@ -39,7 +39,7 @@
 </script>
   
 
-<!-- {#if $authStore.userProfile && $authStore.authStateChecked} -->
+{#if $authStore.userProfile && $authStore.authStateChecked}
 <div in:fade={{ duration: 400, delay: 400 }} out:fade={{ duration: 400 }}
 	class="w-full h-full flex absolute left-0 top-0">
 
@@ -131,10 +131,10 @@
 	</main>
 
 </div>
-<!-- {:else}
+{:else}
 <div in:fade={{ duration: 400, delay: 400 }} out:fade={{ duration: 400 }}
 class="w-full h-screen flex justify-center items-center absolute left-0 top-0">
 	<LoadingDots size="lg" />
 </div>
-{/if} -->
+{/if}
   

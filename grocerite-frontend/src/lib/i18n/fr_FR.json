@@ -153,5 +153,9 @@
     "settings_confirmDeleteAccountMessageEnterCode": "Veuillez entrer le code ci-dessus, et cliquez sur le bouton pour confirmer la suppression de votre compte.",
     "settings_confirmDeleteCodeMismatch": "Le code que vous avez entré ne correspond pas au code ci-dessus",
     "settings_confirmDeleteCodeNotEntered": "Veuillez entrer le code ci-dessus",
-    "settings_confirmDeleteAccount": "Supprimer mon compte"
+    "settings_confirmDeleteAccount": "Supprimer mon compte",
+    "settings_signOutTitle": "Déconnexion",
+    "settings_signOutMessage": "Êtes-vous sûr de vouloir vous déconnecter?",
+    "settings_signOutConfirm": "Déconnexion",
+    "groceryList_pageTitle": "Grocery List"
 }
