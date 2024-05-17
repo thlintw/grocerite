@@ -40,4 +40,4 @@ if __name__ == "__main__":
     else:
         print(f'Running in {args.env} mode')
         debug = True if os.getenv('APP_MODE', 'dev') == 'dev' else False
-        app.run(debug=debug, port=8765)
+        app.run(debug=debug, port=8765, host='0.0.0.0')

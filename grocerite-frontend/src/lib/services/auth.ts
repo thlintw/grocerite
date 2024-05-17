@@ -22,7 +22,7 @@ export class AuthService {
     }
 
     private initializeAuthListener() {
-        
+        console.log('Initializing auth listener');
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 console.log('User is signed in');

@@ -34,21 +34,14 @@
 		}
 	});
 
-	const getRes = async () => {
-		const res = await getUserProfileFromFbUid($authStore.user!);
-		console.log(res);
-	}
-
 	let showMobileMenu = false;
+
 </script>
   
 
 <!-- {#if $authStore.userProfile && $authStore.authStateChecked} -->
 <div in:fade={{ duration: 400, delay: 400 }} out:fade={{ duration: 400 }}
 	class="w-full h-full flex absolute left-0 top-0">
-	{$authStore.user?.email}
-	{$authStore.userProfile}
-	{$authStore.authStateChecked}
 
 	<LoadingOverlay />
 	<Dialogue />

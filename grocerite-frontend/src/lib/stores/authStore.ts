@@ -1,6 +1,7 @@
-import type { User } from "firebase/auth";
+import { onAuthStateChanged, type User } from "firebase/auth";
 import { writable } from 'svelte/store';
 import type { UserProfile } from '$lib/models/userProfile';
+import { auth } from '$lib/firebaseConfig'
 
 interface AuthState {
     user: User | null; 
