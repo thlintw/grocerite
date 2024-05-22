@@ -10,6 +10,7 @@
     import { faComment, faSun } from "@fortawesome/free-solid-svg-icons";
     import type { Container } from "$lib/models/container";
     import { onMount } from "svelte";
+    import { Household } from "$lib/models/household";
 
     $: showIconDialog = false;
     $: showHousholdNameDialog = false;
@@ -22,6 +23,7 @@
     let householdIconPath = '';
     let householdIconIdx = 0;
     let householdContainers: Container[] = [];
+    let newHouseholdData: Household = new Household();
 
     
     const getHouseholdIcon = (iconPath: string) => {
@@ -44,7 +46,24 @@
         householdName = $_('household_newHouseholdDefaultName');
         householdIconIdx = Math.floor(Math.random() * 9) + 1;
         householdIconPath = `/icons/household/household-icon-${String(householdIconIdx).padStart(2, '0')}.png`;
+        newHouseholdData = new Household();
     });
+
+    $: if (householdName !== '') {
+        newHouseholdData.name = householdName;
+    }
+
+    $: if (householdIconIdx !== 0) {
+        newHouseholdData.iconIdx = householdIconIdx;
+    }
+
+    $: if (householdContainers.length > 0) {
+        newHouseholdData.containers = householdContainers;
+    }
+
+    const processContainerDialogData = (e: CustomEvent) => {
+        console.log(e.detail.container);
+    };
 
 </script>
 
@@ -85,14 +104,7 @@
             console.log(e.detail.selected);
         }}
         title='common_addContainerCallToAction'
-        on:click:addItem={(e) => {
-            // console.log(e.detail.item);
-            // listItems = [...listItems, e.detail.item];
-            // console.log(listItems);
-            // groupedListItems = getItemsCategoryOrder(listItems);
-            // console.log(groupedListItems);
-            setContainerDialog(false);
-        }}
+        on:click:addItem={processContainerDialogData}
         />
 
 

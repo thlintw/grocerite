@@ -8,6 +8,11 @@
 	import { _, locale, locales } from 'svelte-i18n';
 	import { lc } from '$lib/stores/general';
     import PlusButton from '$lib/components/PlusButton.svelte';
+    import { goto } from '$app/navigation';
+
+	const goCreateHousehold = () => {
+		goto('/app/household/new');
+	}
 
 </script>
 
@@ -26,7 +31,7 @@
 			<span>Create one to start sharing your grocery lists with your family members</span>
 		</div>
 		<div class="flex justify-center mt-3">
-			<PlusButton />
+			<PlusButton onClick={goCreateHousehold} />
 		</div>
     </div>
 </div>

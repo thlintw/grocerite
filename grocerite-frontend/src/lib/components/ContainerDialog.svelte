@@ -55,7 +55,13 @@
         //     ticked: false,
         //     storeIdx: -1,
         // };
-        // dispatch('click:addItem', { item });
+        const container = new Container({
+            idx: -1,
+            name: containerName,
+            type: containerType,
+            householdIdx: -1,
+        });
+        dispatch('click:addItem', { container });
     };
 
     const onBarrierDismiss = () => {
