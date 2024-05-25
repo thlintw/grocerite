@@ -7,23 +7,30 @@
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
     import ContainerDialog from "$lib/components/ContainerDialog.svelte";
     import PlusButton from "$lib/components/PlusButton.svelte";
-    import { faComment, faSun } from "@fortawesome/free-solid-svg-icons";
+    import { faComment, faSun, faUser, faUserAltSlash } from "@fortawesome/free-solid-svg-icons";
     import type { Container } from "$lib/models/container";
     import { onMount } from "svelte";
-    import { Household } from "$lib/models/household";
+    import { Household, Member } from "$lib/models/household";
+    import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
+    import MemberDialog from "$lib/components/MemberDialog.svelte";
 
     $: showIconDialog = false;
     $: showHousholdNameDialog = false;
     $: showContainerDialog = false;
+    $: showAvatarDialog = false;
+    $: showMemberDialog = false;
     const setIconDialog = (value: boolean) => showIconDialog = value;
     const setHousholdNameDialog = (value: boolean) => showHousholdNameDialog = value;
     const setContainerDialog = (value: boolean) => showContainerDialog = value;
+    const setAvatarDialog = (value: boolean) => showAvatarDialog = value;
+    const setMemberDialog = (value: boolean) => showMemberDialog = value;
 
     let householdName = '';
     let householdIconPath = '';
     let householdIconIdx = 0;
     let householdContainers: Container[] = [];
     let newHouseholdData: Household = new Household();
+    let householdCreator: Member;
 
     
     const getHouseholdIcon = (iconPath: string) => {
@@ -82,6 +89,19 @@
         }}
     />
 
+    
+    <IconSelectionDialog
+        showDialog={showAvatarDialog}
+        mode="avatar"
+        title="common_selectAvatar"
+        on:click:selectIcon={(e) => {
+            getHouseholdIcon(e.detail.iconPath);
+        }}
+        on:click:barrierDismiss={(e) => {
+            setAvatarDialog(false);
+        }}
+    />
+
     <TextInputDialog
         title="groceryList_listNameDialogTitle"
         showDialog={showHousholdNameDialog}
@@ -107,6 +127,14 @@
         on:click:addItem={processContainerDialogData}
         />
 
+    <MemberDialog
+        showDialog={showMemberDialog}
+        title="household_selectYourMemberAvatar"
+        on:click:barrierDismiss={(e) => {
+            setMemberDialog(false);
+        }}
+        />
+
 
     <div class="{$lc.title} text-2xl text-orange-500 flex items-center">
         <span class="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -117,7 +145,7 @@
         <ListPropCardButton
             onClick={() => setHousholdNameDialog(true)}
             icon={faComment}
-            headerText={$_('groceryList_labelListName')}
+            headerText={$_('household_householdName')}
             >
             <span class="text-neutral-700 font-normal">{householdName}</span>
         </ListPropCardButton>
@@ -128,6 +156,30 @@
             headerText={$_('groceryList_labelListIcon')}
             >
             <img src={householdIconPath} alt="icon" class="w-20" />
+        </ListPropCardButton>
+
+    </div>
+    <div class="grid gap-3 w-full grid-cols-1">
+        <ListPropCardButton
+            onClick={() => setMemberDialog(true)}
+            icon={faUser}
+            headerText={$_('household_createrAvatar')}
+            >
+            {#if !householdCreator}
+                <div class="text-neutral-300 text-base font-normal flex items-center gap-2">
+                    <div class="text-neutral-200">
+                        <FontAwesomeIcon icon={faUserAltSlash} class="text-[3rem]" />
+                    </div>
+                </div>
+            {:else if householdCreator !== null}
+                <div class="flex items-center gap-2">
+                    <div class="rounded-full"
+                        style={`background-color: ${householdCreator.pfp.bgColor}`}>
+                        <img src={`/icons/avatar/${householdCreator.pfp.presenting}/avatar-${householdCreator.pfp.presenting}-${householdCreator.pfp.idx.toString().padStart(2, '0')}.png`} alt="assignee" class="w-16 h-16 rounded-full" />
+                    </div>
+                    <span>{householdCreator.name}</span>
+                </div>
+            {/if}
         </ListPropCardButton>
 
     </div>

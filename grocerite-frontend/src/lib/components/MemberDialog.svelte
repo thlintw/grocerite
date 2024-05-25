@@ -1,14 +1,22 @@
 <script lang="ts">
-    import { Container, ContainerType } from '$lib/models/container';
+    import { Container, ContainerItem, ContainerType } from '$lib/models/container';
     import { lc } from '$lib/stores/general';
     import { scaleFade } from '$lib/transitions';
-    import type { SelectCandidate } from '$lib/types/general';
-    import { createEventDispatcher } from 'svelte';
+    import type { IconDefinition, icon } from '@fortawesome/fontawesome-svg-core';
+    import { faUserAltSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
+    import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
+    import SearchableFormInput from './SearchableFormInput.svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import { _ } from 'svelte-i18n';
     import { fade } from 'svelte/transition';
-    import Button from './Button.svelte';
-    import FormInput from './FormInput.svelte';
+    import type { SelectCandidate } from '$lib/types/general';
+    import IconSelectionDialog from './IconSelectionDialog.svelte';
     import ScrollableSelectDialog from './ScrollableSelectDialog.svelte';
+    import { ItemCategory } from '$lib/models/item';
+    import Button from './Button.svelte';
+    import QuantitySelectionDialog from './QuantitySelectionDialog.svelte';
+    import type { GroceryListItem } from '$lib/models/groceryList';
+    import FormInput from './FormInput.svelte';
 
     const dispatch = createEventDispatcher();
 
@@ -17,7 +25,10 @@
     export let availableItems: SelectCandidate[] = [];
     export let availableContainers: Container[] = [];
 
-    let containerName = '';
+    let memberName = '';
+    let pfpIdx = 0;
+    let pfpPresenting: 'mp' | 'fp' | 'nb' = 'mp';
+    let pfpBgColor = '';
     let containerType: ContainerType = ContainerType.Refrigerator;
     let itemQuantity = 1;
     let itemContainer: Container | null = null;
@@ -49,7 +60,7 @@
         // };
         const container = new Container({
             idx: -1,
-            name: containerName,
+            name: memberName,
             type: containerType,
             householdIdx: -1,
         });
@@ -112,7 +123,7 @@
     let buttonLoading = false;
 
     const reset = () => {
-        containerName = '';
+        memberName = '';
         containerType = ContainerType.Refrigerator;
         itemQuantity = 1;
         itemContainer = null;
@@ -163,9 +174,9 @@
                     <FormInput 
                         label={$_('groceryList_addListItemsName')}
                         placeholder={$_('groceryList_addListItemsNamePlaceholder')}
-                        bind:value={containerName}
+                        bind:value={memberName}
                         on:select={(e) => {
-                            containerName = e.detail[0].label;
+                            memberName = e.detail[0].label;
                         }}
                     />
                 </div>
