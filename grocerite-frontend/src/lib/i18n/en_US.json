@@ -159,6 +159,19 @@
     "settings_signOutMessage": "Are you sure you want to sign out?",
     "settings_signOutConfirm": "Sign Out",
     "groceryList_pageTitle": "Grocery List",
-    "groceryList_createrAvatar": "Your Member Avatar and Name"
+    "household_createrAvatar": "Your Member Name and Avatar",
+    "household_selectYourMemberAvatar": "Edit your avatar",
+    "common_selectAvatar": "Select an avatar",
+    "common_malePresenting": "Masculine",
+    "common_femalePresenting": "Feminine",
+    "common_nbPresenting": "Non Binary",
+    "household_selectPfpColor": "Select background color",
+    "household_confirmAvatar": "Confirm",
+    "household_enterYourMemberName": "Enter your member name",
+    "household_memberNameIsRequired": "Member name is required",
+    "household_avatarBackground": "Background",
+    "household_avatarBackgroundRequired": "Background color is required",
+    "household_avatarIcon": "Icon",
+    "household_avatarIconRequired": "Icon is required"
 }
   

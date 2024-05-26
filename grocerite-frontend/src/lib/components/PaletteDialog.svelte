@@ -45,6 +45,10 @@
         dispatch('click:barrierDismiss');
     };
 
+    const onSelectColor = (color) => {
+        dispatch('click:selectColor', { color });
+    };
+
     const reset = () => {
         // memberName = '';
         // containerType = ContainerType.Refrigerator;
@@ -57,6 +61,14 @@
             reset();
         }
     }
+
+    const paletteColors = [
+        "#0f264e", "#efba33", "#b8922b", "#f2dfc6", "#407f75", "#faa96e", "#739bb0",
+        "#c6e9e6", "#384563", "#601707", "#f39c3c", "#fac85c", "#cb2c28", "#dbb17f",
+        "#ced7cb", "#125470", "#ed6c3c", "#244b47", "#f3785f", "#1d438b", "#cf533b",
+        "#cc6460", "#006e92", "#377b8b", "#ee3d29", "#fcdcb0", "#028b98", "#71aea3",
+        "#a3260c", "#fdd887"
+    ]
     
     
 </script>
@@ -70,22 +82,22 @@
     <div transition:scaleFade
         class="fixed top-0 right-0 bottom-0 left-0 z-[10012] pointer-events-none 
             flex items-center justify-center">
-        <div class="pointer-events-auto z-[10013] flex flex-col lg:w-[40rem] 2xl:w-[55rem] w-11/12
+        <div class="pointer-events-auto z-[10013] flex flex-col lg:w-[30rem] 2xl:w-[55rem] w-11/12
             ">
             <div class="ml-1 text-2xl text-orange-500 flex-grow {$lc.title} 
                 relative drop-shadow-grocerite-orange-100-lg top-4 left-1">
                 <div class="drop-shadow-title">{ $_(title) }</div>
             </div>
-            <div class="bg-orange-50 rounded-2xl flex gap-3 py-7 px-5
+            <div class="bg-orange-50 rounded-2xl flex gap-3 py-9 px-5
                 shadow-grocerite-orange-200-sm {$lc.text} flex-col items-center">
 
-                
-                <div>
-                    <Button 
-                        loading={buttonLoading}
-                        text={$_('household_newHouseholdContainerAdd')}
-                        on:click={onAddItem}
-                    />
+                <div class="grid grid-cols-6 grid-rows-5 gap-3">
+                    {#each paletteColors as color}
+                        <button class="w-12 h-10 rounded-full"
+                            style="background-color: {color}"
+                            on:click={()=>onSelectColor(color)}>
+                        </button>
+                    {/each}
                 </div>
                 
             </div>

@@ -3,7 +3,7 @@
     import { lc } from '$lib/stores/general';
     import { scaleFade } from '$lib/transitions';
     import type { IconDefinition, icon } from '@fortawesome/fontawesome-svg-core';
-    import { faUserAltSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
+    import { faTimes, faUserAltSlash, faXmark } from '@fortawesome/free-solid-svg-icons';
     import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
     import SearchableFormInput from './SearchableFormInput.svelte';
     import { createEventDispatcher, onMount } from 'svelte';
@@ -27,8 +27,8 @@
     export let availableContainers: Container[] = [];
 
     let memberName = '';
-    let pfpIdx = 0;
-    let pfpPresenting: 'mp' | 'fp' | 'nb' = 'mp';
+    let pfpIdx: number;
+    let pfpPresenting: 'mp' | 'fp' | 'nb';
     let pfpBgColor = '';
     let containerType: ContainerType = ContainerType.Refrigerator;
     let itemQuantity = 1;
@@ -39,9 +39,9 @@
         showPaletteDialog = value;
     };
 
-    let showQuantityDialog = false;
-    const setQuantityDialog = (value) => {
-        showQuantityDialog = value;
+    let showAvatarDialog = false;
+    const setAvatarDialog = (value: boolean) => {
+        showAvatarDialog = value
     };
 
     let showContainerDialog = false;
@@ -123,6 +123,9 @@
         containerType = ContainerType.Refrigerator;
         itemQuantity = 1;
         itemContainer = null;
+        pfpBgColor = '';
+        pfpIdx = 0;
+        pfpPresenting = 'fp';
     };
 
     $: {
@@ -130,6 +133,21 @@
             reset();
         }
     }
+
+    const onSelectColor = (event) => {
+        showPaletteDialog = false;
+        pfpBgColor = event.detail.color;
+    };
+
+    const onSelectIcon = (event) => {
+        const rpatt = /avatar-(\w{2})-(\d{2})\.png/;
+        const match = event.detail.iconPath.match(rpatt);
+        if (match && match[1] && match[2]) {
+            pfpPresenting = match[1] as 'mp' | 'fp' | 'nb';
+            pfpIdx = parseInt(match[2], 10);
+        }
+        setAvatarDialog(false);
+    };
     
     
 </script>
@@ -140,8 +158,21 @@
         showDialog={showPaletteDialog}
         on:click:barrierDismiss={() => setPaletteDialog(false)}
         title={$_('household_selectPfpColor')}
+        on:click:selectColor={onSelectColor}
         />
 
+        
+    <IconSelectionDialog
+        showDialog={showAvatarDialog}
+        mode="avatar"
+        title="common_selectAvatar"
+        on:click:selectIcon={(e) => {
+            onSelectIcon(e);
+        }}
+        on:click:barrierDismiss={(e) => {
+            setAvatarDialog(false);
+        }}
+    />
 
 
 
@@ -163,50 +194,54 @@
 
                     <FormInput 
                         label={$_('groceryList_addListItemsName')}
-                        placeholder={$_('groceryList_addListItemsNamePlaceholder')}
+                        placeholder={$_('household_enterYourMemberName')}
                         bind:value={memberName}
                         on:select={(e) => {
                             memberName = e.detail[0].label;
                         }}
                     />
                 </div>
-                <div class="w-full grid grid-cols-1 2xl:grid-cols-3 gap-3">
+                <div class="w-full grid grid-cols-1 lg:grid-cols-2 gap-3">
                 
                     <div class="flex w-full flex-col">
                         <div class="text-lg text-emerald-700 font-bold">
-                            palette
+                            {$_('household_avatarBackground')}
                         </div>
                         <div class="px-3">
                             <button type="button" 
                                 class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
                                 on:click={() => setPaletteDialog(true)}>
-                                <div>
-                                    <img src="/icons/container/container-icon-{containerType}.png" 
-                                        alt="category icon" class="w-12" />
-                                </div>
-                                <div class="text-left text-neutral-700">{$_(`common_containerType_${containerType}`)}</div>
+                                {#if !pfpBgColor}
+                                    <div class="w-16 h-14 rounded-full bg-neutral-300 items-center flex justify-center">
+                                        <FontAwesomeIcon icon={faTimes} class="text-neutral-100 text-4xl" />
+                                    </div>
+                                {:else}
+                                    <div class="w-16 h-14 rounded-full" 
+                                        style="background-color: {pfpBgColor}">
+                                    </div>
+                                {/if}
                             </button>
                         </div>
                     </div>
-
-
-
-                </div>
-                <div class="w-full grid grid-cols-1 2xl:grid-cols-3 gap-3">
                 
                     <div class="flex w-full flex-col">
                         <div class="text-lg text-emerald-700 font-bold">
-                            {$_('household_newHouseholdContanerType')}
+                            {$_('household_avatarIcon')}
                         </div>
                         <div class="px-3">
                             <button type="button" 
                                 class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
-                                on:click={() => {}}>
-                                <div>
-                                    <img src="/icons/container/container-icon-{containerType}.png" 
-                                        alt="category icon" class="w-12" />
-                                </div>
-                                <div class="text-left text-neutral-700">{$_(`common_containerType_${containerType}`)}</div>
+                                on:click={() => {setAvatarDialog(true)}}>
+                                {#if !pfpIdx}
+                                    <div class="w-16 h-16 rounded-full items-center flex justify-center">
+                                        <FontAwesomeIcon icon={faUserAltSlash} class="text-neutral-300 text-4xl" />
+                                    </div>
+                                {:else}
+                                    <div>
+                                        <img src={`/icons/avatar/${pfpPresenting}/avatar-${pfpPresenting}-${String(pfpIdx).padStart(2,'0')}.png`} 
+                                            alt="category icon" class="w-16" />
+                                    </div>
+                                {/if}
                             </button>
                         </div>
                     </div>
@@ -218,7 +253,7 @@
                 <div>
                     <Button 
                         loading={buttonLoading}
-                        text={$_('household_newHouseholdContainerAdd')}
+                        text={$_('household_confirmAvatar')}
                         on:click={onAddItem}
                     />
                 </div>
