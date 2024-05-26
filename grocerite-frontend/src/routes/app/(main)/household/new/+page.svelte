@@ -13,16 +13,15 @@
     import { Household, Member } from "$lib/models/household";
     import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
     import MemberDialog from "$lib/components/MemberDialog.svelte";
+    import { set } from "date-fns";
 
     $: showIconDialog = false;
     $: showHousholdNameDialog = false;
     $: showContainerDialog = false;
-    $: showAvatarDialog = false;
     $: showMemberDialog = false;
     const setIconDialog = (value: boolean) => showIconDialog = value;
     const setHousholdNameDialog = (value: boolean) => showHousholdNameDialog = value;
     const setContainerDialog = (value: boolean) => showContainerDialog = value;
-    const setAvatarDialog = (value: boolean) => showAvatarDialog = value;
     const setMemberDialog = (value: boolean) => showMemberDialog = value;
 
     let householdName = '';
@@ -90,17 +89,6 @@
     />
 
     
-    <IconSelectionDialog
-        showDialog={showAvatarDialog}
-        mode="avatar"
-        title="common_selectAvatar"
-        on:click:selectIcon={(e) => {
-            getHouseholdIcon(e.detail.iconPath);
-        }}
-        on:click:barrierDismiss={(e) => {
-            setAvatarDialog(false);
-        }}
-    />
 
     <TextInputDialog
         title="groceryList_listNameDialogTitle"
@@ -130,7 +118,13 @@
     <MemberDialog
         showDialog={showMemberDialog}
         title="household_selectYourMemberAvatar"
+        current={householdCreator}
         on:click:barrierDismiss={(e) => {
+            setMemberDialog(false);
+        }}
+        on:click:addItem={(e) => {
+            console.log(e.detail);
+            householdCreator = e.detail.member;
             setMemberDialog(false);
         }}
         />

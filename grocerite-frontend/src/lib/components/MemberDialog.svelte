@@ -18,13 +18,14 @@
     import type { GroceryListItem } from '$lib/models/groceryList';
     import FormInput from './FormInput.svelte';
     import PaletteDialog from './PaletteDialog.svelte';
+    import { Member } from '$lib/models/household';
 
     const dispatch = createEventDispatcher();
 
     export let showDialog = false;
     export let title: string = '';
-    export let availableItems: SelectCandidate[] = [];
     export let availableContainers: Container[] = [];
+    export let current: Member | null = null;
 
     let memberName = '';
     let pfpIdx: number;
@@ -59,13 +60,15 @@
         //     ticked: false,
         //     storeIdx: -1,
         // };
-        const container = new Container({
-            idx: -1,
+        const member = new Member({
+            pfp: {
+                idx: pfpIdx,
+                presenting: pfpPresenting,
+                bgColor: pfpBgColor,
+            },
             name: memberName,
-            type: containerType,
-            householdIdx: -1,
         });
-        dispatch('click:addItem', { container });
+        dispatch('click:addItem', { member });
     };
 
     const onBarrierDismiss = () => {
@@ -128,9 +131,19 @@
         pfpPresenting = 'fp';
     };
 
+    const setCurrent = () => {
+        if (current) {
+            memberName = current.name;
+            pfpBgColor = current.pfp.bgColor;
+            pfpIdx = current.pfp.idx;
+            pfpPresenting = current.pfp.presenting;
+        }
+    };
+
     $: {
         if (!showDialog) {
             reset();
+            setCurrent();
         }
     }
 
