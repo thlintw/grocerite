@@ -17,6 +17,7 @@
     import QuantitySelectionDialog from './QuantitySelectionDialog.svelte';
     import type { GroceryListItem } from '$lib/models/groceryList';
     import FormInput from './FormInput.svelte';
+    import PaletteDialog from './PaletteDialog.svelte';
 
     const dispatch = createEventDispatcher();
 
@@ -33,9 +34,9 @@
     let itemQuantity = 1;
     let itemContainer: Container | null = null;
 
-    let showCategoryDialog = false;
-    const setCategoryDialog = (value) => {
-        showCategoryDialog = value;
+    let showPaletteDialog = false;
+    const setPaletteDialog = (value) => {
+        showPaletteDialog = value;
     };
 
     let showQuantityDialog = false;
@@ -79,11 +80,6 @@
                 iconPath: `/icons/container/container-icon-${category}.png`,
             };
         });
-    };
-
-    const getContainerType = (value: string) => {
-        containerType = value as ContainerType;
-        setCategoryDialog(false);
     };
 
 
@@ -140,19 +136,13 @@
 
 {#if showDialog}
 
+    <PaletteDialog
+        showDialog={showPaletteDialog}
+        on:click:barrierDismiss={() => setPaletteDialog(false)}
+        title={$_('household_selectPfpColor')}
+        />
 
-    <ScrollableSelectDialog 
-        showDialog={showCategoryDialog}
-        options={getContainerTypeOptions()}
-        title="groceryList_addListItemsCategorySelect"
-        hasFilter={true}
-        on:click:selectOption={(e) => {
-            getContainerType(e.detail.option.value);
-        }}
-        on:click:barrierDismiss={(e) => {
-            setCategoryDialog(false);
-        }}
-    />
+
 
 
     <button transition:fade on:click={onBarrierDismiss} 
@@ -184,12 +174,34 @@
                 
                     <div class="flex w-full flex-col">
                         <div class="text-lg text-emerald-700 font-bold">
+                            palette
+                        </div>
+                        <div class="px-3">
+                            <button type="button" 
+                                class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
+                                on:click={() => setPaletteDialog(true)}>
+                                <div>
+                                    <img src="/icons/container/container-icon-{containerType}.png" 
+                                        alt="category icon" class="w-12" />
+                                </div>
+                                <div class="text-left text-neutral-700">{$_(`common_containerType_${containerType}`)}</div>
+                            </button>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="w-full grid grid-cols-1 2xl:grid-cols-3 gap-3">
+                
+                    <div class="flex w-full flex-col">
+                        <div class="text-lg text-emerald-700 font-bold">
                             {$_('household_newHouseholdContanerType')}
                         </div>
                         <div class="px-3">
                             <button type="button" 
                                 class="flex items-center gap-2 rounded-xl px-3 py-2 bg-orange-100"
-                                on:click={() => setCategoryDialog(true)}>
+                                on:click={() => {}}>
                                 <div>
                                     <img src="/icons/container/container-icon-{containerType}.png" 
                                         alt="category icon" class="w-12" />
