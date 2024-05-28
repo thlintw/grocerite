@@ -14,6 +14,8 @@
     import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
     import MemberDialog from "$lib/components/MemberDialog.svelte";
     import { set } from "date-fns";
+    import Button from "$lib/components/Button.svelte";
+    import { dialog } from "$lib/stores/dialogStore";
 
     $: showIconDialog = false;
     $: showHousholdNameDialog = false;
@@ -30,6 +32,11 @@
     let householdContainers: Container[] = [];
     let newHouseholdData: Household = new Household();
     let householdCreator: Member;
+    let householdButtonLoading = false;
+    
+    let nameError = '';
+    let iconError = '';
+    let creatorError = '';
 
     
     const getHouseholdIcon = (iconPath: string) => {
@@ -69,6 +76,20 @@
 
     const processContainerDialogData = (e: CustomEvent) => {
         console.log(e.detail.container);
+    };
+
+    const createHousehold = async () => {
+        householdButtonLoading = true;
+        if (!householdContainers.length) {
+            dialog.openDialog({
+                title: 'No Containers Found',
+                message: 'At least one container is required to create a household',
+            });
+        }
+        if (!householdCreator) {
+            creatorError = 'Please make a creator for the household';
+        }
+        householdButtonLoading = false;
     };
 
 </script>
@@ -158,6 +179,7 @@
             onClick={() => setMemberDialog(true)}
             icon={faUser}
             headerText={$_('household_createrAvatar')}
+            error={creatorError}
             >
             {#if !householdCreator}
                 <div class="text-neutral-300 text-base font-normal flex items-center gap-2">
@@ -188,6 +210,15 @@
                 {$_('household_addHouseholdContainers')}
             </div>
         </div>
+    </div>
+
+    <div class="flex justify-center mt-3">
+        <Button
+            text={$_('household_createNewHousehold')}
+            disabled={householdButtonLoading}
+            loading={householdButtonLoading}
+            on:click={() => createHousehold()}
+            />
     </div>
 
     <!-- <div class="
