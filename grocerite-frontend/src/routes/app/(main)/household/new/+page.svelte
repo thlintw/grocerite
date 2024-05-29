@@ -76,6 +76,8 @@
 
     const processContainerDialogData = (e: CustomEvent) => {
         console.log(e.detail.container);
+        setContainerDialog(false);
+        householdContainers = [...householdContainers, e.detail.container];
     };
 
     const createHousehold = async () => {
@@ -212,6 +214,32 @@
         </div>
     </div>
 
+    <div class="
+        flex flex-col
+        w-full h-full gap-5
+        pb-32 lg:pb-3
+        mt-2
+    ">
+    {#if householdContainers.length > 0 }
+        {#each householdContainers as container}
+            <div class="w-full bg-orange-50 px-3 lg:px-5 py-3 flex flex-col gap-3 rounded-xl shadow-grocerite-orange-200-sm">
+                <div class="flex items-center text-neutral-700">
+                    <img src={`/icons/container/container-icon-${container.type}.png`} alt="{`${container.type}'s icon`}" class="w-10 lg:w-14" />
+                    <div class="flex flex-col gap-0.5 pl-2">
+                        <div class="text-sm text-neutral-500 lg:text-sm overflow-hidden text-ellipsis text-nowrap pr-2 flex items-center">
+                            <span class="">{$_(`common_containerType_${container.type}`)}</span>
+                        </div>
+                        <div class="font-bold text-orange-500 text-base lg:text-lg overflow-hidden text-ellipsis text-nowrap pr-2 flex items-center ml-1">
+                            <span class="">{container.name}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {/each}
+    {/if}
+    </div>
+
+
     <div class="flex justify-center mt-3">
         <Button
             text={$_('household_createNewHousehold')}
@@ -221,33 +249,4 @@
             />
     </div>
 
-    <!-- <div class="
-        flex flex-col
-        w-full h-full gap-5
-        pb-32 lg:pb-3
-        mt-2
-    ">
-    {#if Object.keys(groupedListItems).length > 0 }
-        {#each Object.values(ItemCategory) as category}
-            {#if groupedListItems[category]}
-                <div class="w-full bg-orange-50 px-3 lg:px-5 py-3 flex flex-col gap-3 rounded-xl shadow-grocerite-orange-200-sm">
-                    <div class="flex items-center w-full gap-2 border-b-2 border-b-orange-100 pb-2">
-                        <h3 class="text-xl lg:text-2xl text-orange-500 {$lc.title}">{$_(`common_category_${category}`)}</h3>
-                        <img src={getItemCategoryIcon(category)} alt="{category}" class="ml-auto w-8 lg:w-10" />
-                    </div>
-                    <div class="flex flex-col gap-2 mb-2">
-                        {#each groupedListItems[category] as item}
-                            <div class="flex items-center text-neutral-700">
-                                <div class="text-xl {$lc.text} font-mono text-center w-16 font-bold shrink-0">{item.quantity}</div>
-                                <div class="{$lc.text} text-base lg:text-lg overflow-hidden text-ellipsis text-nowrap pr-2 flex items-center">
-                                    <span class="">{item.name}</span>
-                                </div>
-                            </div>
-                        {/each}
-                    </div>
-                </div>
-            {/if}
-        {/each}
-    {/if}
-    </div> -->
 </div>
