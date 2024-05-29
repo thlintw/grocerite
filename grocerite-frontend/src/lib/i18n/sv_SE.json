@@ -158,6 +158,20 @@
     "settings_signOutTitle": "Loggar ut",
     "settings_signOutMessage": "Är du säker på att du vill logga ut?",
     "settings_signOutConfirm": "Logga ut",
-    "groceryList_pageTitle": "Grocery List"
+    "groceryList_pageTitle": "Grocery List",
+    "household_createrAvatar": "Ditt medlemsnamn och avatar",
+    "household_selectYourMemberAvatar": "Redigera din avatar",
+    "common_selectAvatar": "Välj en avatar",
+    "common_malePresenting": "Maskulin",
+    "common_femalePresenting": "Feminin",
+    "common_nbPresenting": "Icke-binär",
+    "household_selectPfpColor": "Välj bakgrundsfärg",
+    "household_confirmAvatar": "Bekräfta",
+    "household_enterYourMemberName": "Ange ditt medlemsnamn",
+    "household_memberNameIsRequired": "Medlemsnamn krävs",
+    "household_avatarBackground": "Bakgrund",
+    "household_avatarBackgroundRequired": "Bakgrundsfärg krävs",
+    "household_avatarIcon": "Ikon",
+    "household_avatarIconRequired": "Ikon krävs"
 }
   

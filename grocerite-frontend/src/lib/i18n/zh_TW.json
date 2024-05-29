@@ -157,6 +157,20 @@
     "settings_signOutTitle": "登出",
     "settings_signOutMessage": "您確定要登出嗎？",
     "settings_signOutConfirm": "登出",
-    "groceryList_pageTitle": "Grocery List"
+    "groceryList_pageTitle": "Grocery List",
+    "household_createrAvatar": "您的會員名稱和頭像",
+    "household_selectYourMemberAvatar": "編輯您的頭像",
+    "common_selectAvatar": "選擇頭像",
+    "common_malePresenting": "男性呈現",
+    "common_femalePresenting": "女性呈現",
+    "common_nbPresenting": "非二元",
+    "household_selectPfpColor": "選擇背景顏色",
+    "household_confirmAvatar": "確認",
+    "household_enterYourMemberName": "輸入您的會員名稱",
+    "household_memberNameIsRequired": "需要會員名稱",
+    "household_avatarBackground": "背景",
+    "household_avatarBackgroundRequired": "需要背景顏色",
+    "household_avatarIcon": "圖標",
+    "household_avatarIconRequired": "需要圖標"
 }
   

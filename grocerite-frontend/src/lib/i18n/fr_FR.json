@@ -157,5 +157,19 @@
     "settings_signOutTitle": "Déconnexion",
     "settings_signOutMessage": "Êtes-vous sûr de vouloir vous déconnecter?",
     "settings_signOutConfirm": "Déconnexion",
-    "groceryList_pageTitle": "Grocery List"
+    "groceryList_pageTitle": "Grocery List",
+    "household_createrAvatar": "Votre nom de membre et avatar",
+    "household_selectYourMemberAvatar": "Éditez votre avatar",
+    "common_selectAvatar": "Sélectionnez un avatar",
+    "common_malePresenting": "Masculin",
+    "common_femalePresenting": "Féminin",
+    "common_nbPresenting": "Non binaire",
+    "household_selectPfpColor": "Sélectionnez la couleur de fond",
+    "household_confirmAvatar": "Confirmer",
+    "household_enterYourMemberName": "Entrez votre nom de membre",
+    "household_memberNameIsRequired": "Le nom du membre est requis",
+    "household_avatarBackground": "Arrière-plan",
+    "household_avatarBackgroundRequired": "La couleur de fond est requise",
+    "household_avatarIcon": "Icône",
+    "household_avatarIconRequired": "L'icône est requise"
 }

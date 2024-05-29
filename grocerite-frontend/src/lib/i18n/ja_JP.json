@@ -157,6 +157,20 @@
     "settings_confirmDeleteAccount": "アカウントを削除する","settings_signOutTitle": "ログアウト",
     "settings_signOutMessage": "本当にログアウトしますか？",
     "settings_signOutConfirm": "ログアウト",
-    "groceryList_pageTitle": "Grocery List"
+    "groceryList_pageTitle": "Grocery List",
+    "household_createrAvatar": "メンバー名とアバター",
+    "household_selectYourMemberAvatar": "アバターを編集する",
+    "common_selectAvatar": "アバターを選択",
+    "common_malePresenting": "男性",
+    "common_femalePresenting": "女性",
+    "common_nbPresenting": "ノンバイナリー",
+    "household_selectPfpColor": "背景色を選択",
+    "household_confirmAvatar": "確認",
+    "household_enterYourMemberName": "メンバー名を入力",
+    "household_memberNameIsRequired": "メンバー名が必要です",
+    "household_avatarBackground": "背景",
+    "household_avatarBackgroundRequired": "背景色が必要です",
+    "household_avatarIcon": "アイコン",
+    "household_avatarIconRequired": "アイコンが必要です"
 }
 
