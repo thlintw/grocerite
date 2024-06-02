@@ -14,8 +14,8 @@
 
     export let showDialog = false;
     export let title: string = '';
-    export let currentEditItem: Container | null = null;
-    
+    export let currentEditItem: Container | null;
+
     let containerName = '';
     let containerType: ContainerType = ContainerType.Refrigerator;
     let itemQuantity = 1;
@@ -24,16 +24,6 @@
     let showCategoryDialog = false;
     const setCategoryDialog = (value) => {
         showCategoryDialog = value;
-    };
-
-    let showQuantityDialog = false;
-    const setQuantityDialog = (value) => {
-        showQuantityDialog = value;
-    };
-
-    let showContainerDialog = false;
-    const setContainerDialog = (value) => {
-        showContainerDialog = value;
     };
 
     const onAddItem = () => {
@@ -85,8 +75,10 @@
 
 
     $: {
-        if (!showDialog) {
+        if (showDialog) {
+            console.log('showDialog');
             reset();
+            console.log(currentEditItem);
             if (currentEditItem) {
                 containerName = currentEditItem.name;
                 containerType = currentEditItem.type;

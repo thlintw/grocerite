@@ -26,7 +26,6 @@
     const setContainerDialog = (value: boolean) => {
         showContainerDialog = value;
         containerError = '';
-        currentEditContainer = null;
     };
     const setMemberDialog = (value: boolean) => showMemberDialog = value;
 
@@ -47,6 +46,7 @@
 
     const editContainer = (container: Container) => {
         currentEditContainer = container;
+        console.log(currentEditContainer);
         setContainerDialog(true);
     };
     
@@ -271,6 +271,7 @@
         <div class="w-full flex items-center justify-start">
             <PlusButton
                 onClick={() => {
+                    currentEditContainer = null;
                     setContainerDialog(true);
                 }}
                 />
