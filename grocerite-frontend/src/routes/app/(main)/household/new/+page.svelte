@@ -16,6 +16,8 @@
     import { set } from "date-fns";
     import Button from "$lib/components/Button.svelte";
     import { dialog } from "$lib/stores/dialogStore";
+    import type { RES } from "$lib/services/api";
+    import { apiCreateHousehold } from "$lib/api/household";
 
     $: showIconDialog = false;
     $: showHousholdNameDialog = false;
@@ -88,7 +90,16 @@
     const processContainerDialogData = (e: CustomEvent) => {
         console.log(e.detail.container);
         setContainerDialog(false);
-        householdContainers = [...householdContainers, e.detail.container];
+        if (currentEditContainer) {
+            householdContainers = householdContainers.map((container) => {
+                if (container.name === currentEditContainer!.name) {
+                    return e.detail.container;
+                }
+                return container;
+            });
+        } else {
+            householdContainers = [...householdContainers, e.detail.container];
+        }
     };
 
 
@@ -152,6 +163,9 @@
         if (!nameError && !iconError && !creatorError && !containerError) {
             console.log('Creating household');
             console.log(makePostData());
+            const data = makePostData();
+            const res: RES = await apiCreateHousehold(data);
+            console.log(res);
         }
         householdButtonLoading = false;
         // if (!)
@@ -193,6 +207,7 @@
     <ContainerDialog
         showDialog={showContainerDialog}
         currentEditItem={currentEditContainer}
+        currentContainerNames={householdContainers.map((container) => container.name)}
         on:click:barrierDismiss={(e) => {
             setContainerDialog(false);
         }}
@@ -213,6 +228,7 @@
         on:click:addItem={(e) => {
             console.log(e.detail);
             householdCreator = e.detail.member;
+            creatorError = '';
             setMemberDialog(false);
         }}
         />

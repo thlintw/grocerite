@@ -2,6 +2,7 @@ export class UserProfile {
     idx: number;
     username: string;
     email: string;
+    userId: string;
     fUid: string;
     nickname: string;
     picture?: string;
@@ -11,6 +12,7 @@ export class UserProfile {
         idx = -1,
         username = '',
         email = '',
+        userId = '',
         fUid = '',
         nickname = '',
         picture = '',
@@ -18,6 +20,7 @@ export class UserProfile {
     } : {
         idx?: number,
         username?: string,
+        userId?: string,
         email?: string,
         fUid?: string,
         nickname?: string,
@@ -26,6 +29,7 @@ export class UserProfile {
     } = {}) {
         this.idx = idx;
         this.username = username;
+        this.userId = userId;
         this.email = email;
         this.fUid = fUid;
         this.nickname = nickname;
@@ -37,6 +41,7 @@ export class UserProfile {
         return new UserProfile({
             idx: json.idx,
             username: json.username,
+            userId: json.userId,
             email: json.email,
             fUid: json.fUid,
             nickname: json.nickname,

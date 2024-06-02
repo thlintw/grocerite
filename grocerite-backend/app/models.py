@@ -77,8 +77,6 @@ class Household(TimestampMixin, db.Model):
     grocery_lists = relationship('GroceryList', back_populates='household')
     stores = relationship('Store', back_populates='household')
     icon_idx = Column(Integer) # not actually a reference... to be implemented
-    creator_idx = Column(Integer, ForeignKey('member.id'), nullable=False)
-    creator = relationship('Member', backref='created_household', foreign_keys=[creator_idx])
 
     def get_api_data(self):
         return {
@@ -86,7 +84,7 @@ class Household(TimestampMixin, db.Model):
             'name': self.name,
             'iconIdx': self.icon_idx,
             'householdId': self.household_id,
-            'creatorId': self.creator.get_api_data(),
+            'creatorId': self.members[0].user.user_id,
             'members': [
                 m.get_api_data() for m in self.members
             ],
@@ -136,10 +134,13 @@ class ContainerType(TimestampMixin, db.Model):
     name = Column(Unicode(50), nullable=False) # non-i18n name: 'fridge', 'freezer', 'pantry', 'cupboard', 'drawer', 'other'
     image_path = Column(String(255))
 
+    def __repr__(self):
+        return f'<ContainerType {self.name}>'
+
 class Container(TimestampMixin, db.Model):
     __tablename__ = 'container'
     id = Column(Integer, primary_key=True)
-    container_id = Column(String(100), nullable=False, unique=True)
+    container_id = Column(String(100), nullable=False, unique=True, default=f'C-{get_id(l=9)}')
     type_idx = Column(Integer, ForeignKey('container_type.id'), nullable=False)
     type = relationship('ContainerType', backref='containers')
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)

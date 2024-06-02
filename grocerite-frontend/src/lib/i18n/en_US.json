@@ -172,6 +172,8 @@
     "household_avatarBackground": "Background",
     "household_avatarBackgroundRequired": "Background color is required",
     "household_avatarIcon": "Icon",
-    "household_avatarIconRequired": "Icon is required"
+    "household_avatarIconRequired": "Icon is required",
+    "household_noSameNameContainer": "There is already a container with the same name",
+    "household_containerNameIsRequired": "Container name is required"
 }
   

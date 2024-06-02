@@ -169,6 +169,7 @@ export class ApiService {
             return response.data as T;
         } catch (error) {
             if (axios.isAxiosError(error)) {
+                console.log(error.response);
                 throw new Error(`Request failed: ${error.message}`);
             } else {
                 throw new Error(`An unexpected error occurred: ${error}`);

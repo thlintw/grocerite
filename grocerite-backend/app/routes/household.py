@@ -78,6 +78,8 @@ def create_household(user_id):
         icon_idx=icon_idx,
     )
 
+    types = db.session.query(ContainerType).all()
+
     try:
         creatorName = data['creator']['name']
         creatorPfpIdx = data['creator']['pfpIdx']
@@ -94,28 +96,27 @@ def create_household(user_id):
             is_creator=True
         )
 
-        household.members.append(creator)
-        household.creator = creator
-
         db.session.add(creator)
 
     except Exception as e:
+        print(traceback.format_exc())
         return api_response(status='F', message='Creator creation error', status_code=400)
 
     try:
         for raw_container in raw_containers:
-            type = db.session.query(ContainerType).filter(ContainerType.name == raw_container['type']).first()
-            if type is None:
+            type = list(filter(lambda t: t.name == raw_container['type'], types))
+            if len(type) == 0:
                 return api_response(status='F', message='Container type not found', status_code=404)
             container = Container(
                 name=raw_container['name'],
-                type=type,
+                type=type[0],
                 household=household,                
             )
             db.session.add(container)
             household.containers.append(container)
 
     except Exception as e:
+        print(traceback.format_exc())
         return api_response(status='F', message='Container creation error', status_code=400)
 
     try:
@@ -123,7 +124,7 @@ def create_household(user_id):
         db.session.commit()
     except Exception as e:
         db.session.rollback()
-        traceback.print_exc()
+        print(traceback.format_exc())
         return api_response(status='F', message='Household creation error', status_code=400)
     
     return api_response(data=[household.get_api_data()])

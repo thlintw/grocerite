@@ -2,25 +2,36 @@ import type { Container } from "$lib/models/container";
 import type { Member } from "$lib/models/household";
 import { ApiService, Endpoints, EndpointMethods, type RES } from "$lib/services/api";
 import { userAuthHelper } from "./_helper";
+import { authStore } from "$lib/stores/authStore";
+import { get } from "svelte/store";
 
 
 export interface HouseholdCreateData {
     name: string;
     iconIdx: number;
-    creater: Member
-    containers: Container[];
+    creator: {
+        name: string;
+        pfpIdx: number;
+        pfpBgColor: string;
+        pfpPresenting: string;
+    }
+    containers: {
+        type: string;
+        name: string;
+    }[];
 }
 
-export const createHousehold = async (): Promise<RES> => {
+export const apiCreateHousehold = async (postData: HouseholdCreateData): Promise<RES> => {
     const apiService = ApiService.getInstance();
-    const userProfile = await userAuthHelper();
-    return await apiService.get(
+    await userAuthHelper();
+    return await apiService.post(
         Endpoints.CreateHousehold,
         {
             params: {
-                userId: userProfile!.uid
+                userId: get(authStore).userProfile!.userId,
             },
-            needAuth: true
+            needAuth: true,
+            data: postData
         }
     )
 }

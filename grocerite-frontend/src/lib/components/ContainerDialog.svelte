@@ -15,11 +15,15 @@
     export let showDialog = false;
     export let title: string = '';
     export let currentEditItem: Container | null;
+    export let currentContainerNames: string[] = [];
 
     let containerName = '';
     let containerType: ContainerType = ContainerType.Refrigerator;
     let itemQuantity = 1;
     let itemContainer: Container | null = null;
+    let initializedDialog = false;
+
+    let nameError = '';
 
     let showCategoryDialog = false;
     const setCategoryDialog = (value) => {
@@ -27,6 +31,15 @@
     };
 
     const onAddItem = () => {
+        if (!containerName) {
+            nameError = $_('household_containerNameIsRequired');
+            return;
+        }
+        if (!currentEditItem && currentContainerNames.includes(containerName) ||
+            currentEditItem && currentEditItem.name !== containerName && currentContainerNames.includes(containerName)) {
+            nameError = $_('household_noSameNameContainer');
+            return;
+        }
         let container: Container;
         if (!currentEditItem) {
             container = new Container({
@@ -71,17 +84,21 @@
         containerType = ContainerType.Refrigerator;
         itemQuantity = 1;
         itemContainer = null;
+        nameError = '';
     };
+
+    $: if(!showDialog) {
+        reset();
+        initializedDialog = false;
+    }
 
 
     $: {
         if (showDialog) {
-            console.log('showDialog');
-            reset();
-            console.log(currentEditItem);
-            if (currentEditItem) {
+            if (currentEditItem && !initializedDialog) {
                 containerName = currentEditItem.name;
                 containerType = currentEditItem.type;
+                initializedDialog = true;
             }
         }
     }
@@ -125,7 +142,11 @@
                     <FormInput 
                         label={$_('groceryList_addListItemsName')}
                         placeholder={$_('groceryList_addListItemsNamePlaceholder')}
+                        error={nameError}
                         bind:value={containerName}
+                        on:keyup={(e) => {
+                            nameError = '';
+                        }}
                         on:select={(e) => {
                             containerName = e.detail[0].label;
                         }}
