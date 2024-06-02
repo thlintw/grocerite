@@ -26,7 +26,7 @@
                 </span>
                 
                 <div class="flex gap-3 justify-center mt-3 w-11/12 mb-1">
-                    {#if $dialog.onCancel}
+                    {#if $dialog.showCancel}
                         <button type="button" class="border-orange-500 border-2 text-orange-500 rounded-full py-1 basis-1/2"
                             on:click={$dialog.onCancel}>
                             { $_($dialog.cancelText) }

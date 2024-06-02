@@ -14,9 +14,8 @@
 
     export let showDialog = false;
     export let title: string = '';
-    export let availableItems: SelectCandidate[] = [];
-    export let availableContainers: Container[] = [];
-
+    export let currentEditItem: Container | null = null;
+    
     let containerName = '';
     let containerType: ContainerType = ContainerType.Refrigerator;
     let itemQuantity = 1;
@@ -38,21 +37,19 @@
     };
 
     const onAddItem = () => {
-        // const item: GroceryListItem = {
-        //     idx: -1,
-        //     name: containerName,
-        //     category: itemCategory,
-        //     quantity: itemQuantity,
-        //     targetContainerIdx: itemContainer!.idx,
-        //     ticked: false,
-        //     storeIdx: -1,
-        // };
-        const container = new Container({
-            idx: -1,
-            name: containerName,
-            type: containerType,
-            householdIdx: -1,
-        });
+        let container: Container;
+        if (!currentEditItem) {
+            container = new Container({
+                idx: -1,
+                name: containerName,
+                type: containerType,
+                householdIdx: -1,
+            });
+        } else {
+            currentEditItem.name = containerName;
+            currentEditItem.type = containerType;
+            container = currentEditItem;
+        }
         dispatch('click:addItem', { container });
     };
 
@@ -76,38 +73,6 @@
     };
 
 
-    const itemQuantityControl = (mode: '--' | '-' | '+' | '++') => {
-        switch (mode) {
-            case '--':
-                if (itemQuantity > 10) {
-                    itemQuantity -= 10;
-                } else {
-                    itemQuantity = 1;
-                }
-                break;
-            case '-':
-                if (itemQuantity > 1) {
-                    itemQuantity--;
-                }
-                break;
-            case '+':
-                itemQuantity++;
-                break;
-            case '++':
-                itemQuantity += 10;
-                break;
-        }
-    };
-
-    const getContainerOptions = () => {
-        return availableContainers.map((container) => {
-            return {
-                value: container.idx.toString(),
-                label: container.name,
-                iconPath: `/icons/container/container-icon-${container.type}.png`,
-            };
-        });
-    };
 
     let buttonLoading = false;
 
@@ -118,9 +83,14 @@
         itemContainer = null;
     };
 
+
     $: {
         if (!showDialog) {
             reset();
+            if (currentEditItem) {
+                containerName = currentEditItem.name;
+                containerType = currentEditItem.type;
+            }
         }
     }
     

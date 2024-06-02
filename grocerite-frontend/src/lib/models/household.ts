@@ -40,6 +40,7 @@ export class Member {
         this.isCreator = isCreator;
     }
 
+
     static fromJson(json: any): Member {
         return new Member({
             user: UserProfile.fromJson(json.user),

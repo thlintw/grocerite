@@ -7,7 +7,7 @@
     import ListPropCardButton from "$lib/components/ListPropCardButton.svelte";
     import ContainerDialog from "$lib/components/ContainerDialog.svelte";
     import PlusButton from "$lib/components/PlusButton.svelte";
-    import { faComment, faSun, faUser, faUserAltSlash } from "@fortawesome/free-solid-svg-icons";
+    import { faComment, faPen, faSun, faUser, faUserAltSlash } from "@fortawesome/free-solid-svg-icons";
     import type { Container } from "$lib/models/container";
     import { onMount } from "svelte";
     import { Household, Member } from "$lib/models/household";
@@ -23,7 +23,11 @@
     $: showMemberDialog = false;
     const setIconDialog = (value: boolean) => showIconDialog = value;
     const setHousholdNameDialog = (value: boolean) => showHousholdNameDialog = value;
-    const setContainerDialog = (value: boolean) => showContainerDialog = value;
+    const setContainerDialog = (value: boolean) => {
+        showContainerDialog = value;
+        containerError = '';
+        currentEditContainer = null;
+    };
     const setMemberDialog = (value: boolean) => showMemberDialog = value;
 
     let householdName = '';
@@ -37,7 +41,14 @@
     let nameError = '';
     let iconError = '';
     let creatorError = '';
+    let containerError = '';
 
+    let currentEditContainer: Container | null;
+
+    const editContainer = (container: Container) => {
+        currentEditContainer = container;
+        setContainerDialog(true);
+    };
     
     const getHouseholdIcon = (iconPath: string) => {
         setIconDialog(false);
@@ -80,19 +91,72 @@
         householdContainers = [...householdContainers, e.detail.container];
     };
 
+
+    const checkName = () => {
+        if (householdName === '') {
+            nameError = 'Household name is required';
+        } else {
+            nameError = '';
+        }
+    };
+
+    const checkIcon = () => {
+        if (householdIconIdx === 0) {
+            iconError = 'Household icon is required';
+        } else {
+            iconError = '';
+        }
+    };
+
+    const checkCreator = () => {
+        if (!householdCreator) {
+            creatorError = 'Creator member is required';
+        } else {
+            creatorError = '';
+        }
+    };
+
+    const checkContainers = () => {
+        if (!householdContainers.length) {
+            containerError = 'At least one container is required to create a household';
+        } else {
+            containerError = '';
+        }
+    };
+
+    const makePostData = () => {
+        return {
+            name: householdName,
+            iconIdx: householdIconIdx,
+            containers: householdContainers.map((container) => {
+                return {
+                    type: container.type,
+                    name: container.name,
+                };
+            }),
+            creator: {
+                name: householdCreator.name,
+                pfpIdx: householdCreator.pfp.idx,
+                pfpBgColor: householdCreator.pfp.bgColor,
+                pfpPresenting: householdCreator.pfp.presenting,
+            }
+        };
+    };
+
     const createHousehold = async () => {
         householdButtonLoading = true;
-        if (!householdContainers.length) {
-            dialog.openDialog({
-                title: 'No Containers Found',
-                message: 'At least one container is required to create a household',
-            });
-        }
-        if (!householdCreator) {
-            creatorError = 'Please make a creator for the household';
+        checkName();
+        checkIcon();
+        checkCreator();
+        checkContainers();
+        if (!nameError && !iconError && !creatorError && !containerError) {
+            console.log('Creating household');
+            console.log(makePostData());
         }
         householdButtonLoading = false;
+        // if (!)
     };
+
 
 </script>
 
@@ -128,6 +192,7 @@
         
     <ContainerDialog
         showDialog={showContainerDialog}
+        currentEditItem={currentEditContainer}
         on:click:barrierDismiss={(e) => {
             setContainerDialog(false);
         }}
@@ -163,6 +228,7 @@
             onClick={() => setHousholdNameDialog(true)}
             icon={faComment}
             headerText={$_('household_householdName')}
+            error={nameError}
             >
             <span class="text-neutral-700 font-normal">{householdName}</span>
         </ListPropCardButton>
@@ -233,9 +299,18 @@
                             <span class="">{container.name}</span>
                         </div>
                     </div>
+                    <button class="ml-auto"
+                        on:click={() => editContainer(container)}>
+                        <FontAwesomeIcon icon={faPen} class="text-orange-500 text-sm" />
+                    </button>
                 </div>
             </div>
         {/each}
+    {/if}
+    {#if containerError !== ''}
+        <div class="w-full px-3 lg:px-5 py-3 flex flex-col gap-3 rounded-xl text-sm text-red-400 border-2 border-red-400">
+            {containerError}
+        </div>
     {/if}
     </div>
 
