@@ -140,7 +140,7 @@ class ContainerType(TimestampMixin, db.Model):
 class Container(TimestampMixin, db.Model):
     __tablename__ = 'container'
     id = Column(Integer, primary_key=True)
-    container_id = Column(String(100), nullable=False, unique=True, default=f'C-{get_id(l=9)}')
+    container_id = Column(String(100), nullable=False, unique=True)
     type_idx = Column(Integer, ForeignKey('container_type.id'), nullable=False)
     type = relationship('ContainerType', backref='containers')
     household_idx = Column(Integer, ForeignKey('household.id'), nullable=False)
