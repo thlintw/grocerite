@@ -18,6 +18,8 @@
     import { dialog } from "$lib/stores/dialogStore";
     import type { RES } from "$lib/services/api";
     import { apiCreateHousehold } from "$lib/api/household";
+    import { goto } from "$app/navigation";
+    import { toast } from "@zerodevx/svelte-toast";
 
     $: showIconDialog = false;
     $: showHousholdNameDialog = false;
@@ -164,8 +166,15 @@
             console.log('Creating household');
             console.log(makePostData());
             const data = makePostData();
-            const res: RES = await apiCreateHousehold(data);
-            console.log(res);
+            try {
+                const res: RES = await apiCreateHousehold(data);
+                if (res.status === 'S') {
+                    goto(`/app/household/${res.data[0].householdId}`);
+                }
+            } catch (e) {
+                toast.push('Failed to create household');
+                console.error(e);
+            }
         }
         householdButtonLoading = false;
         // if (!)

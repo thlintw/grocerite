@@ -4,6 +4,7 @@ from ..db import db
 from ..models import User, Member, Household, Container, ContainerType, ContainerItem, GroceryList, GroceryListItem
 from ..api_utils import api_response
 import traceback
+from ..utils import get_id
 
 household_bp = APIBlueprint('household', __name__)
 
@@ -110,10 +111,10 @@ def create_household(user_id):
             container = Container(
                 name=raw_container['name'],
                 type=type[0],
-                household=household,                
+                household=household,
+                container_id=f'C-{get_id(l=10)}'
             )
             db.session.add(container)
-            household.containers.append(container)
 
     except Exception as e:
         print(traceback.format_exc())
