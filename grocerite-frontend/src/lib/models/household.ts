@@ -43,7 +43,7 @@ export class Member {
 
     static fromJson(json: any): Member {
         return new Member({
-            user: UserProfile.fromJson(json.user),
+            // user: UserProfile.fromJson(json.user),
             userIdx: json.userIdx,
             pfp: json.pfp,
             householdIdx: json.householdIdx,
@@ -107,7 +107,7 @@ export class Household {
             containers: json.containers.map((container: any) => Container.fromJson(container)),
             groceryLists: json.groceryLists.map((groceryList: any) => GroceryList.fromJson(groceryList)),
             iconIdx: json.iconIdx,
-            stores: json.stores.map((store: any) => Store.fromJson(store))
+            // stores: json.stores.map((store: any) => Store.fromJson(store))
         });
     }
 }

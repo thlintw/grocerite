@@ -35,3 +35,17 @@ export const apiCreateHousehold = async (postData: HouseholdCreateData): Promise
         }
     )
 }
+
+export const apiGetHousehold = async (householdId: string): Promise<RES> => {
+    const apiService = ApiService.getInstance();
+    await userAuthHelper();
+    return await apiService.get(
+        Endpoints.GetHousehold,
+        {
+            params: {
+                householdId: householdId
+            },
+            needAuth: true
+        }
+    )
+}
