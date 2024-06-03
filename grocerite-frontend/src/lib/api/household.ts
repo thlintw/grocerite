@@ -49,3 +49,17 @@ export const apiGetHousehold = async (householdId: string): Promise<RES> => {
         }
     )
 }
+
+export const apiListHouseholds = async (): Promise<RES> => {
+    const apiService = ApiService.getInstance();
+    await userAuthHelper();
+    return await apiService.get(
+        Endpoints.ListHouseholds,
+        {
+            params: {
+                userId: get(authStore).userProfile!.userId,
+            },
+            needAuth: true
+        }
+    )
+}
