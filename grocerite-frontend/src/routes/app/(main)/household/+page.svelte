@@ -104,7 +104,7 @@
 			</div>
     	{:else}
 			<div in:fade={{ easing: cubicOut, duration: 200, delay: 200 }} out:fade={{ easing: cubicIn, duration: 200 }} 
-				class="w-full h-full flex justify-center items-center">
+				class="w-full h-full flex flex-col">
 
 				{#each householdListData as household, i}
 					<div class="w-full flex justify-center items-center">
