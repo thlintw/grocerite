@@ -107,15 +107,18 @@
 				class="w-full h-full flex flex-col">
 
 				{#each householdListData as household, i}
-					<div class="w-full flex justify-center items-center">
+					<div class="w-full flex justify-center items-center drop-shadow-md drop-shadow-grocerite-orange-200-lg bg-orange-50 px-5 py-3 rounded-xl">
 						<div class="w-full flex justify-between items-center">
 							<div class="flex items-center gap-3">
-								<div class="text-lg font-bold">
+								<div class="text-lg font-bold text-orange-500">
 									{household.name}
 								</div>
 								<div class="text-sm text-neutral-500">
 									{household.members.length} members
 								</div>
+							</div>
+							<div class="ml-auto">
+								<img src={`/icons/household/household-icon-${String(household.iconIdx).padStart(2, '0')}.png`} alt="household icon" class="w-14 h-14" />
 							</div>
 						</div>
 					</div>
