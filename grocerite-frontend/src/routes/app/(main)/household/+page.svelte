@@ -53,6 +53,10 @@
         loadApiHouseholdListData();
 	});
 
+	const goHousehold = (householdId: string) => {
+		goto(`/app/household/${householdId}`);
+	}
+
 
 </script>
 
@@ -107,7 +111,8 @@
 				class="w-full h-full flex flex-col">
 
 				{#each householdListData as household, i}
-					<div class="w-full flex justify-center items-center drop-shadow-md drop-shadow-grocerite-orange-200-lg bg-orange-50 px-5 py-3 rounded-xl">
+					<button class="w-full flex justify-center items-center drop-shadow-md drop-shadow-grocerite-orange-200-lg bg-orange-50 px-5 py-3 rounded-xl"
+						on:click={() => goHousehold(household.householdId)}>
 						<div class="w-full flex justify-between items-center">
 							<div class="flex items-center gap-3">
 								<div class="text-lg font-bold text-orange-500">
@@ -121,7 +126,7 @@
 								<img src={`/icons/household/household-icon-${String(household.iconIdx).padStart(2, '0')}.png`} alt="household icon" class="w-14 h-14" />
 							</div>
 						</div>
-					</div>
+					</button>
 				{/each}
 			</div>
 
