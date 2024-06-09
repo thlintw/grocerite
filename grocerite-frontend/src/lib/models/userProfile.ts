@@ -1,3 +1,5 @@
+import { Household } from "./household";
+
 export class UserProfile {
     idx: number;
     username: string;
@@ -6,7 +8,8 @@ export class UserProfile {
     fUid: string;
     nickname: string;
     picture?: string;
-    householdIds: string[];
+    // households: string[];
+    lastUsedHousehold: Household | null;
 
     constructor({
         idx = -1,
@@ -16,7 +19,8 @@ export class UserProfile {
         fUid = '',
         nickname = '',
         picture = '',
-        householdIds = []
+        // households = [],
+        lastUsedHousehold = null
     } : {
         idx?: number,
         username?: string,
@@ -25,7 +29,8 @@ export class UserProfile {
         fUid?: string,
         nickname?: string,
         picture?: string,
-        householdIds?: string[]
+        // householdIds?: string[]
+        lastUsedHousehold?: Household | null
     } = {}) {
         this.idx = idx;
         this.username = username;
@@ -34,10 +39,12 @@ export class UserProfile {
         this.fUid = fUid;
         this.nickname = nickname;
         this.picture = picture;
-        this.householdIds = householdIds;
+        // this.householdIds = householdIds;
+        this.lastUsedHousehold = lastUsedHousehold;
     }
 
     static fromJson(json: any): UserProfile {
+        const lastUsedHousehold = json.lastUsedHousehold ? Household.fromJson(json.lastUsedHousehold) : null;
         return new UserProfile({
             idx: json.idx,
             username: json.username,
@@ -46,7 +53,8 @@ export class UserProfile {
             fUid: json.fUid,
             nickname: json.nickname,
             picture: json.picture,
-            householdIds: json.householdIds
+            // householdIds: json.householdIds,
+            lastUsedHousehold: lastUsedHousehold
         });
     }
 }

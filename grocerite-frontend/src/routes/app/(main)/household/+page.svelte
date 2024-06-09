@@ -18,6 +18,8 @@
     import { cubicIn, cubicInOut, cubicOut } from 'svelte/easing';
     import LoadingDotsOrange from '$lib/components/LoadingDotsOrange.svelte';
     import Button from '$lib/components/Button.svelte';
+    import { FontAwesomeIcon } from '@fortawesome/svelte-fontawesome';
+    import { faBox, faFile, faList, faUser } from '@fortawesome/free-solid-svg-icons';
 
 	const goCreateHousehold = () => {
 		goto('/app/household/new');
@@ -25,7 +27,7 @@
 
     let apiLoading = true;
     let loadFailed = false;
-    let householdListData: Household[] = [];
+    let householdListData: Household[] | null = null;
 
     const loadApiHouseholdListData = async () => {
         apiLoading = true;
@@ -50,7 +52,7 @@
     }
 
 	onMount(async () => {
-        loadApiHouseholdListData();
+		if (!householdListData) loadApiHouseholdListData();
 	});
 
 	const goHousehold = (householdId: string) => {
@@ -93,7 +95,7 @@
 				</div>
 			</div>
 
-		{:else if !loadFailed && !apiLoading && householdListData.length === 0}
+		{:else if !loadFailed && !apiLoading && householdListData && householdListData.length === 0 || !householdListData}
 			<div in:fade={{ easing: cubicOut, duration: 200, delay: 200 }} out:fade={{ easing: cubicIn, duration: 200 }} 
 				class="w-full h-full flex justify-center items-center absolute left-0 top-0">
 
@@ -108,26 +110,71 @@
 			</div>
     	{:else}
 			<div in:fade={{ easing: cubicOut, duration: 200, delay: 200 }} out:fade={{ easing: cubicIn, duration: 200 }} 
-				class="w-full h-full flex flex-col">
+				class="w-full h-full flex flex-col pt-3">
 
 				{#each householdListData as household, i}
 					<button class="w-full flex justify-center items-center drop-shadow-md drop-shadow-grocerite-orange-200-lg bg-orange-50 px-5 py-3 rounded-xl"
 						on:click={() => goHousehold(household.householdId)}>
-						<div class="w-full flex justify-between items-center">
-							<div class="flex items-center gap-3">
-								<div class="text-lg font-bold text-orange-500">
+						<div class="w-full flex gap-2 items-center">
+							<div class="flex gap-3 flex-col">
+								<div class="text-lg font-bold text-neutral-800 text-start">
 									{household.name}
 								</div>
-								<div class="text-sm text-neutral-500">
-									{household.members.length} members
+								<div class="flex gap-3 pl-1">
+									<div class="text-sm text-neutral-500 flex">
+										<div class="bg-orange-100 rounded-md px-2 py-0.5 flex gap-1">
+											<div class="text-emerald-600">
+												<FontAwesomeIcon
+													icon={faUser}
+													class="text-emerald-600"
+												/>
+											</div>
+											<div class="text-neutral-800">
+												{ household.members.length }
+											</div>
+										</div>
+									</div>
+									<div class="text-sm text-neutral-500 flex">
+										<div class="bg-orange-100 rounded-md px-2 py-0.5 flex gap-1">
+											<div class="text-emerald-600">
+												<FontAwesomeIcon
+													icon={faBox}
+													class="text-emerald-600"
+												/>
+											</div>
+											<div class="text-neutral-800">
+												{ household.containers.length }
+											</div>
+										</div>
+									</div>
+									<div class="text-sm text-neutral-500 flex">
+										<div class="bg-orange-100 rounded-md px-2 py-0.5 flex gap-1">
+											<div class="text-emerald-600">
+												<FontAwesomeIcon
+													icon={faFile}
+													class="text-emerald-600"
+												/>
+											</div>
+											<div class="text-neutral-800">
+												{ household.groceryLists.length }
+											</div>
+										</div>
+									</div>
+
 								</div>
 							</div>
-							<div class="ml-auto">
-								<img src={`/icons/household/household-icon-${String(household.iconIdx).padStart(2, '0')}.png`} alt="household icon" class="w-14 h-14" />
+							
+							<div class="relative ml-auto shrink-0">
+								<div class="absolute -bottom-1 left-[50%] -translate-x-1/2 w-[2rem] h-[2rem] rounded-full bg-neutral-700/10 scale-y-[20%] origin-bottom z-0"></div>
+								<img src={`/icons/household/household-icon-${String(household.iconIdx).padStart(2, '0')}.png`} alt="household icon" class="ml-auto w-[4rem] h-[4rem] z-10 relative"/>
 							</div>
 						</div>
 					</button>
 				{/each}
+				
+				<div class="flex justify-center mt-8">
+					<PlusButton onClick={goCreateHousehold} />
+				</div>
 			</div>
 
 

@@ -8,6 +8,8 @@
 	import { _, locale, locales } from 'svelte-i18n';
 	import { lc } from '$lib/stores/general';
     import PlusButton from '$lib/components/PlusButton.svelte';
+	import { authStore } from '$lib/stores/authStore';
+	
 
 </script>
 
@@ -18,8 +20,11 @@
             {$_('groceryList_pageTitle')}
         </span>
     </div>
-	<!-- {#if}
-	{/if} -->
+	{#if !$authStore.userProfile?.lastUsedHousehold}
+		<div class="">
+			you don't have an active household
+		</div>
+	{/if}
     <div class="flex flex-col w-full px-3 gap-7 h-full justify-center items-center">
 		<div class="text-center flex flex-col gap-4 text-neutral-500">
 			<span class="font-bold text-2xl">You don't have any lists yet</span>

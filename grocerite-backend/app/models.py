@@ -37,6 +37,7 @@ class User(TimestampMixin, db.Model):
             'nickname': self.nickname,
             'picture': self.picture,
             'preferences': self.get_preferences(),
+            'households': [h.get_api_data() for h in self.households],
             'lastUsedHousehold': self.last_used_household.get_api_data() if self.last_used_household else None
         }
     
