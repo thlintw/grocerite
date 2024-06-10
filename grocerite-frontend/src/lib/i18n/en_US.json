@@ -176,6 +176,13 @@
     "household_noSameNameContainer": "There is already a container with the same name",
     "household_containerNameIsRequired": "Container name is required",
     "household_getFailed": "Failed to get household data",
-    "household_retryLoading": "Retry"
+    "household_retryLoading": "Retry",
+    "groceryList_noListsInHousehold": "There are currently no grocery lists in this household",
+    "groceryList_noListsInHouseholdLine2": "Press the button below to create a new list",
+    "groceryList_noActiveHousehold": "You currently don't have a household selected",
+    "groceryList_noActiveHouseholdLine2": "Please select one from the list below",
+    "groceryList_loadFailed": "Failed to load grocery lists",
+    "groceryList_householdLoadFailed": "Failed to load households",
+    "groceryList_retryLoading": "Retry"
 }
   

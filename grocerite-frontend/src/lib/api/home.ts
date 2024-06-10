@@ -8,12 +8,12 @@ export const wakeUp = async (): Promise<RES> => {
 
 export const dashboard = async (): Promise<RES> => {
     const apiService = ApiService.getInstance();
-    const userProfile = await userAuthHelper();
+    const user = await userAuthHelper();
     return await apiService.get(
         Endpoints.HomeDashboard, 
         { 
             params: {
-                userId: userProfile!.uid
+                userId: user!.uid
             },
             needAuth: true
         }

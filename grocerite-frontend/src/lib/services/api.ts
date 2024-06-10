@@ -10,6 +10,7 @@ export enum Endpoints {
     // household
     ListHouseholds = '/household/$userId',
     GetHousehold = '/household/get/$householdId',
+    SetActiveHousehold = '/household/set_active/$userId/$householdId',
     CreateHousehold = '/household/create/$userId',
     UpdateHousehold = '/household/update/$householdId',
     UpdateHouseholdName = '/household/update_name/$householdId',
@@ -47,6 +48,7 @@ export const EndpointMethods = {
     [Endpoints.HomeDashboard]: 'GET',
     [Endpoints.ListHouseholds]: 'GET',
     [Endpoints.GetHousehold]: 'GET',
+    [Endpoints.SetActiveHousehold]: 'PUT',
     [Endpoints.CreateHousehold]: 'POST',
     [Endpoints.UpdateHousehold]: 'PUT',
     [Endpoints.UpdateHouseholdName]: 'PUT',

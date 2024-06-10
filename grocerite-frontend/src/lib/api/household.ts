@@ -63,3 +63,18 @@ export const apiListHouseholds = async (): Promise<RES> => {
         }
     )
 }
+
+export const apiSetActiveHousehold = async (householdId: string): Promise<RES> => {
+    const apiService = ApiService.getInstance();
+    await userAuthHelper();
+    return await apiService.put(
+        Endpoints.SetActiveHousehold,
+        {
+            params: {
+                householdId: householdId,
+                userId: get(authStore).userProfile!.userId,
+            },
+            needAuth: true
+        }
+    )
+}
