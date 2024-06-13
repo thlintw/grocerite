@@ -38,6 +38,31 @@ def get_household(household_id):
     
     return api_response(data=[household.get_api_data()])
 
+
+# set active household
+@household_bp.route('/household/set_active/<string:user_id>/<string:household_id>', methods=['PUT'])
+def set_active_household(user_id, household_id):
+    user = db.session.query(User).filter(User.user_id == user_id).first()
+    if user is None:
+        print('User not found')
+        return api_response(status='F', message='User not found', status_code=404)
+    
+    household = db.session.query(Household).filter(Household.household_id == household_id).first()
+    if household is None:
+        print('Household not found')
+        return api_response(status='F', message='Household not found', status_code=404)
+    
+    user.last_used_household = household
+    
+    try:
+        db.session.merge(user)
+        db.session.commit()
+        return api_response(data=[household.get_api_data()])
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return api_response(status='F', message='Active household setting error', status_code=400)
+
     
 
 # create

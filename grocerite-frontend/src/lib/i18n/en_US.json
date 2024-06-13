@@ -183,6 +183,7 @@
     "groceryList_noActiveHouseholdLine2": "Please select one from the list below",
     "groceryList_loadFailed": "Failed to load grocery lists",
     "groceryList_householdLoadFailed": "Failed to load households",
-    "groceryList_retryLoading": "Retry"
+    "groceryList_retryLoading": "Retry",
+    "groceryList_noHouseholds": "You currently don't have any households"
 }
   
