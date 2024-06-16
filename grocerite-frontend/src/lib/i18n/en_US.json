@@ -184,6 +184,7 @@
     "groceryList_loadFailed": "Failed to load grocery lists",
     "groceryList_householdLoadFailed": "Failed to load households",
     "groceryList_retryLoading": "Retry",
-    "groceryList_noHouseholds": "You currently don't have any households"
+    "groceryList_noHousehold": "You currently don't have any households",
+    "groceryList_noListInHousehold": "There are currently no grocery lists in this household"
 }
   

@@ -115,14 +115,16 @@
 					{/each}
 					
 				{:else if !apiLoading && !loadFailed && householdListData && !householdListData.length}
-					<span>{$_('groceryList_noHousehold')}</span>
+				1223
+					<span>{$_('groceryList_noListInHousehold')}</span>
 				{:else}
+				1234
 					<span>{$_('groceryList_noHousehold')}</span>
 				{/if}
 				</div>
 			</div>
 		</div>
-	{:else if !$authStore.userProfile?.lastUsedHousehold && $authStore.userProfile.lastUsedHousehold.groceryLists.length < 1 }
+	{:else if $authStore.userProfile?.lastUsedHousehold && $authStore.userProfile.lastUsedHousehold.groceryLists.length < 1 }
 	
 		<div class="flex flex-col w-full px-3 gap-7 h-full justify-center items-center">
 			<div class="text-center flex flex-col gap-4 text-neutral-500">
@@ -133,6 +135,7 @@
 				<PlusButton />
 			</div>
 		</div>
-
+	{:else}
+	12343s
 	{/if}
 </div>
